@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.auth.view;
+package com.geekbrains.geekbrainsprogect.ui.auth.view;
 
 import moxy.MvpView;
 

@@ -1,9 +1,9 @@
-package com.geekbrains.geekbrainsprogect.auth.presenter;
+package com.geekbrains.geekbrainsprogect.ui.auth.presenter;
 
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.auth.view.AuthView;
+import com.geekbrains.geekbrainsprogect.ui.auth.view.AuthView;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;

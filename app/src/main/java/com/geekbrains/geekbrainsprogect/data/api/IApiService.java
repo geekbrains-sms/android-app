@@ -12,9 +12,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface IApiService {
-    @GET("auth/users/all")
+    @GET("rest/users/all")
     Single<List<User>> getAllUsers();
 
-    @POST("auth/users/add")
-    Single<String>postUser(@Query("login") String loginUser, @Query("password")String passwordUser);
+    @GET("rest/csrf")
+    Single<List<User>> getToken();
+
+    @POST("rest/users")
+    Single<String>postUser(@Query("username") String loginUser, @Query("password")String passwordUser);
 }

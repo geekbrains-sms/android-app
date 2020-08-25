@@ -1,11 +1,11 @@
-package com.geekbrains.geekbrainsprogect.auth.view;
+package com.geekbrains.geekbrainsprogect.ui.auth.view;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.auth.presenter.AuthPresenter;
+import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;

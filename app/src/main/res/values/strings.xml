@@ -5,4 +5,19 @@
     <string name="sign_in_text">Войти</string>
     <string name="registration_text">Регистрация</string>
     <string name="incorrectly_loggin_password">Не введен логин или пароль</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="goods_management">Товар</string>
+    <string name="warehouse_management">Склад</string>
+    <string name="personal_menegment">Персонал</string>
+    <string name="product_statistic">Статистика товаров</string>
+    <string name="nomenclature_menegment">Управление номенклатурой</string>
+    <string name="create_new_warehouse">Создать новый склад</string>
+    <string name="stock_bulance">Остатки складов</string>
+    <string name="capitalize_goods">Оприходовать товар</string>
+    <string name="to_ship_goods">Отгрузить товар</string>
+    <string name="personal_list">Список персонала</string>
+    <string name="transaction_list">Транзакции персонала</string>
 </resources>
