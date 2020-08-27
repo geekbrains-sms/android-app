@@ -13,5 +13,4 @@ import dagger.Component;
 public interface AppComponent {
     void inject(AuthPresenter authPresenter);
     void inject(AppData appData);
-    void inject(ApiHelper apiHelper);
 }

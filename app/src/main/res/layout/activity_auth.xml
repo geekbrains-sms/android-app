@@ -17,20 +17,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:layout_marginBottom="4sp"
-            android:hint="@string/login_hint" />
+            android:hint="@string/login_hint"
+            android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
-            android:hint="@string/password_hint" />
+            android:hint="@string/password_hint"
+            android:maxLines="1"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,14 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8sp"
         android:layout_marginEnd="8sp"
-        android:text="GET USERS" />
-
-    <Button
-        android:id="@+id/registration_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8sp"
-        android:layout_marginEnd="8sp"
-        android:text="@string/registration_text" />
+        android:text="@string/sign_in_text" />
 
 </LinearLayout>
