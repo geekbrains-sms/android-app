@@ -20,44 +20,28 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class AuthPresenter extends MvpPresenter<AuthView> {
     private String TAG = "AuthPresenter";
-    @Inject
-    ApiHelper apiHelper;
 
     public AuthPresenter()
     {
         AppData.getAppComponent().inject(this);
     }
-
-    public void registerNewUser(String login, String password)
+    public void signIn(String login, String password)
     {
-        if(correctLoginAndPassword(login, password))
+        AppData.setApiHelper(new ApiHelper(login,password));
+        if(correctLoginAndPassword(login,password))
         {
-            Single<String> single = apiHelper.registerUser(login,password);
-            Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(string -> {
-                    Log.d(TAG, string + " register success");
-                    }, throwable -> {
-                        Log.e(TAG, throwable + " register error");
-                    }
-            );
-        }
-        else
-        {
-            getViewState().showToast(R.string.incorrectly_loggin_password);
+            Single<User> single = AppData.getApiHelper().getUser(login);
+            Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(user ->{
+               Log.d(TAG, "Auth successful: " + user.toString());
+               AppData.setCurrentUser(user);
+               getViewState().startMainActivity();
+            }, throwable -> {
+                getViewState().showAlertDialog(throwable.toString());
+                Log.e(TAG, throwable.toString());
+            });
         }
     }
-    public void getAllUser()
-    {
-        Single<List<User>> single = apiHelper.requestAllUsers();
 
-        Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(userList ->{
-            for(User user: userList)
-            {
-                Log.d(TAG, user.getLogin() + " : " + user.getPassword());
-            }
-        }, throwable -> {
-            Log.e(TAG, Objects.requireNonNull(throwable.getMessage()));
-        });
-    }
     private boolean correctLoginAndPassword(String login, String password)
     {
         return login.trim().length() > 0 && password.trim().length() > 0;

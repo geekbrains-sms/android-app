@@ -20,4 +20,7 @@
     <string name="to_ship_goods">Отгрузить товар</string>
     <string name="personal_list">Список персонала</string>
     <string name="transaction_list">Транзакции персонала</string>
+    <string name="show_password">Показать пароль</string>
+    <string name="error">Ошибка</string>
+    <string name="ok">ОК</string>
 </resources>

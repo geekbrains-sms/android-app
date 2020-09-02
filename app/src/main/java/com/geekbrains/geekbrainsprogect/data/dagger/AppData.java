@@ -2,13 +2,15 @@ package com.geekbrains.geekbrainsprogect.data.dagger;
 
 import android.app.Application;
 import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
+
 import java.util.List;
 import javax.inject.Inject;
 
 public class AppData extends Application {
     private static AppComponent appComponent;
-    @Inject
-    List<User>userList;
+    private static User currentUser;
+    private static ApiHelper apiHelper;
 
 
     @Override
@@ -16,12 +18,10 @@ public class AppData extends Application {
         super.onCreate();
         appComponent = generateAppComponent();
         appComponent.inject(this);
-
-
     }
 
-    public List<User> getUserList() {
-        return userList;
+    public static void setCurrentUser(User user) {
+        currentUser = user;
     }
 
     public static AppComponent getAppComponent() {
@@ -36,4 +36,15 @@ public class AppData extends Application {
                 .build();
     }
 
+    public static void setApiHelper(ApiHelper helper) {
+        apiHelper = helper;
+    }
+
+    public static ApiHelper getApiHelper() {
+        return apiHelper;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 }

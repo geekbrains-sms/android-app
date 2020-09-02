@@ -1,24 +1,56 @@
 package com.geekbrains.geekbrainsprogect.data;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class User {
     @Expose
     private int id;
     @Expose
-    private String login;
+    private String username;
     @Expose
-    private String password;
+    private String fullname;
+    @Expose
+    private String email;
+    @Expose
+    private String phone;
+    @Expose
+    private List<Roles> roles;
 
     public int getId() {
         return id;
     }
-
     public String getLogin() {
-        return login;
+        return username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
+    public List<Roles> getRoles() {
+        return roles;
     }
 }
