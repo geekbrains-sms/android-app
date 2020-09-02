@@ -3,27 +3,27 @@ package com.geekbrains.geekbrainsprogect.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class User {
     @Expose
     private int id;
     @Expose
-    @SerializedName(value = "username")
-    private String login;
+    private String username;
     @Expose
     private String fullname;
-    private String password;
     @Expose
     private String email;
     @Expose
     private String phone;
+    @Expose
+    private List<Roles> roles;
+
     public int getId() {
         return id;
     }
     public String getLogin() {
-        return login;
-    }
-    public String getPassword() {
-        return password;
+        return username;
     }
 
     public String getEmail() {
@@ -36,5 +36,21 @@ public class User {
 
     public String getPhone() {
         return phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
+    public List<Roles> getRoles() {
+        return roles;
     }
 }

@@ -1,11 +1,7 @@
 package com.geekbrains.geekbrainsprogect.data.dagger;
 
 import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
-import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
-
-
 import javax.inject.Singleton;
-
 import dagger.Component;
 
 @Singleton

@@ -32,7 +32,7 @@ public class AuthPresenter extends MvpPresenter<AuthView> {
         {
             Single<User> single = AppData.getApiHelper().getUser(login);
             Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(user ->{
-               Log.d(TAG, "Auth successful: " + user.getLogin() + ":" + user.getPassword());
+               Log.d(TAG, "Auth successful: " + user.toString());
                AppData.setCurrentUser(user);
                getViewState().startMainActivity();
             }, throwable -> {
