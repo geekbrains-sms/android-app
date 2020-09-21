@@ -1,34 +1,18 @@
 package com.geekbrains.geekbrainsprogect.data;
 
-import com.google.gson.annotations.Expose;
+public enum Roles {
+    ADMIN("ROLE_ADMIN"),
+    USER("ROLE_USER");
+    String title;
 
-public class Roles {
-    @Expose
-    private int id;
-    @Expose
-    private String name;
 
-    public int getId() {
-        return id;
+
+    Roles(String title)
+    {
+        this.title = title;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Roles{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public String getTitle() {
+        return title;
     }
 }

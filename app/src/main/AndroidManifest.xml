@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.personal_list.view.PersonalListActivity"></activity>
+        <activity android:name=".ui.product_list.view.ProductListActivity"></activity>
+        <activity android:name=".ui.personal_list.view.PersonalListActivity" />
         <activity
             android:name=".MainNavigateActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <activity android:name=".ui.auth.view.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

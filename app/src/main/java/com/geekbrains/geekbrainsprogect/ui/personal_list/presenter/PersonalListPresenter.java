@@ -50,7 +50,26 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
         });
     }
 
+    public void deleteUser(int position)
+    {
+        Single<String> single = AppData.getApiHelper().deleteUser(userList.get(position).getLogin());
 
+        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
+            getViewState().showToast(requestMsg);
+        }, throwable -> {getViewState().showToast(throwable.getMessage());});
+    }
+
+    public boolean editUser(String login, String password, String fullname)
+    {
+        boolean success = false;
+
+        return success;
+    }
+
+    public User getUserFromPosition(int position)
+    {
+        return userList.get(position);
+    }
 
 
     private class RecyclerPersonal implements IRecyclerPersonal

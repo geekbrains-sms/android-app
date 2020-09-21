@@ -23,4 +23,7 @@
     <string name="show_password">Показать пароль</string>
     <string name="error">Ошибка</string>
     <string name="ok">ОК</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="fullname_hint">Полное имя</string>
 </resources>
