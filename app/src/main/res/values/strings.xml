@@ -12,7 +12,7 @@
     <string name="goods_management">Товар</string>
     <string name="warehouse_management">Склад</string>
     <string name="personal_menegment">Персонал</string>
-    <string name="product_statistic">Статистика товаров</string>
+    <string name="product_statistic">Список товаров</string>
     <string name="nomenclature_menegment">Управление номенклатурой</string>
     <string name="create_new_warehouse">Создать новый склад</string>
     <string name="stock_bulance">Остатки складов</string>

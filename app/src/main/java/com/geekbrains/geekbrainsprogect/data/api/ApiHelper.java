@@ -1,15 +1,10 @@
 package com.geekbrains.geekbrainsprogect.data.api;
 
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.geekbrains.geekbrainsprogect.data.User;
-import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 import io.reactivex.Single;
@@ -55,6 +50,8 @@ public class ApiHelper {
         auth = builder.build().create(IAuthService.class);
     }
     public void createApiService(String token) {
+        HttpLoggingInterceptor interceptorLog = new HttpLoggingInterceptor();
+        interceptorLog.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         if (!TextUtils.isEmpty(token)) {
             AuthenticationInterceptor interceptor =
@@ -62,6 +59,7 @@ public class ApiHelper {
 
             if (!httpClient.interceptors().contains(interceptor)) {
                 httpClient.addInterceptor(interceptor);
+                httpClient.addInterceptor(interceptorLog);
 
                 builder.client(httpClient.build());
             }
@@ -69,17 +67,8 @@ public class ApiHelper {
         api = builder.build().create(IApiService.class);
     }
 
-    public Single<Response<ResponseBody>>authUser(String login, String password)
+    public Single<Response<AuthToken>>authUser(String login, String password)
     {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("username", login);
-            jsonObject.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d(AuthPresenter.TAG, jsonObject.toString());
-
         return auth.authUser(new UserRequest(login, password)).subscribeOn(Schedulers.io());
     }
 
@@ -97,5 +86,10 @@ public class ApiHelper {
     public Single<User>getUser(String username)
     {
         return api.getUser(username).subscribeOn(Schedulers.io());
+    }
+
+    public Single<List<Product>>getProductList()
+    {
+        return api.getProductList().subscribeOn(Schedulers.io());
     }
 }

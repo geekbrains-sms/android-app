@@ -1,6 +1,7 @@
 package com.geekbrains.geekbrainsprogect.data.api;
 
 import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ import retrofit2.http.Query;
 public interface IApiService {
     @GET("rest/users/all")
     Single<List<User>> getAllUsers();
+
+    @GET("/api/v1/products")
+    Single<List<Product>> getProductList();
 
     @POST("warehouse/authenticate")
     Single<Response<ResponseBody>>authUser(@Query("login") String login, @Query("password") String password);

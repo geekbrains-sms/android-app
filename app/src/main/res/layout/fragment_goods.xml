@@ -8,7 +8,7 @@
     tools:context=".ui.product.view.ProductFragment">
 
     <Button
-        android:id="@+id/product_statistics_button"
+        android:id="@+id/product_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8sp"
@@ -27,6 +27,6 @@
         android:text="@string/nomenclature_menegment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_statistics_button" />
+        app:layout_constraintTop_toBottomOf="@+id/product_list_button" />
 
 </LinearLayout>

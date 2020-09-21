@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.ui.auth.presenter;
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
 import com.geekbrains.geekbrainsprogect.ui.auth.view.AuthView;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
@@ -32,15 +33,15 @@ public class AuthPresenter extends MvpPresenter<AuthView> {
     {
         if(correctLoginAndPassword(login,password))
         {
-            Single<Response<ResponseBody>> single = AppData.getApiHelper().authUser(login, password);
+            Single<Response<AuthToken>> single = AppData.getApiHelper().authUser(login, password);
             Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(request ->{
 
                if(request.isSuccessful())
                {
                    assert request.body() != null;
-                   String authToken = request.body().string();
-                   Log.d(TAG, "Auth successes: token: " + authToken);
-                   AppData.getApiHelper().createApiService(authToken);
+                   AuthToken authToken = request.body();
+                   Log.d(TAG, "Auth successes: token: " + authToken.getToken());
+                   AppData.getApiHelper().createApiService(authToken.getToken());
                    getViewState().startMainActivity();
                }
                else
