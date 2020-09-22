@@ -1,10 +1,13 @@
 package com.geekbrains.geekbrainsprogect.ui.product.model;
 
+import com.geekbrains.geekbrainsprogect.ui.product_list.model.Category;
+
 public class Product {
     int id;
     String title;
     String description;
     int quantity;
+    Category category;
 
     public Product(int id, String title, String description, int quantity) {
         this.id = id;
@@ -27,6 +30,10 @@ public class Product {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     @Override

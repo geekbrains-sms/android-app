@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
+import com.geekbrains.geekbrainsprogect.ui.product_list.model.Category;
 
 
 import java.util.List;
@@ -16,6 +17,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.Path;
 
 public class ApiHelper {
     private static final String BASE_URL = "http://192.168.1.235:8189";
@@ -71,25 +74,44 @@ public class ApiHelper {
     {
         return auth.authUser(new UserRequest(login, password)).subscribeOn(Schedulers.io());
     }
-
-    public Single<List<User>>requestAllUsers(){
-        return api.getAllUsers().subscribeOn(Schedulers.io());
-    }
-    public Single<String>registerUser(String login, String password)
-    {
-        return api.postUser(login, password).subscribeOn(Schedulers.io());
-    }
-    public Single<String>deleteUser(String login)
-    {
-        return api.deleteUser(login).subscribeOn(Schedulers.io());
-    }
-    public Single<User>getUser(String username)
-    {
-        return api.getUser(username).subscribeOn(Schedulers.io());
-    }
-
     public Single<List<Product>>getProductList()
     {
         return api.getProductList().subscribeOn(Schedulers.io());
+    }
+    public Single<Response<String>>addProduct(Product product)
+    {
+        return api.addProduct(product);
+    }
+    public Single<Response<String>>deleteProductById(long id)
+    {
+        return api.deleteProductById(id);
+    }
+    public Single<Response<String>>deleteAllProduct()
+    {
+        return api.deleteAllProduct();
+    }
+    public Single<Response<ResponseBody>>editProduct(Product product)
+    {
+        return api.editProduct(product);
+    }
+    public Single<Response<List<Category>>>getCategoryList()
+    {
+        return api.getCategoryList();
+    }
+    public Single<Response<Category>>getCategoryById(Long id)
+    {
+        return api.getCategoryById(id);
+    }
+    public Single<Response<String>>deleteCategoryById(long id)
+    {
+        return api.deleteCategoryById(id);
+    }
+    public Single<Response<List<String>>>addCategory(Category category)
+    {
+        return api.addCategory(category);
+    }
+    public Single<Response<List<String>>>editCategory(@Body Category category)
+    {
+        return api.editCategory(category);
     }
 }

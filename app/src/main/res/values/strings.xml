@@ -26,4 +26,5 @@
     <string name="edit">Редактировать</string>
     <string name="delete">Удалить</string>
     <string name="fullname_hint">Полное имя</string>
+    <string name="category_list">Категории товаров</string>
 </resources>
