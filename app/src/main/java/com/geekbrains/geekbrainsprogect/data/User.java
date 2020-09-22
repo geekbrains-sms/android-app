@@ -1,7 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class User {
     @Expose
     private String phone;
     @Expose
-    private List<Roles> roles;
+    private List<Role> roles;
 
     public int getId() {
         return id;
@@ -50,7 +49,7 @@ public class User {
                 '}';
     }
 
-    public List<Roles> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 }

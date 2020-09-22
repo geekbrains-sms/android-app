@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.personal_list.view.PersonalListActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.geekbrains.geekbrainsprogect.ui.personal_list.view.ContextMenuRecyclerView
         android:id="@+id/personal_list"
         android:layout_width="0dp"
         android:layout_height="0dp"

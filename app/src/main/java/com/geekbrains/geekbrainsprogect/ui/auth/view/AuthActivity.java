@@ -1,11 +1,8 @@
 package com.geekbrains.geekbrainsprogect.ui.auth.view;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.geekbrains.geekbrainsprogect.MainNavigateActivity;
@@ -23,7 +20,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView{
     AuthPresenter authPresenter;
     @BindView(R.id.login_edit_text)
     TextInputEditText editLogin;
-    @BindView(R.id.password_edit_text)
+    @BindView(R.id.fullname_edit_text)
     TextInputEditText editPassword;
 
 
