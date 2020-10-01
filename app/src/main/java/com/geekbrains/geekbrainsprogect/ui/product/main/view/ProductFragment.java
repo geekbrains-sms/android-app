@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.product.view;
+package com.geekbrains.geekbrainsprogect.ui.product.main.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.ui.product.presenter.ProductPresenter;
-import com.geekbrains.geekbrainsprogect.ui.product_list.view.ProductListActivity;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
+import com.geekbrains.geekbrainsprogect.ui.product.view.ProductView;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moxy.MvpAppCompatFragment;

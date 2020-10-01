@@ -1,19 +1,24 @@
 package com.geekbrains.geekbrainsprogect.ui.product.model;
 
-import com.geekbrains.geekbrainsprogect.ui.product_list.model.Category;
+import com.geekbrains.geekbrainsprogect.data.Contractor;
+
+import java.util.Date;
+import java.util.List;
 
 public class Product {
     int id;
     String title;
     String description;
-    int quantity;
-    Category category;
+    Unit unit;
+    String imagePath;
+    List<Category>categories;
+    private List<Contractor>contractors;
 
-    public Product(int id, String title, String description, int quantity) {
+
+    public Product(int id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.quantity = quantity;
     }
 
     public int getId() {
@@ -28,12 +33,75 @@ public class Product {
         return description;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getUnits() {
+        return unit.getTitle();
     }
 
-    public Category getCategory() {
-        return category;
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public List<Category> getCategoryList() {
+        return categories;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUnits(Unit unit) { this.unit = unit;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categories = categoryList;
+    }
+
+    public String getCategoriesString()
+    {
+        StringBuilder builder = new StringBuilder();
+        for(Category category : categories)
+        {
+            if(builder.length() != 0)
+            {
+                builder.append(";");
+            }
+            builder.append(category.title);
+        }
+        return builder.toString();
+    }
+
+    public String getContractorsString()
+    {
+        StringBuilder builder = new StringBuilder();
+        for(Contractor contractor : contractors)
+        {
+            if(builder.length() != 0)
+            {
+                builder.append(";");
+            }
+            builder.append(contractor.getTitle());
+        }
+        return builder.toString();
+    }
+
+    public List<Contractor> getContractors() {
+        return contractors;
+    }
+
+    public void setContractors(List<Contractor> contractors) {
+        this.contractors = contractors;
     }
 
     @Override
@@ -42,7 +110,9 @@ public class Product {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", quantity=" + quantity +
+                ", units='" + getUnits() + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", categoryList=" + categories +
                 '}';
     }
 }

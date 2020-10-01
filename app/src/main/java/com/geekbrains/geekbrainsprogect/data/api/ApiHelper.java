@@ -1,12 +1,17 @@
 package com.geekbrains.geekbrainsprogect.data.api;
 
 import android.text.TextUtils;
-import com.geekbrains.geekbrainsprogect.data.User;
+
+import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product_list.model.Category;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
 
 
+import java.util.Date;
 import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -19,6 +24,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public class ApiHelper {
     private static final String BASE_URL = "http://192.168.1.235:8189";
@@ -80,38 +86,91 @@ public class ApiHelper {
     }
     public Single<Response<String>>addProduct(Product product)
     {
-        return api.addProduct(product);
+        return api.addProduct(product).subscribeOn(Schedulers.io());
     }
     public Single<Response<String>>deleteProductById(long id)
     {
-        return api.deleteProductById(id);
+        return api.deleteProductById(id).subscribeOn(Schedulers.io());
     }
     public Single<Response<String>>deleteAllProduct()
     {
-        return api.deleteAllProduct();
+        return api.deleteAllProduct().subscribeOn(Schedulers.io());
     }
     public Single<Response<ResponseBody>>editProduct(Product product)
     {
-        return api.editProduct(product);
+        return api.editProduct(product).subscribeOn(Schedulers.io());
     }
     public Single<Response<List<Category>>>getCategoryList()
     {
-        return api.getCategoryList();
+        return api.getCategoryList().subscribeOn(Schedulers.io());
     }
     public Single<Response<Category>>getCategoryById(Long id)
     {
-        return api.getCategoryById(id);
+        return api.getCategoryById(id).subscribeOn(Schedulers.io());
     }
-    public Single<Response<String>>deleteCategoryById(long id)
+    public Single<Response<String>>deleteCategoryById(long id) {
+        return api.deleteCategoryById(id).subscribeOn(Schedulers.io()); }
+    public Single<Response<List<String>>>addCategory(Category category) {
+        return api.addCategory(category).subscribeOn(Schedulers.io()); }
+    public Single<Response<List<String>>>editCategory(@Body Category category) {
+        return api.editCategory(category).subscribeOn(Schedulers.io()); }
+
+
+    public Single<Response<ProductTransaction>>getProductTransactionByProductId(long id) {
+        return api.getProductTransactionById(id).subscribeOn(Schedulers.io());
+    }
+    public Single<Response<List<ProductTransaction>>>getAllSupplyProductTransactions()
     {
-        return api.deleteCategoryById(id);
+        return api.getAllSupplyProductTransactions().subscribeOn(Schedulers.io());
     }
-    public Single<Response<List<String>>>addCategory(Category category)
+    public Single<Response<List<ProductTransaction>>>getAllShipmentProductTransactions()
     {
-        return api.addCategory(category);
+        return api.getAllShipmentProductTransactions().subscribeOn(Schedulers.io());
     }
-    public Single<Response<List<String>>>editCategory(@Body Category category)
+    public Single<Response<List<ProductTransaction>>>addShipmentTransactions(ProductTransaction productTransaction)
     {
-        return api.editCategory(category);
+        return api.addShipmentTransactions(productTransaction).subscribeOn(Schedulers.io());
     }
+    public Single<Response<List<ProductTransaction>>>addSupplyTransactions(ProductTransaction productTransaction)
+    {
+        return api.addSupplyTransactions(productTransaction).subscribeOn(Schedulers.io());
+    }
+
+
+
+    public Single<Response<List<Unit>>>getAllUnits()
+    {
+        return api.getAllUnits().subscribeOn(Schedulers.io());
+    }
+    public Single<Response<List<Contractor>>>getAllContractors()
+    {
+        return api.getAllContractors().subscribeOn(Schedulers.io());
+    }
+    public Single<Response<Contractor>>addContractor(Contractor contractor)
+    {
+        return api.addContractor(contractor).subscribeOn(Schedulers.io());
+    }
+    public Single<Response<Contractor>>deleteContractorById(long id)
+    {
+        return api.deleteContractorById(id).subscribeOn(Schedulers.io());
+    }
+    public Single<Response<Contractor>>editContractor(Contractor contractor)
+    {
+        return api.editContractor(contractor).subscribeOn(Schedulers.io());
+    }
+    public Single<Response<List<Contractor>>>getProvidersByProductId(long id)
+    {
+        return api.getProvidersByProductId(id).subscribeOn(Schedulers.io());
+    }
+
+    public Single<Response<List<Fund>>>getAllFunds()
+    {
+        return api.getAllFunds().subscribeOn(Schedulers.io());
+    }
+    public Single<Response<Fund>>getFundsByProductId(long id)
+    {
+        return api.getFundsByProductId(id).subscribeOn(Schedulers.io());
+    }
+
+
 }

@@ -1,9 +1,13 @@
 package com.geekbrains.geekbrainsprogect.data.api;
 
-import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product_list.model.Category;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -12,6 +16,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -40,6 +45,57 @@ public interface IApiService {
     Single<Response<List<String>>>addCategory(@Body Category category);
     @PUT("/api/v1/categories")
     Single<Response<List<String>>>editCategory(@Body Category category);
+
+    @GET("/api/v1/transactions/supply")
+    Single<Response<List<ProductTransaction>>>getAllSupplyProductTransactions();
+    @GET("/api/v1/transactions/shipment")
+    Single<Response<List<ProductTransaction>>>getAllShipmentProductTransactions();
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/transactions/supply")
+    Single<Response<List<ProductTransaction>>>addSupplyTransactions(@Body ProductTransaction productTransaction);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/transactions/shipment")
+    Single<Response<List<ProductTransaction>>>addShipmentTransactions(@Body ProductTransaction productTransaction);
+
+    @GET("/api/v1/transactions/products/{id}")
+    Single<Response<ProductTransaction>>getProductTransactionById(@Path("id")long id);
+//    @GET("/api/v1/transactions/author")
+//    Single<Response<List<ProductTransaction>>>getProductTransactionsByAuthor(@Query("author") String author);
+//    @GET("/api/v1/transactions/products/data")
+//    Single<Response<List<ProductTransaction>>>getProductTransactionsByData(@Query("date") Date date);
+
+    @GET("/api/v1/transactions/products")
+    Single<Response<List<Unit>>>getAllUnits();
+
+
+    @GET("/api/v1/contractors")
+    Single<Response<List<Contractor>>>getAllContractors();
+    @GET("/api/v1/contractors/providers/{productId}")
+    Single<Response<List<Contractor>>>getProvidersByProductId(@Path("productId")long id);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/contractors")
+    Single<Response<Contractor>>addContractor(@Body Contractor contractor);
+    @DELETE("/api/v1/contractors/{id}")
+    Single<Response<Contractor>>deleteContractorById(@Path("id")long id);
+    @PUT("/api/v1/contractors")
+    Single<Response<Contractor>>editContractor(@Body Contractor contractor);
+
+    @GET("/api/v1/funds")
+    Single<Response<List<Fund>>>getAllFunds();
+    @GET("/api/v1/funds/product/{var}")
+    Single<Response<Fund>>getFundsByProductId(@Path("var")long id);
+
+
+
+
+
+
+
+
+
 
 
 

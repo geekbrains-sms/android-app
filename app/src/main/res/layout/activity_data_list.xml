@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".ui.product_list.view.ProductListActivity">
+    android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/product_recycler"
+        android:id="@+id/data_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

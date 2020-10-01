@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.product_list.model;
+package com.geekbrains.geekbrainsprogect.ui.product.model;
 
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 
