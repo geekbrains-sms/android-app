@@ -35,29 +35,29 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        loadUserListFromServer();
+//        loadUserListFromServer();
     }
 
-    public void loadUserListFromServer() {
-        Single<List<User>> single = AppData.getApiHelper().requestAllUsers();
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userList -> {
-            this.userList = userList;
-            Log.e(TAG, "loadFromServer: " + userList.size());
-            getViewState().updateRecyclerView();
-        }, throwable -> {
-            Log.e(TAG, "onError2 " + throwable);
-        });
-    }
-
-    public void deleteUser(int position)
-    {
-        Single<String> single = AppData.getApiHelper().deleteUser(userList.get(position).getLogin());
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-            getViewState().showToast(requestMsg);
-        }, throwable -> {getViewState().showToast(throwable.getMessage());});
-    }
+//    public void loadUserListFromServer() {
+//        Single<List<User>> single = AppData.getApiHelper().requestAllUsers();
+//
+//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userList -> {
+//            this.userList = userList;
+//            Log.e(TAG, "loadFromServer: " + userList.size());
+//            getViewState().updateRecyclerView();
+//        }, throwable -> {
+//            Log.e(TAG, "onError2 " + throwable);
+//        });
+//    }
+//
+//    public void deleteUser(int position)
+//    {
+//        Single<String> single = AppData.getApiHelper().deleteUser(userList.get(position).getLogin());
+//
+//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
+//            getViewState().showToast(requestMsg);
+//        }, throwable -> {getViewState().showToast(throwable.getMessage());});
+//    }
 
     public boolean editUser(String login, String password, String fullname)
     {

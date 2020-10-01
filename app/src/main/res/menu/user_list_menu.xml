@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+<menu xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@+id/edit"
-        android:icon="@drawable/edit_icon"
+        android:id="@+id/bar_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        yourapp:actionViewClass="androidx.appcompat.widget.SearchView"
+        yourapp:showAsAction="always"/>
+    <item
+        android:id="@+id/open"
+        android:icon="@drawable/open_icon"
         android:title="@string/edit"
-        app:showAsAction="ifRoom" />
+        yourapp:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/filter"
+        android:title="@string/filter"
+        android:icon="@drawable/filter_icon"
+        yourapp:showAsAction="always"
+        />
     <item
         android:id="@+id/delete"
         android:icon="@drawable/delete_icon"
         android:title="@string/delete"
-        app:showAsAction="ifRoom" />
+        yourapp:showAsAction="ifRoom" />
 </menu>

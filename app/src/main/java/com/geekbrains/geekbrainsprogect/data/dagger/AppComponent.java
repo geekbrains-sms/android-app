@@ -2,7 +2,7 @@ package com.geekbrains.geekbrainsprogect.data.dagger;
 
 import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
 import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
-import com.geekbrains.geekbrainsprogect.ui.product_list.view.ProductListActivity;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
 
 import javax.inject.Singleton;
 import dagger.Component;

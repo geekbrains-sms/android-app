@@ -23,66 +23,76 @@ import butterknife.ButterKnife;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
-public class PersonalListActivity extends MvpAppCompatActivity implements PersonalListView {
+public class PersonalListActivity extends MvpAppCompatActivity implements PersonalListView{
     @InjectPresenter
     PersonalListPresenter presenter;
-    @BindView(R.id.personal_list)
-    ContextMenuRecyclerView recyclerPersonal;
+//    @BindView(R.id.personal_list)
+//    ContextMenuRecyclerView recyclerPersonal;
     private PersonalListAdapter personalListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_list);
-        ButterKnife.bind(this);
-        recyclerSetting();
-    }
-
-    private void recyclerSetting()
-    {
-        personalListAdapter = new PersonalListAdapter(presenter.getRecyclerPersonal());
-        personalListAdapter.setOnItemLongClickListener((position, view) -> {
-        });
-        recyclerPersonal.setAdapter(personalListAdapter);
-        recyclerPersonal.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        registerForContextMenu(recyclerPersonal);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        ContextMenuRecyclerView.RecyclerViewContextMenuInfo info = (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId())
-        {
-            case R.id.edit:
-                showEditPersonalDialog(presenter.getUserFromPosition(info.position));
-                break;
-            case R.id.delete:
-                presenter.deleteUser(info.position);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    @Override
-    public void showToast(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.activity_data_list);
+//        ButterKnife.bind(this);
+//        recyclerSetting();
     }
 
     @Override
     public void updateRecyclerView() {
-        personalListAdapter.notifyDataSetChanged();
+
     }
 
+    @Override
+    public void showToast(String msg) {
 
-    public void showEditPersonalDialog(User user) {
-        DialogFragment personalDialog = new PersonalDialog((login, password, fullname) -> {
-            presenter.editUser(login, password, fullname);
-        });
-        personalDialog.show(getSupportFragmentManager(), "personalDialog");
     }
+
+//    private void recyclerSetting()
+//    {
+//        personalListAdapter = new PersonalListAdapter(presenter.getRecyclerPersonal());
+//        personalListAdapter.setOnItemLongClickListener((position, view) -> {
+//        });
+//        recyclerPersonal.setAdapter(personalListAdapter);
+//        recyclerPersonal.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        registerForContextMenu(recyclerPersonal);
+//    }
+//
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//
+//    }
+//
+//    @Override
+//    public boolean onContextItemSelected(@NonNull MenuItem item) {
+//        ContextMenuRecyclerView.RecyclerViewContextMenuInfo info = (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
+//        switch (item.getItemId())
+//        {
+//            case R.id.edit:
+//                showEditPersonalDialog(presenter.getUserFromPosition(info.position));
+//                break;
+//            case R.id.delete:
+//                presenter.deleteUser(info.position);
+//        }
+//        return super.onContextItemSelected(item);
+//    }
+//
+//    @Override
+//    public void showToast(String msg) {
+//        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void updateRecyclerView() {
+//        personalListAdapter.notifyDataSetChanged();
+//    }
+//
+//
+//    public void showEditPersonalDialog(User user) {
+//        DialogFragment personalDialog = new PersonalDialog((login, password, fullname) -> {
+//            presenter.editUser(login, password, fullname);
+//        });
+//        personalDialog.show(getSupportFragmentManager(), "personalDialog");
+//    }
 }

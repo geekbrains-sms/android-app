@@ -27,4 +27,19 @@
     <string name="delete">Удалить</string>
     <string name="fullname_hint">Полное имя</string>
     <string name="category_list">Категории товаров</string>
+    <string name="search">Поиск</string>
+    <string name="filter">Фильтр</string>
+    <string name="search_hint">Поиск</string>
+    <string name="count">Кол-во</string>
+    <string name="new_supply">Новая поставка</string>
+    <string name="new_shipment">Новая отгрузка</string>
+    <string name="transactions_list">Список транзакций</string>
+    <string name="supply">Поставка</string>
+    <string name="shipment">отгрузка</string>
+    <string name="provider">Поставщик</string>
+    <string name="count_product">Кол-во продукта</string>
+    <string name="contractor_supply">Поставщик</string>
+    <string name="description_field">Описание: %1$s</string>
+    <string name="category_field">Категория: %1$s</string>
+    <string name="provider_field">Поставщики: %1$s</string>
 </resources>

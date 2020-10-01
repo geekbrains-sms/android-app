@@ -45,7 +45,7 @@ public class PersonalDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = getLayoutInflater().inflate(R.layout.activity_personal_list, null);
+        View view = getLayoutInflater().inflate(R.layout.activity_data_list, null);
         ButterKnife.bind(view);
 
 
