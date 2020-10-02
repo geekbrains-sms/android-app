@@ -116,7 +116,7 @@ public class ApiHelper {
         return api.editCategory(category).subscribeOn(Schedulers.io()); }
 
 
-    public Single<Response<ProductTransaction>>getProductTransactionByProductId(long id) {
+    public Single<Response<List<ProductTransaction>>>getProductTransactionByProductId(long id) {
         return api.getProductTransactionById(id).subscribeOn(Schedulers.io());
     }
     public Single<Response<List<ProductTransaction>>>getAllSupplyProductTransactions()

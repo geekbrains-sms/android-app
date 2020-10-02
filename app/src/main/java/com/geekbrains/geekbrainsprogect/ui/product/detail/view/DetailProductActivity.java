@@ -2,14 +2,18 @@ package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
+import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +42,8 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
     ImageView leftArrow;
     @BindView(R.id.next_product_button)
     ImageView rightArrow;
+    @BindView(R.id.save_edit_product)
+    Button saveProduct;
 
 
     
@@ -50,7 +56,7 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
         setData(presenter.nextProduct());
     }
 
-    @OnClick({R.id.new_shipment_button, R.id.new_supply_button, R.id.next_product_button, R.id.prew_product_button, R.id.product_category, R.id.product_description, R.id.provider_name})
+    @OnClick({R.id.new_shipment_button, R.id.new_supply_button, R.id.next_product_button, R.id.prew_product_button, R.id.product_category, R.id.product_description, R.id.provider_name, R.id.transactions_dialog_button, R.id.product_name, R.id.save_edit_product})
     void onClick(View view)
     {
         switch (view.getId())
@@ -67,17 +73,26 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
             case R.id.prew_product_button:
                 setData(presenter.prevProduct());
                 break;
-//            case R.id.product_category:
-//                presenter.editCategoty();
-//                break;
-//            case R.id.product_description:
-//                presenter.editDesription();
-//                break;
-//            case R.id.product_units:
-//                presenter.editUnits();
-//                break;
+            case R.id.transactions_dialog_button:
+                presenter.loadTransactions();
+                break;
+            case R.id.product_name:
+                productNameEdit(presenter.getProduct());
+            case R.id.product_category:
+//               editCategoty(presenter.getProduct());
+                break;
+            case R.id.product_description:
+                editDescription(presenter.getProduct());
+                break;
+            case R.id.product_units:
+                presenter.editUnits();
+                break;
+            case R.id.save_edit_product:
+                presenter.saveChangesProduct();
+                break;
         }
     }
+
 
     private void setData(Fund fund)
     {
@@ -86,18 +101,18 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
         productDescription.setText(getString(R.string.description_field, product.getDescription()));
         productCategory.setText(getString(R.string.category_field, product.getCategoriesString()));
         productCount.setText(fund.getStringBalance());
-        productUnits.setText(product.getUnits());
+        productUnits.setText(product.getUnitsTitle());
     }
 
     public void createDialogSupply(Product product)
     {
-        DialogTransaction dialogTransaction = new DialogTransaction(product, productTransaction -> presenter.supplyToServer(productTransaction), true);
+        DialogTransaction dialogTransaction = new DialogTransaction(product, productTransaction -> presenter.supplyToServer(productTransaction));
         dialogTransaction.show(getSupportFragmentManager(), TAG);
     }
 
     public void createDialogShipment(Product product)
     {
-        DialogTransaction dialogTransaction = new DialogTransaction(product, productTransaction -> presenter.shipmentToServer(productTransaction), false);
+        DialogTransaction dialogTransaction = new DialogTransaction(product, productTransaction -> presenter.shipmentToServer(productTransaction));
         dialogTransaction.show(getSupportFragmentManager(), TAG);
     }
 
@@ -105,6 +120,19 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
     public void setDataToContractorsTextView(String contractorsString) {
         providerName.setText(getString(R.string.provider_field, contractorsString));
     }
+
+    @Override
+    public void showTransactionListDialog(List<ProductTransaction> body) {
+        TransactionsListDialog dialog = new TransactionsListDialog(body);
+        dialog.show(getSupportFragmentManager(), TAG);
+    }
+
+    @Override
+    public void setVisibilityChangedButton(boolean flag) {
+        setViewVisibility(saveProduct, flag);
+    }
+
+
 
     @Override
     public void leftArrowVisibility(boolean visibility) {
@@ -127,4 +155,30 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
             view.setVisibility(View.INVISIBLE);
         }
     }
+
+    private void productNameEdit(Product product)
+    {
+        EditDialog editDialog = new EditDialog(product, EditDialog.PRODUCT_NAME, product1 -> {
+            presenter.setEditFlag(true);
+            setData(presenter.getFund());
+        });
+        editDialog.show(getSupportFragmentManager(), TAG);
+    }
+    private void editDescription(Product product) {
+        EditDialog editDialog = new EditDialog(product, EditDialog.PRODUCT_DESCRIPTION, product1 -> {
+            presenter.setEditFlag(true);
+            setData(presenter.getFund());
+        });
+        editDialog.show(getSupportFragmentManager(), TAG);
+    }
+    @Override
+    public void showEditUnitsDialog(Product product) {
+        EditDialog editDialog = new EditDialog(product, EditDialog.PRODUCT_UNITS, product1 -> {
+            presenter.setEditFlag(true);
+            setData(presenter.getFund());
+        });
+        editDialog.show(getSupportFragmentManager(), TAG);
+
+    }
+
 }

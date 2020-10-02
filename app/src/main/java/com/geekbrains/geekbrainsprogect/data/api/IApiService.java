@@ -59,8 +59,8 @@ public interface IApiService {
     @POST("/api/v1/transactions/shipment")
     Single<Response<List<ProductTransaction>>>addShipmentTransactions(@Body ProductTransaction productTransaction);
 
-    @GET("/api/v1/transactions/products/{id}")
-    Single<Response<ProductTransaction>>getProductTransactionById(@Path("id")long id);
+    @GET("/api/v1/transactions/product/{id}")
+    Single<Response<List<ProductTransaction>>>getProductTransactionById(@Path("id")long id);
 //    @GET("/api/v1/transactions/author")
 //    Single<Response<List<ProductTransaction>>>getProductTransactionsByAuthor(@Query("author") String author);
 //    @GET("/api/v1/transactions/products/data")

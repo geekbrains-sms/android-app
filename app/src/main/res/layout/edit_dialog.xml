@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
-
+        android:id="@+id/edit_dialog_dropbox_autocomplite_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:hint="@string/contractor_supply">
+        android:layout_margin="8dp">
 
         <AutoCompleteTextView
-            android:id="@+id/providers_auto_complete"
+            android:id="@+id/edit_dialog_autocomlete_edittext"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_height="wrap_content"
+            android:hint="@string/units" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -28,26 +26,10 @@
         android:layout_margin="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/comment_edit_text_transaction"
+            android:id="@+id/edit_dialog_edit_text_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/comment" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/count_product_supply_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/count_product"
-            android:inputType="number"
-            android:maxLines="1" />
+            android:hint="hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

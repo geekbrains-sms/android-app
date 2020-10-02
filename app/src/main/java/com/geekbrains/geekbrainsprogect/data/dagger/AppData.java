@@ -8,6 +8,7 @@ import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class AppData extends Application {
     private static List<Contractor> contractorList;
     private static List<ProductTransaction> supplyTransactions;
     private static List<ProductTransaction> shipmentTransactions;
+    private static List<Unit>unitList;
     private static ApiHelper apiHelper;
 
 
@@ -87,5 +89,13 @@ public class AppData extends Application {
 
     public static void setSupplyTransactions(List<ProductTransaction> supplyTransactions) {
         AppData.supplyTransactions = supplyTransactions;
+    }
+
+    public static List<Unit> getUnitList() {
+        return unitList;
+    }
+
+    public static void setUnitList(List<Unit> unitList) {
+        AppData.unitList = unitList;
     }
 }

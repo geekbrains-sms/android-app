@@ -188,4 +188,13 @@
         android:drawableLeft="@drawable/transaction_list_icon"
         android:text="@string/transactions_list" />
 
+    <Button
+        android:id="@+id/save_edit_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:drawableLeft="@drawable/save_icon"
+        android:text="@string/save_edit"
+        android:visibility="invisible" />
+
 </LinearLayout>

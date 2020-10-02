@@ -131,7 +131,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             name.setText(product.getTitle());
             description.setText(context.getString(R.string.description_field, product.getDescription()));
             count.setText(fund.getStringBalance());
-            units.setText(product.getUnits());
+            units.setText(product.getUnitsTitle());
             StringBuilder builder = new StringBuilder();
             for(Category category : product.getCategoryList())
             {

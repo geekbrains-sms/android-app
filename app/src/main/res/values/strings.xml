@@ -19,7 +19,7 @@
     <string name="capitalize_goods">Оприходовать товар</string>
     <string name="to_ship_goods">Отгрузить товар</string>
     <string name="personal_list">Список персонала</string>
-    <string name="transaction_list">Транзакции персонала</string>
+    <string name="transaction_list_user">Транзакции персонала</string>
     <string name="show_password">Показать пароль</string>
     <string name="error">Ошибка</string>
     <string name="ok">ОК</string>
@@ -42,4 +42,16 @@
     <string name="description_field">Описание: %1$s</string>
     <string name="category_field">Категория: %1$s</string>
     <string name="provider_field">Поставщики: %1$s</string>
+    <string name="product_name_field">Продукт: %1$s</string>
+    <string name="type_transaction_field">Тип: %1$s</string>
+    <string name="comment_trasaction_field">Комментарий: %1$s</string>
+    <string name="transaction_list">Транзакции товара</string>
+    <string name="provider_field_transaction">Поставщик: %1$s</string>
+    <string name="contractor_field_transaction">Кому: %1$s</string>
+    <string name="operator">Оператор: %1$s</string>
+    <string name="comment">Комментарий</string>
+    <string name="units">Ед.изм.</string>
+    <string name="edit_title">Редактирование</string>
+    <string name="fullname_unit_hint">Полное имя / Описание</string>
+    <string name="save_edit">Сохранить изменения</string>
 </resources>
