@@ -58,4 +58,10 @@
     <string name="open">Открыть</string>
     <string name="edit_sucsses">Изменение успешно сохранено!</string>
     <string name="transaction_sucesses">Транзакция прошла успешно!</string>
+    <string name="alert">Внимание</string>
+    <string name="alert_delete_message">Вы уверены, что хотите удалить эту позицию?</string>
+    <string name="product_name">Наименование</string>
+    <string name="description">Описание</string>
+    <string name="category">Категория</string>
+    <string name="create_product">Создание новой позиции</string>
 </resources>

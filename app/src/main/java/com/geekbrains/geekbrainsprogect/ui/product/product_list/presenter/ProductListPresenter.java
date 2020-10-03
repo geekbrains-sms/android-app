@@ -22,7 +22,6 @@ import retrofit2.Response;
 @InjectViewState
 public class ProductListPresenter extends MvpPresenter<ProductListView> {
     public static final String TAG = "ProductListPresenter";
-    private List<Fund> productList = new ArrayList<>();
 
     public ProductListPresenter()
     {
@@ -36,9 +35,9 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
         {
             if(fundsResponse.isSuccessful())
             {
-                productList = fundsResponse.body();
-                Log.e(TAG, "loadFromServer: " + productList.toString());
-                getViewState().setDataToAdapter(productList);
+                AppData.setProductList(fundsResponse.body());
+                Log.e(TAG, "loadFromServer: " + fundsResponse.toString());
+                getViewState().setDataToAdapter(AppData.getProductList());
             }
             else
             {
@@ -51,4 +50,7 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
         });
     }
 
+    public void deleteProduct(List<Fund> selectedProduct) {
+
+    }
 }
