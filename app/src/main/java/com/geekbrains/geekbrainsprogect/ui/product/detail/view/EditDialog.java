@@ -52,7 +52,7 @@ public class EditDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         int resource = R.layout.edit_dialog;
-        View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(resource, null);
+        View view = requireActivity().getLayoutInflater().inflate(resource, null);
         ButterKnife.bind(this, view);
         fieldsVisibility();
         setClickListeners();
@@ -80,7 +80,7 @@ public class EditDialog extends DialogFragment {
     }
 
     private Unit getProductUnits() {
-        return new Unit(autocompliteLayout.toString(), Objects.requireNonNull(editText.getText()).toString());
+        return new Unit(autocopleteText.getText().toString(), Objects.requireNonNull(editText.getText()).toString());
     }
 
     private void fieldsVisibility() {
@@ -97,7 +97,7 @@ public class EditDialog extends DialogFragment {
         else if(type == PRODUCT_UNITS)
         {
             editText.setHint(R.string.fullname_unit_hint);
-            ArrayAdapter<Unit>adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),android.R.layout.simple_list_item_1, AppData.getUnitList());
+            ArrayAdapter<Unit>adapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getUnitList());
             autocopleteText.setAdapter(adapter);
             autocopleteText.setText(product.getUnit().getTitle());
             editText.setText(product.getUnit().getDescription());

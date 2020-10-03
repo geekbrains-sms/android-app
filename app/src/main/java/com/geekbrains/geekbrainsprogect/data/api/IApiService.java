@@ -66,7 +66,7 @@ public interface IApiService {
 //    @GET("/api/v1/transactions/products/data")
 //    Single<Response<List<ProductTransaction>>>getProductTransactionsByData(@Query("date") Date date);
 
-    @GET("/api/v1/transactions/products")
+    @GET("/api/v1/units")
     Single<Response<List<Unit>>>getAllUnits();
 
 

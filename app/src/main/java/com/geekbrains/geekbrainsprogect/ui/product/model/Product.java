@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.ui.product.model;
 import com.geekbrains.geekbrainsprogect.data.Contractor;
 
 import java.util.List;
+import java.util.Set;
 
 public class Product {
     int id;
@@ -11,7 +12,7 @@ public class Product {
     Unit unit;
     String imagePath;
     List<Category>categories;
-    private List<Contractor>contractors;
+    private List<Contractor> contractors;
     private List<ProductTransaction>transactions;
     private boolean changed = false;
 

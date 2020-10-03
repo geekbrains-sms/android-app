@@ -7,6 +7,7 @@ import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
 import java.util.List;
 
 import moxy.MvpView;
+import okhttp3.ResponseBody;
 
 public interface DetailProductView extends MvpView {
     void leftArrowVisibility(boolean visibility);
@@ -17,4 +18,7 @@ public interface DetailProductView extends MvpView {
     void showTransactionListDialog(List<ProductTransaction> body);
     void setVisibilityChangedButton(boolean flag);
     void showEditUnitsDialog(Product product);
+    void showToast(int stringResource);
+    void showErrorDialog(String error);
+    void updatePage(Fund fund);
 }

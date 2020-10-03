@@ -70,7 +70,7 @@ public class DialogTransaction extends AppCompatDialogFragment {
 
     private void createListeners() {
         positiveButtonListener = (dialog, which) -> {
-            long count = Integer.parseInt(editCountProduct.getText().toString());
+            long count = Integer.parseInt(Objects.requireNonNull(editCountProduct.getText()).toString());
 
             if(selectedContractor != null && count != 0)
             {
@@ -82,7 +82,7 @@ public class DialogTransaction extends AppCompatDialogFragment {
 
     private void createAdapter()
     {
-        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),android.R.layout.simple_list_item_1, AppData.getContractorList());
+        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getContractorList());
         providersAutoComplete.setAdapter(contractorArrayAdapter);
 
         providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -95,7 +95,6 @@ public class DialogTransaction extends AppCompatDialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedContractor = null;
                 Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
             }
         });
@@ -104,7 +103,7 @@ public class DialogTransaction extends AppCompatDialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedContractor = contractorArrayAdapter.getItem(position);
-                Log.d(TAG, "selectedContractor = " + selectedContractor.toString());
+                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
             }
         });
     }

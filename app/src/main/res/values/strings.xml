@@ -54,4 +54,8 @@
     <string name="edit_title">Редактирование</string>
     <string name="fullname_unit_hint">Полное имя / Описание</string>
     <string name="save_edit">Сохранить изменения</string>
+    <string name="sort">Фильтр</string>
+    <string name="open">Открыть</string>
+    <string name="edit_sucsses">Изменение успешно сохранено!</string>
+    <string name="transaction_sucesses">Транзакция прошла успешно!</string>
 </resources>

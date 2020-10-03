@@ -20,6 +20,7 @@ import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActi
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,6 +52,17 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     void createRecycler()
     {
         productList.setAdapter(adapter);
+        adapter.setIOnClickListener(new ProductListAdapter.IOnClickListener() {
+            @Override
+            public void onClick() {
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onSingleClick() {
+               starDetailActivity();
+            }
+        });
         productList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
         productList.setLayoutManager(new LinearLayoutManager(getApplication()));
     }
@@ -84,6 +96,19 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_list_menu, menu);
+        if (adapter.getSelectedProduct() != null && adapter.getSelectedProduct().size() > 0) {
+            menu.findItem(R.id.bar_search).setVisible(false);
+            menu.findItem(R.id.open).setVisible(true);
+            menu.findItem(R.id.delete).setVisible(true);
+            menu.findItem(R.id.filter).setVisible(false);
+        }
+        else
+        {
+            menu.findItem(R.id.bar_search).setVisible(true);
+            menu.findItem(R.id.open).setVisible(false);
+            menu.findItem(R.id.delete).setVisible(false);
+            menu.findItem(R.id.filter).setVisible(true);
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -114,9 +139,7 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
             case R.id.bar_search:
                 break;
             case R.id.open:
-                AppData.setSelectedProducts(adapter.getSelectedProduct());
-                Intent intent = new Intent(this, DetailProductActivity.class);
-                startActivity(intent);
+                starDetailActivity();
                 break;
             case R.id.delete:
                 break;
@@ -126,9 +149,14 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
         return super.onOptionsItemSelected(item);
     }
 
+    private void starDetailActivity() {
+        AppData.setSelectedProducts(adapter.getSelectedProduct());
+        Intent intent = new Intent(this, DetailProductActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
-        // close search view on back button pressed
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
             return;
