@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     ProductListPresenter presenter;
     @BindView(R.id.data_recycler)
     RecyclerView productList;
+    @BindView(R.id.add_product_float_action)
+    FloatingActionButton addButton;
     @Inject
     ProductListAdapter adapter;
     private SearchView searchView;
@@ -136,17 +140,27 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.bar_search:
-                break;
             case R.id.open:
                 starDetailActivity();
                 break;
             case R.id.delete:
+                showAlertDeleteDialog();
                 break;
             case R.id.filter:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAlertDeleteDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle(R.string.alert)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(R.string.alert_delete_message)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProduct()))
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {})
+                .create().show();
     }
 
     private void starDetailActivity() {

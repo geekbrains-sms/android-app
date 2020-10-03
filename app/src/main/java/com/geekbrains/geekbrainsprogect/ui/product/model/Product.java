@@ -17,10 +17,11 @@ public class Product {
     private boolean changed = false;
 
 
-    public Product(int id, String title, String description) {
-        this.id = id;
+    public Product(String title, String description, List<Category>categories, Unit unit) {
         this.title = title;
         this.description = description;
+        this.categories = categories;
+        this.unit = unit;
     }
 
     public int getId() {

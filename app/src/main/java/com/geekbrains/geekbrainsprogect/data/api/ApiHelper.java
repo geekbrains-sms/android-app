@@ -23,11 +23,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.126:8189";
+    private static final String BASE_URL = "http://192.168.1.235:8189";
     private Retrofit.Builder builder;
 
     private IAuthService auth;
