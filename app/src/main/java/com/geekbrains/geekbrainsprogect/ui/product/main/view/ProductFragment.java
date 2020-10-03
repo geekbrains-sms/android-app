@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.presenter.ProductPresenter;
+import com.geekbrains.geekbrainsprogect.ui.product.main.presenter.ProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
-import com.geekbrains.geekbrainsprogect.ui.product.view.ProductView;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

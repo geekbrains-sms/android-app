@@ -2,8 +2,8 @@ package com.geekbrains.geekbrainsprogect.ui.product.model;
 
 import com.geekbrains.geekbrainsprogect.data.Contractor;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class Product {
     int id;
@@ -12,7 +12,9 @@ public class Product {
     Unit unit;
     String imagePath;
     List<Category>categories;
-    private List<Contractor>contractors;
+    private List<Contractor> contractors;
+    private List<ProductTransaction>transactions;
+    private boolean changed = false;
 
 
     public Product(int id, String title, String description) {
@@ -33,8 +35,12 @@ public class Product {
         return description;
     }
 
-    public String getUnits() {
+    public String getUnitsTitle() {
         return unit.getTitle();
+    }
+
+    public Unit getUnit() {
+        return unit;
     }
 
     public String getImagePath() {
@@ -82,6 +88,18 @@ public class Product {
         return builder.toString();
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public List<ProductTransaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<ProductTransaction> transactions) {
+        this.transactions = transactions;
+    }
+
     public String getContractorsString()
     {
         StringBuilder builder = new StringBuilder();
@@ -104,13 +122,21 @@ public class Product {
         this.contractors = contractors;
     }
 
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", units='" + getUnits() + '\'' +
+                ", units='" + getUnitsTitle() + '\'' +
                 ", imagePath='" + imagePath + '\'' +
                 ", categoryList=" + categories +
                 '}';

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,30 +24,28 @@ import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DialogTransaction extends AppCompatDialogFragment {
+    private static final String TAG = "DialogTransaction";
     @BindView(R.id.providers_auto_complete)
     AutoCompleteTextView providersAutoComplete;
     @BindView(R.id.count_product_supply_edit_text)
     TextInputEditText editCountProduct;
+    @BindView(R.id.comment_edit_text_transaction)
+    TextInputEditText commentTransaction;
     private DialogInterface.OnClickListener positiveButtonListener;
     private IOnClickListener onClickListener;
     private Contractor selectedContractor;
     private Product product;
-    private boolean isSupply;
 
-    public DialogTransaction(Product product, IOnClickListener iOnClickListener, boolean isSupply)
+    public DialogTransaction(Product product, IOnClickListener iOnClickListener)
     {
         this.onClickListener = iOnClickListener;
         this.product = product;
-        this.isSupply = isSupply;
     }
 
     @NonNull
@@ -71,28 +70,40 @@ public class DialogTransaction extends AppCompatDialogFragment {
 
     private void createListeners() {
         positiveButtonListener = (dialog, which) -> {
-            long count = Integer.parseInt(editCountProduct.getText().toString());
+            long count = Integer.parseInt(Objects.requireNonNull(editCountProduct.getText()).toString());
 
-                ProductTransaction productTransaction = new ProductTransaction(product, selectedContractor,  count);
+            if(selectedContractor != null && count != 0)
+            {
+                ProductTransaction productTransaction = new ProductTransaction(product, selectedContractor,  count, Objects.requireNonNull(commentTransaction.getText()).toString());
                 onClickListener.onClick(productTransaction);
-
+            }
         };
     }
 
     private void createAdapter()
     {
-        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),android.R.layout.simple_list_item_1, AppData.getContractorList());
+        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getContractorList());
         providersAutoComplete.setAdapter(contractorArrayAdapter);
 
         providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               selectedContractor = contractorArrayAdapter.getItem(position);
+
+                assert selectedContractor != null;
+                Log.d(TAG, "selectedContractor = " + selectedContractor.toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedContractor = null;
+                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
+            }
+        });
+
+        providersAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedContractor = contractorArrayAdapter.getItem(position);
+                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
             }
         });
     }

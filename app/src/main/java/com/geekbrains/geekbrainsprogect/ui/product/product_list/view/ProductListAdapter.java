@@ -29,6 +29,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     List<Fund>productList = new ArrayList<>();
     List<Fund>filteredList = new ArrayList<>();
     List<Fund>selectedProduct = new ArrayList<>();
+    IOnClickListener iOnClickListener;
     boolean checkedMode = false;
     long checkedItem = 0;
 
@@ -39,6 +40,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         Log.d("Adapter", "productList: " + productList.size());
         Log.d("Adapter", "filteredList: " + filteredList.size());
         notifyDataSetChanged();
+    }
+
+    public void setIOnClickListener(IOnClickListener iOnClickListener) {
+        this.iOnClickListener = iOnClickListener;
     }
 
     public boolean isCheckedMode() {
@@ -131,7 +136,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             name.setText(product.getTitle());
             description.setText(context.getString(R.string.description_field, product.getDescription()));
             count.setText(fund.getStringBalance());
-            units.setText(product.getUnits());
+            units.setText(product.getUnitsTitle());
             StringBuilder builder = new StringBuilder();
             for(Category category : product.getCategoryList())
             {
@@ -152,6 +157,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 {
                     selectedProduct.add(0, filteredList.get(getAdapterPosition()));
                 }
+                iOnClickListener.onSingleClick();
             }
             else
             {
@@ -175,6 +181,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             if(!checkedMode)
             {
                 checkedMode = true;
+                iOnClickListener.onClick();
             }
             checkedControl();
             return true;
@@ -199,9 +206,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
             if(checkedItem == 0)
             {
+                iOnClickListener.onClick();
                 checkedMode = false;
             }
         }
+    }
+
+    public interface IOnClickListener
+    {
+        void onClick();
+        void onSingleClick();
     }
 
 }

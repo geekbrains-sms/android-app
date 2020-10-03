@@ -10,13 +10,14 @@ public class User {
     @Expose
     private String username;
     @Expose
-    private String fullname;
-    @Expose
     private String email;
     @Expose
     private String phone;
     @Expose
     private List<Role> roles;
+
+    private String firstname;
+    private String lasname;
 
     public int getId() {
         return id;
@@ -30,7 +31,23 @@ public class User {
     }
 
     public String getFullname() {
-        return fullname;
+        return firstname + " " + lasname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLasname() {
+        return lasname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLasname(String lasname) {
+        this.lasname = lasname;
     }
 
     public String getPhone() {
@@ -42,7 +59,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", fullname='" + fullname + '\'' +
+                ", fullname='" + getFullname() + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", roles=" + roles +

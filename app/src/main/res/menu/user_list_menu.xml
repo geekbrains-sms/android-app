@@ -11,13 +11,13 @@
     <item
         android:id="@+id/open"
         android:icon="@drawable/open_icon"
-        android:title="@string/edit"
-        yourapp:showAsAction="ifRoom" />
+        android:title="@string/open"
+        yourapp:showAsAction="always" />
     <item
         android:id="@+id/filter"
         android:title="@string/filter"
         android:icon="@drawable/filter_icon"
-        yourapp:showAsAction="always"
+        yourapp:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/delete"

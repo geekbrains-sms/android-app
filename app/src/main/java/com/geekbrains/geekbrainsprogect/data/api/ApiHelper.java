@@ -27,7 +27,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.235:8189";
+    private static final String BASE_URL = "http://192.168.1.126:8189";
     private Retrofit.Builder builder;
 
     private IAuthService auth;
@@ -116,7 +116,7 @@ public class ApiHelper {
         return api.editCategory(category).subscribeOn(Schedulers.io()); }
 
 
-    public Single<Response<ProductTransaction>>getProductTransactionByProductId(long id) {
+    public Single<Response<List<ProductTransaction>>>getProductTransactionByProductId(long id) {
         return api.getProductTransactionById(id).subscribeOn(Schedulers.io());
     }
     public Single<Response<List<ProductTransaction>>>getAllSupplyProductTransactions()

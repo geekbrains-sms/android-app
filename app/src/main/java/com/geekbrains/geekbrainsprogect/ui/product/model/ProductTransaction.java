@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.ui.product.model;
 import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.geekbrains.geekbrainsprogect.data.User;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class ProductTransaction {
@@ -12,12 +13,14 @@ public class ProductTransaction {
     User user;
     Date date;
     double quantity;
+    private String comment;
 
 
-    public ProductTransaction(Product product, Contractor contractor, double count) {
+    public ProductTransaction(Product product, Contractor contractor, double count, String comment) {
         this.product = product;
         this.contractor = contractor;
         quantity = count;
+        this.comment = comment;
     }
 
     public Product getProduct() {
@@ -40,4 +43,24 @@ public class ProductTransaction {
         this.id = id;
     }
 
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public String getStringQuantity()
+    {
+        return new DecimalFormat("#.##").format(quantity);
+    }
+
+    public Date getDate() {
+         return date;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

@@ -1,6 +1,8 @@
-package com.geekbrains.geekbrainsprogect.ui.product.presenter;
+package com.geekbrains.geekbrainsprogect.ui.product.main.presenter;
 
-import com.geekbrains.geekbrainsprogect.ui.product.view.ProductView;
+
+
+import com.geekbrains.geekbrainsprogect.ui.product.main.view.ProductView;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
