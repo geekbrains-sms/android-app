@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -31,7 +32,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CreateProductDialog extends DialogFragment implements TextWatcher {
+public class CreateProductDialog extends DialogFragment{
     @BindView(R.id.edit_name_create_product)
     TextInputEditText editName;
     @BindView(R.id.edits_description_create_product)
@@ -59,7 +60,6 @@ public class CreateProductDialog extends DialogFragment implements TextWatcher {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.create_product_dialog, null);
         ButterKnife.bind(this, view);
         setAdapters();
-        setListener();
 
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.create_product)
@@ -69,9 +69,15 @@ public class CreateProductDialog extends DialogFragment implements TextWatcher {
                 .create();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        setListener();
+        super.onActivityCreated(savedInstanceState);
+    }
+
     private void setAdapters() {
         ArrayAdapter<Category>categoryArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, AppData.getCategoryList());
-        ArrayAdapter<Unit>unitsArrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_list_item_1, AppData.getUnitList());
+        ArrayAdapter<Unit>unitsArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, AppData.getUnitList());
 
         editUnit.setAdapter(unitsArrayAdapter);
         editCategory.setAdapter(categoryArrayAdapter);
@@ -85,51 +91,38 @@ public class CreateProductDialog extends DialogFragment implements TextWatcher {
         editCategory.setOnItemClickListener((parent, view, position, id) -> {
             selectedCategory = AppData.getCategoryList().get(position);
         });
-        editName.addTextChangedListener(this);
-        editUnit.addTextChangedListener(this);
-        editUnitDescription.addTextChangedListener(this);
-        editCategory.addTextChangedListener(this);
-        editDescription.addTextChangedListener(this);
 
-
-
-    }
-
-    private void checkedEnteredText()
-    {
-        String name = Objects.requireNonNull(editName.getText()).toString();
-        String unit = editUnit.getText().toString();
-        String unitDescription = editUnitDescription.toString();
         AlertDialog dialog = (AlertDialog) getDialog();
-        Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        if(checkText(name) && checkText(unit) && checkText(unitDescription) && selectedCategory != null)
-        {
-            List<Category> categories = new ArrayList<>();
-            categories.add(selectedCategory);
+        assert dialog != null;
+        dialog.setOnShowListener(dialog1 -> {
+            Button button = ((AlertDialog) dialog1).getButton(AlertDialog.BUTTON_POSITIVE);
+
             button.setOnClickListener(v -> {
-                Unit newUnit = new Unit(unit, unitDescription);
-                String description = Objects.requireNonNull(editDescription.getText()).toString();
-                Product product = new Product(name, description, categories, newUnit);
-                iOnClickListener.onClick(product);
+                String name = Objects.requireNonNull(editName.getText()).toString();
+                String unit = editUnit.getText().toString();
+                String unitDescription = editUnitDescription.toString();
+
+                if(checkText(name) && checkText(unit) && checkText(unitDescription) && selectedCategory != null) {
+
+                    List<Category> categories = new ArrayList<>();
+                    categories.add(selectedCategory);
+
+                    Unit newUnit = new Unit(unit, unitDescription);
+                    String description = Objects.requireNonNull(editDescription.getText()).toString();
+                    Product product = new Product(name, description, categories, newUnit);
+                    iOnClickListener.onClick(product);
+                    dialog1.dismiss();
+                }
+
             });
-        }
-        else
-        {
-            button.setOnClickListener(null);
-        }
+        });
+
     }
 
     private boolean checkText(String string)
     {
         return string != null && !string.trim().equals("");
     }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) { checkedEnteredText(); }
-    @Override
-    public void afterTextChanged(Editable s) {}
 
     public interface IOnClickListener
     {
