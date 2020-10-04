@@ -9,11 +9,8 @@ import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListView;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -87,15 +84,19 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
     }
 
     public void addProductToServer(Product product) {
-        Single<Response<List<Product>>> single = AppData.getApiHelper().addProduct(product);
+        Single<Response<Product>> single = AppData.getApiHelper().addProduct(product);
 
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(productResponse -> {
             if(productResponse.isSuccessful())
             {
-                Fund fund = new Fund(product);
+                Fund fund = new Fund(productResponse.body());
                 AppData.getProductList().add(fund);
                 getViewState().updateDisplay();
                 getViewState().showToast(R.string.product_create_sucesses);
+            }
+            else
+            {
+                getViewState().showAlertDialog(productResponse.errorBody().string());
             }
         }, throwable -> {
             getViewState().showAlertDialog(throwable.getMessage());

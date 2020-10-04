@@ -100,7 +100,7 @@ public class CreateProductDialog extends DialogFragment{
             button.setOnClickListener(v -> {
                 String name = Objects.requireNonNull(editName.getText()).toString();
                 String unit = editUnit.getText().toString();
-                String unitDescription = editUnitDescription.toString();
+                String unitDescription = Objects.requireNonNull(editUnitDescription.getText()).toString();
 
                 if(checkText(name) && checkText(unit) && checkText(unitDescription) && selectedCategory != null) {
 

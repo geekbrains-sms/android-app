@@ -27,7 +27,7 @@ public interface IApiService {
     @GET("/api/v1/products")
     Single<List<Product>> getProductList();
     @POST("/api/v1/products")
-    Single<Response<List<Product>>>addProduct(@Body Product product);
+    Single<Response<Product>>addProduct(@Body Product product);
     @DELETE("/api/v1/products/{id}")
     Single<Response<String>>deleteProductById(@Path("id")long id);
     @DELETE("/api/v1/products")
