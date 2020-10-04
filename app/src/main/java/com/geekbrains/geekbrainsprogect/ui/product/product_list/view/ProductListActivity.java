@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
 import java.util.List;
@@ -96,7 +98,8 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
 
     @Override
     public void setDataToAdapter(List<Fund> products) {
-        adapter.setProductList(getApplicationContext() ,products);
+        Category category =  (Category) getIntent().getSerializableExtra(CategoryActivity.CATEGORY);
+        adapter.setProductList(getApplicationContext(), new ProductListFilter(category));
     }
 
     @Override

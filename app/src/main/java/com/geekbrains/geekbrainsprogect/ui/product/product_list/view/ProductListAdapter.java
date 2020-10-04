@@ -27,19 +27,17 @@ import butterknife.ButterKnife;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> implements Filterable {
     Context context;
-    List<Fund>productList = new ArrayList<>();
+    ProductListFilter productListFilter;
     List<Fund>filteredList = new ArrayList<>();
     List<Fund>selectedProduct = new ArrayList<>();
     IOnClickListener iOnClickListener;
     boolean checkedMode = false;
     long checkedItem = 0;
 
-    public void setProductList(Context context, List<Fund> productList) {
+    public void setProductList(Context context, ProductListFilter filter) {
         this.context = context;
-        this.productList = productList;
-        filteredList = productList;
-        Log.d("Adapter", "productList: " + productList.size());
-        Log.d("Adapter", "filteredList: " + filteredList.size());
+        this.productListFilter = filter;
+        filteredList = productListFilter.filtered();
         notifyDataSetChanged();
     }
 
@@ -79,14 +77,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
+                List<Fund>allFunds = productListFilter.filtered();
                 if(charString.isEmpty())
                 {
-                    filteredList = productList;
+                    filteredList = allFunds;
                 }
                 else
                 {
                     List<Fund>filtered = new ArrayList<>();
-                    for(Fund fund: productList)
+                    for(Fund fund: allFunds)
                     {
                         if(fund.getProduct().getTitle().toLowerCase().contains(charString.toLowerCase()))
                         {
@@ -97,16 +96,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filteredList;
-                Log.d("Adapter", "productList: " + productList.size());
-                Log.d("Adapter", "filteredList: " + filteredList.size());
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 filteredList = (ArrayList<Fund>) results.values;
-                Log.d("Adapter", "productList: " + productList.size());
-                Log.d("Adapter", "filteredList: " + filteredList.size());
                 notifyDataSetChanged();
             }
         };

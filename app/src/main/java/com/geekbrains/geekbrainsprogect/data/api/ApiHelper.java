@@ -26,7 +26,7 @@ import retrofit2.http.Body;
 
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.235:8189";
+    private static final String BASE_URL = "http://192.168.1.126:8189";
     private Retrofit.Builder builder;
 
     private IAuthService auth;
@@ -109,7 +109,7 @@ public class ApiHelper {
     }
     public Single<Response<String>>deleteCategoryById(long id) {
         return api.deleteCategoryById(id).subscribeOn(Schedulers.io()); }
-    public Single<Response<List<String>>>addCategory(Category category) {
+    public Single<Response<Category>>addCategory(Category category) {
         return api.addCategory(category).subscribeOn(Schedulers.io()); }
     public Single<Response<List<String>>>editCategory(@Body Category category) {
         return api.editCategory(category).subscribeOn(Schedulers.io()); }

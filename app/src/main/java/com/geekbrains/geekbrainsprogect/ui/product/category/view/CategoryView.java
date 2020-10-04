@@ -8,4 +8,7 @@ import moxy.MvpView;
 
 public interface CategoryView extends MvpView {
     void setDataToAdapter(List<Category> body);
+    void showAlertDialog(String message);
+    void showToast(int category_create_sucesses);
+    void updateRecyclerView();
 }

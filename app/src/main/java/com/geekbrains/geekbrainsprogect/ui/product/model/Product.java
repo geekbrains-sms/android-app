@@ -89,14 +89,6 @@ public class Product {
         return builder.toString();
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public List<ProductTransaction> getTransactions() {
-        return transactions;
-    }
-
     public void setTransactions(List<ProductTransaction> transactions) {
         this.transactions = transactions;
     }

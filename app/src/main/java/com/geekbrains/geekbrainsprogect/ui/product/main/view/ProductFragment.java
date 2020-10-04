@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.main.presenter.ProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
 
@@ -31,7 +32,7 @@ public class ProductFragment extends MvpAppCompatFragment implements ProductView
 
     @OnClick(R.id.product_list_button)
     void onClick(){
-        Intent intent = new Intent(getActivity(), ProductListActivity.class);
+        Intent intent = new Intent(getActivity(), CategoryActivity.class);
         startActivity(intent);
     }
 }

@@ -2,9 +2,10 @@ package com.geekbrains.geekbrainsprogect.ui.product.model;
 
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Category {
+public class Category implements Serializable {
     long id;
     String title;
 
