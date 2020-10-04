@@ -21,15 +21,9 @@ import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,12 +75,7 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     }
 
     private void showAddProductDialog() {
-        CreateProductDialog createProductDialog = new CreateProductDialog(new CreateProductDialog.IOnClickListener() {
-            @Override
-            public void onClick(Product product) {
-                presenter.addProductToServer(product);
-            }
-        });
+        CreateProductDialog createProductDialog = new CreateProductDialog(product -> presenter.addProductToServer(product));
         createProductDialog.show(getSupportFragmentManager(), TAG);
     }
 
@@ -183,13 +172,13 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
 
     private void showAlertDeleteDialog()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.alert)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(R.string.alert_delete_message)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProduct()))
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {})
-                .create().show();
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
+        builder.create().show();
     }
 
     private void starDetailActivity() {

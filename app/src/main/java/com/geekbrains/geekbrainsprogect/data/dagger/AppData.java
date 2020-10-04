@@ -25,6 +25,7 @@ public class AppData extends Application {
     private static List<Unit>unitList;
     private static List<Category>categoryList;
     private static ApiHelper apiHelper;
+    private static Category selectCategory;
 
     public static List<Category> getCategoryList() {
         return categoryList;
@@ -137,5 +138,13 @@ public class AppData extends Application {
         {
             contractorList.set(contractorList.indexOf(old), newContractor);
         }
+    }
+
+    public static Category getSelectCategory() {
+        return selectCategory;
+    }
+
+    public static void setSelectCategory(Category selectCategory) {
+        AppData.selectCategory = selectCategory;
     }
 }

@@ -7,8 +7,7 @@ import java.util.List;
 public class Category {
     long id;
     String title;
-    String description;
-    List<Product> products;
+
 
     public Category(String title)
     {
@@ -21,14 +20,6 @@ public class Category {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<Product> getProducts() {
-        return products;
     }
 
     @Override

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
@@ -111,6 +112,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         };
     }
 
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
         @BindView(R.id.card_view)
         MaterialCardView cardView;
@@ -165,6 +167,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         }
 
+        private void resetCard()
+        {
+            if(cardView.isChecked())
+            {
+                if(checkedItem == 0)
+                {
+                    cardView.setChecked(false);
+                }
+            }
+        }
+
         private void checkedControl() {
             if(cardView.isChecked())
             {
@@ -181,6 +194,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             if(!checkedMode)
             {
                 checkedMode = true;
+                selectedProduct.clear();
                 iOnClickListener.onClick();
             }
             checkedControl();

@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="@string/product_name" />
+            android:hint="@string/product_name"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/units" />
+                android:hint="@string/units"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/fullname_unit_hint" />
+                android:hint="@string/fullname_unit_hint"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -82,6 +85,7 @@
             android:id="@+id/edit_category_create_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/category" />
+            android:hint="@string/category"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
