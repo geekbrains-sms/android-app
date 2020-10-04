@@ -13,12 +13,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,16 +32,16 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
 public class ProductListActivity extends MvpAppCompatActivity implements ProductListView {
+    private static final String TAG = "ProductListActivity";
     @InjectPresenter
     ProductListPresenter presenter;
     @BindView(R.id.data_recycler)
     RecyclerView productList;
-    @BindView(R.id.add_product_float_action)
-    FloatingActionButton addButton;
     @Inject
     ProductListAdapter adapter;
     private SearchView searchView;
@@ -71,6 +74,22 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
         productList.setLayoutManager(new LinearLayoutManager(getApplication()));
     }
 
+    @OnClick({R.id.add_product_float_action})
+    public void onClick(View view)
+    {
+        showAddProductDialog();
+    }
+
+    private void showAddProductDialog() {
+        CreateProductDialog createProductDialog = new CreateProductDialog(new CreateProductDialog.IOnClickListener() {
+            @Override
+            public void onClick(Product product) {
+                presenter.addProductToServer(product);
+            }
+        });
+        createProductDialog.show(getSupportFragmentManager(), TAG);
+    }
+
 
     @Override
     public void refreshRecyclerView() {
@@ -89,6 +108,16 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @Override
     public void setDataToAdapter(List<Fund> products) {
         adapter.setProductList(getApplicationContext() ,products);
+    }
+
+    @Override
+    public void showToast(int text) {
+        Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateDisplay() {
+        adapter.notifyDataSetChanged();
     }
 
     public void createToolbar()

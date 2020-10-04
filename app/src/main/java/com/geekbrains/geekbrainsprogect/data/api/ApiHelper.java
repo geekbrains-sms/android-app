@@ -26,7 +26,7 @@ import retrofit2.http.Body;
 
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.235:8189";
+    private static final String BASE_URL = "http://192.168.1.126:8189";
     private Retrofit.Builder builder;
 
     private IAuthService auth;
@@ -83,7 +83,7 @@ public class ApiHelper {
     {
         return api.getProductList().subscribeOn(Schedulers.io());
     }
-    public Single<Response<String>>addProduct(Product product)
+    public Single<Response<List<Product>>>addProduct(Product product)
     {
         return api.addProduct(product).subscribeOn(Schedulers.io());
     }
@@ -170,6 +170,8 @@ public class ApiHelper {
     {
         return api.getFundsByProductId(id).subscribeOn(Schedulers.io());
     }
+
+
 
 
 }

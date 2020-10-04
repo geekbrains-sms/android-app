@@ -5,6 +5,7 @@ import android.app.Application;
 import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
@@ -22,7 +23,17 @@ public class AppData extends Application {
     private static List<ProductTransaction> supplyTransactions;
     private static List<ProductTransaction> shipmentTransactions;
     private static List<Unit>unitList;
+    private static List<Category>categoryList;
     private static ApiHelper apiHelper;
+
+    public static List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public static void setCategoryList(List<Category>categoryList)
+    {
+        AppData.categoryList = categoryList;
+    }
 
 
     @Override
