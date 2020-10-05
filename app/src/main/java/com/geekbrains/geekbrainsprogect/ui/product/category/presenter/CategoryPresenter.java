@@ -1,9 +1,11 @@
 package com.geekbrains.geekbrainsprogect.ui.product.category.presenter;
 
+import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryView;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -29,11 +31,32 @@ public class CategoryPresenter extends MvpPresenter<CategoryView> {
             if(categoryResponse.isSuccessful())
             {
                 AppData.setCategoryList(categoryResponse.body());
+                List<Category>categories = categoryResponse.body();
+                categories.add(0, new Category("ВСЕ"));
                 getViewState().setDataToAdapter(categoryResponse.body());
             }
 
         }, throwable -> {
             getViewState().showAlertDialog(throwable.getMessage());
         });
+    }
+
+    public void saveCategory(Category category) {
+        Single<Response<Category>> single = AppData.getApiHelper().addCategory(category);
+        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
+            if(categoryResponse.isSuccessful())
+            {
+                AppData.getCategoryList().add(categoryResponse.body());
+                getViewState().updateRecyclerView();
+                getViewState().showToast(R.string.category_create_sucesses);
+            }
+            else
+            {
+                getViewState().showAlertDialog(categoryResponse.errorBody().string());
+            }
+        }, throwable -> {
+            getViewState().showAlertDialog(throwable.getMessage());
+        });
+
     }
 }

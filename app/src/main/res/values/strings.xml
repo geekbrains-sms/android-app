@@ -65,4 +65,6 @@
     <string name="category">Категория</string>
     <string name="create_product">Создание новой позиции</string>
     <string name="product_create_sucesses">Позиция успешно создана!</string>
+    <string name="create_category">Создание категории</string>
+    <string name="category_create_sucesses">Категория успешно создана!</string>
 </resources>

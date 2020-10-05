@@ -26,22 +26,7 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
     public ProductListPresenter()
     {
         getProductList();
-        getCategoryList();
         loadUnitsFromServer();
-    }
-
-    private void getCategoryList()
-    {
-        Single<Response<List<Category>>> single = AppData.getApiHelper().getCategoryList();
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
-            if(categoryResponse.isSuccessful())
-            {
-                AppData.setCategoryList(categoryResponse.body());
-            }
-
-        }, throwable -> {
-            getViewState().showAlertDialog(throwable.getMessage());
-        });
     }
 
     private void loadUnitsFromServer() {

@@ -42,7 +42,7 @@ public interface IApiService {
     @DELETE("/api/v1/categories/{id}")
     Single<Response<String>>deleteCategoryById(@Path("id")long id);
     @POST("/api/v1/categories")
-    Single<Response<List<String>>>addCategory(@Body Category category);
+    Single<Response<Category>>addCategory(@Body Category category);
     @PUT("/api/v1/categories")
     Single<Response<List<String>>>editCategory(@Body Category category);
 
