@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.data.api;
 import android.text.TextUtils;
 
 import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
@@ -23,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Path;
 
 
 public class ApiHelper {
@@ -170,6 +172,28 @@ public class ApiHelper {
     {
         return api.getFundsByProductId(id).subscribeOn(Schedulers.io());
     }
+
+    public Single<Response<List<User>>>getAllUsers()
+    {
+        return api.getAllUsers();
+    }
+    public Single<Response<User>>getUserById(long id)
+    {
+        return api.getUserById(id);
+    }
+    public Single<Response<ResponseBody>>deleteUser(long id, User user)
+    {
+        return api.deleteUser(id, user);
+    }
+    public Single<Response<ResponseBody>>editUser(long id, User user)
+    {
+        return api.editUser(id, user);
+    }
+    public Single<Response<User>>addUser(User user)
+    {
+        return api.addUser(user);
+    }
+
 
 
 

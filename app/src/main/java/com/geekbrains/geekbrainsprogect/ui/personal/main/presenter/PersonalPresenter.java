@@ -1,6 +1,6 @@
-package com.geekbrains.geekbrainsprogect.ui.personal.presenter;
+package com.geekbrains.geekbrainsprogect.ui.personal.main.presenter;
 
-import com.geekbrains.geekbrainsprogect.ui.personal.view.PersonalView;
+import com.geekbrains.geekbrainsprogect.ui.personal.main.view.PersonalView;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;

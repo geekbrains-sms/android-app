@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_goods" >
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
-            app:destination="@id/navigation_warehouse" />
+            app:destination="@id/navigation_contractors" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_warehouse"
-        android:name="com.geekbrains.geekbrainsprogect.ui.warehouse.view.WarehouseFragment"
-        android:label="@string/warehouse_management"
-        tools:layout="@layout/fragment_warehouse" >
+        android:id="@+id/navigation_contractors"
+        android:name="com.geekbrains.geekbrainsprogect.ui.contractors.view.ContractorsFragment"
+        android:label="@string/contractors_management"
+        tools:layout="@layout/fragment_contractor" >
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_notifications"
             app:destination="@id/navigation_personal" />
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_personal"
-        android:name="com.geekbrains.geekbrainsprogect.ui.personal.view.PersonalFragment"
+        android:name="com.geekbrains.geekbrainsprogect.ui.personal.main.view.PersonalFragment"
         android:label="@string/personal_menegment"
         tools:layout="@layout/fragment_personal" />
 </navigation>

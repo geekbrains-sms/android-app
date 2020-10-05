@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.personal.view;
+package com.geekbrains.geekbrainsprogect.ui.personal.main.view;
 
 import moxy.MvpView;
 

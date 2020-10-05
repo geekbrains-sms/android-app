@@ -5,24 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.product.view.ProductFragment">
+    tools:context=".ui.contractors.view.ContractorsFragment">
 
     <Button
-        android:id="@+id/product_list_button"
+        android:id="@+id/contractors_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="@string/product_statistic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/contractors_lis" />
 
     <Button
-        android:id="@+id/category_product"
+        android:id="@+id/contractors_transaction_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/transactions_histiry" />
-
 </LinearLayout>

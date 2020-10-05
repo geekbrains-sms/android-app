@@ -2,6 +2,7 @@ package com.geekbrains.geekbrainsprogect.data.dagger;
 
 import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
 import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
+import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view.PersonalListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
 
@@ -16,4 +17,5 @@ public interface AppComponent {
     void inject(ApiHelper apiHelper);
     void inject(ProductListActivity productListActivity);
     void inject(CategoryActivity categoryActivity);
+    void inject(PersonalListActivity personalListActivity);
 }

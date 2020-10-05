@@ -21,7 +21,6 @@ import com.geekbrains.geekbrainsprogect.ui.product.category.presenter.CategoryPr
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDividerItemDecoration;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 

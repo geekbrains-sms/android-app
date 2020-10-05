@@ -2,7 +2,9 @@ package com.geekbrains.geekbrainsprogect.data;
 
 import com.google.gson.annotations.Expose;
 
-public class Role {
+import java.io.Serializable;
+
+public class Role implements Serializable {
     @Expose
     private int id;
     @Expose
