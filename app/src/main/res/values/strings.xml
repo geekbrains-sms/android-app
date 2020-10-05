@@ -67,4 +67,14 @@
     <string name="product_create_sucesses">Позиция успешно создана!</string>
     <string name="create_category">Создание категории</string>
     <string name="category_create_sucesses">Категория успешно создана!</string>
+    <string name="contractors_lis">Список контрагентов</string>
+    <string name="transactions_histiry">История операций</string>
+    <string name="contractors_management">Контрагенты</string>
+    <string name="user_deleted">Юзер успешно удален!</string>
+    <string name="password_confirm">Продтвердите пароль</string>
+    <string name="firstname">Имя</string>
+    <string name="lastname">Фамилия</string>
+    <string name="role">Роль</string>
+    <string name="phone">Телефон</string>
+    <string name="email">E-mail</string>
 </resources>

@@ -30,10 +30,9 @@ public class CategoryPresenter extends MvpPresenter<CategoryView> {
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
             if(categoryResponse.isSuccessful())
             {
-                AppData.setCategoryList(categoryResponse.body());
                 List<Category>categories = categoryResponse.body();
-                categories.add(0, new Category("ВСЕ"));
-                getViewState().setDataToAdapter(categoryResponse.body());
+                AppData.setCategoryList(categories);
+                getViewState().setDataToAdapter(categories);
             }
 
         }, throwable -> {

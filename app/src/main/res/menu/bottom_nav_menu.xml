@@ -7,9 +7,9 @@
         android:title="@string/goods_management" />
 
     <item
-        android:id="@+id/navigation_warehouse"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/warehouse_management" />
+        android:id="@+id/navigation_contractors"
+        android:icon="@drawable/contractors_image"
+        android:title="@string/contractors_management" />
 
     <item
         android:id="@+id/navigation_personal"

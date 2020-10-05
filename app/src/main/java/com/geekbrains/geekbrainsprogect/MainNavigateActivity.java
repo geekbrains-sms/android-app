@@ -29,7 +29,7 @@ public class MainNavigateActivity extends AppCompatActivity {
 
     private void navViewSetting() {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_goods, R.id.navigation_warehouse, R.id.navigation_personal)
+                R.id.navigation_goods, R.id.navigation_contractors, R.id.navigation_personal)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

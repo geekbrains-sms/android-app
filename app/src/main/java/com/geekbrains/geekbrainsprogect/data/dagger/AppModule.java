@@ -2,6 +2,7 @@ package com.geekbrains.geekbrainsprogect.data.dagger;
 
 import android.app.Application;
 
+import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view.PersonalListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListAdapter;
 
@@ -30,5 +31,9 @@ public class AppModule {
     @Provides
     @Singleton
     CategoryListAdapter provideCategoryListAdapter(){return new CategoryListAdapter();}
+
+    @Provides
+    @Singleton
+    PersonalListAdapter providePersonalListAdapter(){return new PersonalListAdapter();}
 
 }

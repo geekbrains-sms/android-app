@@ -20,7 +20,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView{
     AuthPresenter authPresenter;
     @BindView(R.id.login_edit_text)
     TextInputEditText editLogin;
-    @BindView(R.id.fullname_edit_text)
+    @BindView(R.id.firstname_edit_text)
     TextInputEditText editPassword;
 
 

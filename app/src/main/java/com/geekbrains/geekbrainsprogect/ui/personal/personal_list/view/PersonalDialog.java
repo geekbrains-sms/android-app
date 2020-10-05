@@ -1,11 +1,9 @@
-package com.geekbrains.geekbrainsprogect.ui;
+package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -23,12 +21,16 @@ import butterknife.OnClick;
 public class PersonalDialog extends DialogFragment {
     @BindView(R.id.login_edit_text)
     TextInputEditText loginEdit;
+    @BindView(R.id.firstname_edit_text)
+    TextInputEditText firstNameEdit;
+    @BindView(R.id.lastname_edit_text)
+    TextInputEditText lastNameEdit;
     @BindView(R.id.password_edit_text)
     TextInputEditText passwordEdit;
-    @BindView(R.id.fullname_edit_text)
-    TextInputEditText fullnameEdit;
-    @BindView(R.id.edit_personal_button)
-    Button button;
+    @BindView(R.id.password_confirm_edit_text)
+    TextInputEditText passwordConfirmEdit;
+    
+
 
     OnClickEditButton onClickEditButton;
     private User user;
@@ -45,8 +47,8 @@ public class PersonalDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = getLayoutInflater().inflate(R.layout.activity_data_list, null);
-        ButterKnife.bind(view);
+        View view = getLayoutInflater().inflate(R.layout.edit_personal_dialog, null);
+        ButterKnife.bind(this, view);
 
 
         return new AlertDialog.Builder(getActivity())
@@ -54,19 +56,31 @@ public class PersonalDialog extends DialogFragment {
                 .create();
     }
 
+    private void setDataToViews()
+    {
+        loginEdit.setText(user.getLogin());
+        firstNameEdit.setText(user.getFirstname());
+        lastNameEdit.setText(user.getLastname());
+
+    }
+
     @OnClick(R.id.edit_personal_button)
     void onClick()
     {
         String login = loginEdit.getText().toString().trim();
         String password = passwordEdit.getText().toString().trim();
-        String fullname = fullnameEdit.getText().toString();
-        onClickEditButton.onClick(login, password, fullname);
+        String confirmPassword = passwordConfirmEdit.getText().toString();
+        String firstName = firstNameEdit.getText().toString();
+        String lastName = lastNameEdit.getText().toString();
+        String
+        User user = new User(login, )
+        onClickEditButton.onClick(user);
     }
 
 
     public interface OnClickEditButton
     {
-        void onClick(String login, String password, String fullname);
+        void onClick(User user);
     }
 
 

@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.personal_list.view;
+package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,26 +6,37 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalListAdapter extends ContextMenuRecyclerView.Adapter<PersonalListAdapter.ViewHolder> {
-    private IRecyclerPersonal iRecyclerPersonal;
-    OnItemLongClickListener onItemLongClickListener;
+public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapter.ViewHolder> {
+    private List<User> allUsers = new ArrayList<>();
+    private List<User> filteredUser = new ArrayList<>();
+    private OnItemLongClickListener onItemLongClickListener;
+    private IOnItemClickListener onItemClickListener;
 
-    public PersonalListAdapter(IRecyclerPersonal recyclerPersonal)
-    {
-        iRecyclerPersonal = recyclerPersonal;
+    public void setOnItemClickListener(IOnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public void setAllUsers(List<User> allUsers) {
+        this.allUsers = allUsers;
+        filteredUser.addAll(allUsers);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -37,17 +48,19 @@ public class PersonalListAdapter extends ContextMenuRecyclerView.Adapter<Persona
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        iRecyclerPersonal.bindView(holder);
+        holder.bind(filteredUser.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return iRecyclerPersonal.getItemCount();
+        return filteredUser.size();
     }
 
-    public class ViewHolder extends ContextMenuRecyclerView.ViewHolder implements IViewHolder, View.OnClickListener, View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         @BindView(R.id.user_id)
         TextView id;
+        @BindView(R.id.user_name)
+        TextView name;
         @BindView(R.id.user_login)
         TextView login;
         @BindView(R.id.user_role)
@@ -61,6 +74,7 @@ public class PersonalListAdapter extends ContextMenuRecyclerView.Adapter<Persona
         public void bind(User user)
         {
             login.setText(user.getLogin());
+            name.setText(user.getFullname());
             id.setText(user.getId() + "");
             StringBuilder stringBuffer = new StringBuilder();
             for(Role role : user.getRoles())
@@ -72,18 +86,15 @@ public class PersonalListAdapter extends ContextMenuRecyclerView.Adapter<Persona
                 stringBuffer.append(role.getName());
             }
             role.setText(stringBuffer.toString());
-
         }
-
-        @Override
-        public int getPos() {
-            return getAdapterPosition();
-        }
-
 
         @Override
         public void onClick(View v) {
-            v.showContextMenu();        }
+            if(onItemClickListener != null)
+            {
+                onItemClickListener.onItemClick(filteredUser.get(getAdapterPosition()));
+            }
+        }
 
         @Override
         public boolean onLongClick(View v) {
@@ -97,5 +108,9 @@ public class PersonalListAdapter extends ContextMenuRecyclerView.Adapter<Persona
     public interface OnItemLongClickListener
     {
         void onItemLongClick(int position, View view);
+    }
+    public interface IOnItemClickListener
+    {
+        void onItemClick(User user);
     }
 }

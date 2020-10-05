@@ -34,6 +34,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         this.allCategory = allCategory;
         filterCategory.clear();
         filterCategory.addAll(allCategory);
+        filterCategory.add(0, new Category("ВСЕ"));
         this.context = context;
         notifyDataSetChanged();
     }
@@ -116,7 +117,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         @Override
         public void onClick(View v) {
             Category category = null;
-            if(getAdapterPosition() != 0)
+            if(!filterCategory.get(getAdapterPosition()).getTitle().equals("ВСЕ"))
             {
                 category = filterCategory.get(getAdapterPosition());
             }

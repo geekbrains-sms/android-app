@@ -1,29 +1,54 @@
 package com.geekbrains.geekbrainsprogect.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class User {
-    @Expose
-    private int id;
-    @Expose
-    private String username;
-    @Expose
+public class User implements Parcelable {
+
+    private long id;
+    private String login;
+    private String firstname;
+    private String lastname;
     private String email;
-    @Expose
     private String phone;
-    @Expose
     private List<Role> roles;
 
-    private String firstname;
-    private String lasname;
 
-    public int getId() {
+    public User(String login, String firstname, String lasname, String email, String phone, List<Role>roles)
+    {
+        this.login = login;
+        this.firstname = firstname;
+        this.lastname = lasname;
+        this.email = email;
+        this.phone = phone;
+        this.roles = roles;
+    }
+    public User(Parcel parcel)
+    {
+        String [] data = new String[6];
+        parcel.readStringArray(data);
+        login = data[0];
+        firstname = data[1];
+        lastname = data[2];
+        email = data[3];
+        phone = data[4];
+        id = parcel.readLong();
+        parcel.readList(roles, Role.class.getClassLoader());
+    }
+
+
+    public long getId() {
         return id;
     }
+
     public String getLogin() {
-        return username;
+        return login;
     }
 
     public String getEmail() {
@@ -31,23 +56,23 @@ public class User {
     }
 
     public String getFullname() {
-        return firstname + " " + lasname;
+        return firstname + " " + lastname;
     }
 
     public String getFirstname() {
         return firstname;
     }
 
-    public String getLasname() {
-        return lasname;
+    public String getLastname() {
+        return lastname;
     }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    public void setLasname(String lasname) {
-        this.lasname = lasname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPhone() {
@@ -58,7 +83,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", login ='" + login + '\'' +
                 ", fullname='" + getFullname() + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
@@ -69,4 +94,29 @@ public class User {
     public List<Role> getRoles() {
         return roles;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[]{login, firstname, lastname, email, phone});
+        dest.writeLong(id);
+        dest.writeList(roles);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
