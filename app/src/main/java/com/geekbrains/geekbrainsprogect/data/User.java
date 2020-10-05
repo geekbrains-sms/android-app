@@ -16,11 +16,12 @@ public class User implements Parcelable {
     private String firstname;
     private String lastname;
     private String email;
+    private String password;
     private String phone;
     private List<Role> roles;
 
 
-    public User(String login, String firstname, String lasname, String email, String phone, List<Role>roles)
+    public User(String login, String firstname, String lasname, String email, String phone, String password, List<Role>roles)
     {
         this.login = login;
         this.firstname = firstname;
@@ -28,6 +29,7 @@ public class User implements Parcelable {
         this.email = email;
         this.phone = phone;
         this.roles = roles;
+        this.password = password;
     }
     public User(Parcel parcel)
     {
@@ -38,6 +40,7 @@ public class User implements Parcelable {
         lastname = data[2];
         email = data[3];
         phone = data[4];
+        password = data[5];
         id = parcel.readLong();
         parcel.readList(roles, Role.class.getClassLoader());
     }
@@ -102,7 +105,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{login, firstname, lastname, email, phone});
+        dest.writeStringArray(new String[]{login, firstname, lastname, email, phone, password});
         dest.writeLong(id);
         dest.writeList(roles);
     }
@@ -119,4 +122,8 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
