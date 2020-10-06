@@ -1,6 +1,7 @@
 package com.geekbrains.geekbrainsprogect.data.api;
 
 import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
@@ -90,16 +91,19 @@ public interface IApiService {
     Single<Response<Fund>>getFundsByProductId(@Path("var")long id);
 
 
-    @GET("/users")
+    @GET("/api/v1/users")
     Single<Response<List<User>>>getAllUsers();
-    @GET("/users/{id}")
+    @GET("/api/v1/users/{id}")
     Single<Response<User>>getUserById(@Path("id")long id);
-    @PUT("/users/{id}")
+    @PUT("/api/v1/users/{id}")
     Single<Response<ResponseBody>>editUser(@Path("id")long id, @Body User user);
-    @POST("/users")
+    @POST("/api/v1/users")
     Single<Response<User>>addUser(@Body User user);
-    @DELETE("/users/{id}")
-    Single<Response<ResponseBody>>deleteUser(@Path("id")long id, @Body User user);
+    @DELETE("/api/v1/users/{id}")
+    Single<Response<ResponseBody>>deleteUser(@Path("id")long id);
+
+    @GET("/api/v1/roles")
+    Single<Response<List<Role>>>getAllRoles();
 
 
 

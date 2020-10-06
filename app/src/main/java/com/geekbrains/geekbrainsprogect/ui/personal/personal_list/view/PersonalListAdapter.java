@@ -3,14 +3,19 @@ package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
+import com.google.android.material.card.MaterialCardView;
 
 
 import java.util.ArrayList;
@@ -19,24 +24,32 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapter.ViewHolder> {
+public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapter.ViewHolder> implements Filterable {
     private List<User> allUsers = new ArrayList<>();
     private List<User> filteredUser = new ArrayList<>();
-    private OnItemLongClickListener onItemLongClickListener;
+    private List<User> selectedUser = new ArrayList<>();
     private IOnItemClickListener onItemClickListener;
+    private IOnCheckedClickListener onCheckedClickListener;
+    private boolean checkedMode = false;
+    private long checkedItem = 0;
 
     public void setOnItemClickListener(IOnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
-        this.onItemLongClickListener = onItemLongClickListener;
+    public void setOnCheckedClickListener(IOnCheckedClickListener onCheckedClickListener) {
+        this.onCheckedClickListener = onCheckedClickListener;
     }
 
     public void setAllUsers(List<User> allUsers) {
         this.allUsers = allUsers;
+        filteredUser.clear();
         filteredUser.addAll(allUsers);
         notifyDataSetChanged();
+    }
+
+    public List<User> getSelectedUser() {
+        return selectedUser;
     }
 
     @NonNull
@@ -56,7 +69,44 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
         return filteredUser.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    @Override
+    public Filter getFilter() {
+
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                List<User>allFunds = allUsers;
+                if(charString.isEmpty())
+                {
+                    filteredUser = allFunds;
+                }
+                else
+                {
+                    List<User>filtered = new ArrayList<>();
+                    for(User user: allFunds)
+                    {
+                        if(user.getFullname().toLowerCase().contains(charString.toLowerCase()))
+                        {
+                            filtered.add(user);
+                        }
+                    }
+                    filteredUser = filtered;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredUser;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredUser = (ArrayList<User>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
         @BindView(R.id.user_id)
         TextView id;
         @BindView(R.id.user_name)
@@ -65,10 +115,14 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
         TextView login;
         @BindView(R.id.user_role)
         TextView role;
+        @BindView(R.id.user_card)
+        MaterialCardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
-
+            cardView.setOnClickListener(this);
+            cardView.setOnLongClickListener(this);
+            cardView.setOnCheckedChangeListener(this);
         }
 
         public void bind(User user)
@@ -90,27 +144,74 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
 
         @Override
         public void onClick(View v) {
-            if(onItemClickListener != null)
+
+            if(!checkedMode)
             {
-                onItemClickListener.onItemClick(filteredUser.get(getAdapterPosition()));
+                if(onItemClickListener != null)
+                {
+                    onItemClickListener.onItemClick(filteredUser.get(getAdapterPosition()));
+                }
+            }
+            else
+            {
+                checkedControl();
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if(onItemLongClickListener != null)
+            if(!checkedMode)
             {
-                onItemLongClickListener.onItemLongClick(getAdapterPosition() - 1, v);
+                checkedMode = true;
+                selectedUser.clear();
+                onCheckedClickListener.onCheckedClick();
             }
+            checkedControl();
             return true;
         }
-    }
-    public interface OnItemLongClickListener
-    {
-        void onItemLongClick(int position, View view);
-    }
+        private void checkedControl() {
+            if(cardView.isChecked())
+            {
+                cardView.setChecked(false);
+            }
+            else
+            {
+                cardView.setChecked(true);
+            }
+        }
+
+        @Override
+        public void onCheckedChanged(MaterialCardView card, boolean isChecked) {
+            if(isChecked)
+            {
+                checkedItem++;
+                User user = filteredUser.get(getAdapterPosition());
+                if(!selectedUser.contains(user))
+                {
+                    selectedUser.add(user);
+                }
+            }
+            else
+            {
+                checkedItem--;
+                User user = filteredUser.get(getAdapterPosition());
+                selectedUser.remove(user);
+            }
+            if(checkedItem == 0)
+            {
+                onCheckedClickListener.onCheckedClick();
+                checkedMode = false;
+            }
+        }
+        }
     public interface IOnItemClickListener
     {
         void onItemClick(User user);
     }
-}
+    public interface IOnCheckedClickListener
+    {
+        void onCheckedClick();
+    }
+
+    }
+

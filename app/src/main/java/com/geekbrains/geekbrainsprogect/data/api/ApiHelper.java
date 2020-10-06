@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.data.api;
 import android.text.TextUtils;
 
 import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
@@ -175,23 +176,28 @@ public class ApiHelper {
 
     public Single<Response<List<User>>>getAllUsers()
     {
-        return api.getAllUsers();
+        return api.getAllUsers().subscribeOn(Schedulers.io());
     }
     public Single<Response<User>>getUserById(long id)
     {
-        return api.getUserById(id);
+        return api.getUserById(id).subscribeOn(Schedulers.io());
     }
-    public Single<Response<ResponseBody>>deleteUser(long id, User user)
+    public Single<Response<ResponseBody>>deleteUser(long id)
     {
-        return api.deleteUser(id, user);
+        return api.deleteUser(id).subscribeOn(Schedulers.io());
     }
     public Single<Response<ResponseBody>>editUser(long id, User user)
     {
-        return api.editUser(id, user);
+        return api.editUser(id, user).subscribeOn(Schedulers.io());
     }
     public Single<Response<User>>addUser(User user)
     {
-        return api.addUser(user);
+        return api.addUser(user).subscribeOn(Schedulers.io());
+    }
+
+    public Single<Response<List<Role>>>getAllRoles()
+    {
+        return api.getAllRoles().subscribeOn(Schedulers.io());
     }
 
 

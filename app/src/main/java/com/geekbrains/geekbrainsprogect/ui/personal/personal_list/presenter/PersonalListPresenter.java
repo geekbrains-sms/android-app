@@ -1,6 +1,7 @@
 package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.presenter;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view.PersonalListView;
@@ -20,10 +21,32 @@ import retrofit2.Response;
 public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     private static String TAG = "PersonalListPresenter";
     private List<User> userList = new ArrayList<>();
+    private List<Role> rolesList = new ArrayList<>();
 
     public PersonalListPresenter ()
     {
         loadUserListFromServer();
+        loadRoles();
+    }
+
+    public List<Role> getRolesList() {
+        return rolesList;
+    }
+
+    private void loadRoles() {
+        Single<Response<List<Role>>> single = AppData.getApiHelper().getAllRoles();
+        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(rolesResponse -> {
+            if(rolesResponse.isSuccessful())
+            {
+                this.rolesList = rolesResponse.body();
+            }
+            else
+            {
+                getViewState().showAlertDialog(rolesResponse.errorBody().string());
+            }
+        }, throwable -> {
+            getViewState().showAlertDialog(throwable.getMessage());
+        });
     }
 
     public void loadUserListFromServer() {
@@ -47,12 +70,13 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
 
     public void deleteUser(User user)
     {
-        Single<Response<ResponseBody>> single = AppData.getApiHelper().deleteUser(user.getId(), user);
+        Single<Response<ResponseBody>> single = AppData.getApiHelper().deleteUser(user.getId());
 
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
             if(requestMsg.isSuccessful())
             {
-                getViewState().updateRecyclerView();
+                userList.remove(user);
+                getViewState().setDataToAdapter(userList);
                 getViewState().showToast(R.string.user_deleted);
             }
             else
@@ -81,4 +105,21 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
+    public void addUser(User user) {
+        Single<Response<User>> single = AppData.getApiHelper().addUser(user);
+
+        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
+            if(requestMsg.isSuccessful())
+            {
+                userList.add(requestMsg.body());
+                getViewState().setDataToAdapter(userList);
+                getViewState().showToast(R.string.user_added);
+            }
+            else
+            {
+                getViewState().showAlertDialog(requestMsg.errorBody().string());
+            }
+
+        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    }
 }

@@ -162,17 +162,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         }
 
-        private void resetCard()
-        {
-            if(cardView.isChecked())
-            {
-                if(checkedItem == 0)
-                {
-                    cardView.setChecked(false);
-                }
-            }
-        }
-
         private void checkedControl() {
             if(cardView.isChecked())
             {
