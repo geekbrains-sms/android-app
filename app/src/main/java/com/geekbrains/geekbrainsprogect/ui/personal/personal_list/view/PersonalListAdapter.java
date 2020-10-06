@@ -109,8 +109,6 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
-        @BindView(R.id.user_id)
-        TextView id;
         @BindView(R.id.user_name)
         TextView name;
         @BindView(R.id.user_login)
@@ -131,7 +129,6 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
         {
             login.setText(user.getLogin());
             name.setText(user.getFullname());
-            id.setText(user.getId() + "");
             StringBuilder stringBuffer = new StringBuilder();
             for(Role role : user.getRoles())
             {

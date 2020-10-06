@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.data.api;
 import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
@@ -103,6 +104,17 @@ public interface IApiService {
 
     @GET("/api/v1/roles")
     Single<Response<List<Role>>>getAllRoles();
+
+    @GET("/api/v1/actions")
+    Single<Response<List<UserAction>>>getAllUserActions();
+    @GET("/api/v1/actions/{id}")
+    Single<Response<List<UserAction>>>getUserActionByProductId(@Path("id")long id);
+    @GET("/api/v1/actions/{author}")
+    Single<Response<List<UserAction>>>getUserActionByAuthor(@Path("author")String author);
+    @GET("/api/v1/actions/{data}")
+    Single<Response<List<UserAction>>>getUserActionByData(@Path("data")String data);
+
+
 
 
 

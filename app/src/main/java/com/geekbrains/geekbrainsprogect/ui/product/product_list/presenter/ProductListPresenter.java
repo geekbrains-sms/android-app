@@ -51,7 +51,7 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
             {
                 AppData.setProductList(fundsResponse.body());
                 Log.e(TAG, "loadFromServer: " + fundsResponse.toString());
-                getViewState().setDataToAdapter(AppData.getProductList());
+                getViewState().setDataToAdapter();
             }
             else
             {
@@ -76,7 +76,7 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
             {
                 Fund fund = new Fund(productResponse.body());
                 AppData.getProductList().add(fund);
-                getViewState().updateDisplay();
+                getViewState().setDataToAdapter();
                 getViewState().showToast(R.string.product_create_sucesses);
             }
             else

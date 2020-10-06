@@ -96,7 +96,7 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     }
 
     @Override
-    public void setDataToAdapter(List<Fund> products) {
+    public void setDataToAdapter() {
         Category category =  (Category) getIntent().getSerializableExtra(CategoryActivity.CATEGORY);
         adapter.setProductList(getApplicationContext(), new ProductListFilter(category));
     }
@@ -203,7 +203,7 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
         super.onResume();
         if(adapter != null)
         {
-            adapter.notifyDataSetChanged();
+            setDataToAdapter();
         }
     }
 }

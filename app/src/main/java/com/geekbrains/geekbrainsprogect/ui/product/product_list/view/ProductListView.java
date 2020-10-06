@@ -10,7 +10,7 @@ import moxy.MvpView;
 public interface ProductListView extends MvpView {
     void refreshRecyclerView();
     void showAlertDialog(String message);
-    void setDataToAdapter(List<Fund>products);
+    void setDataToAdapter();
     void showToast(int product_create_sucesses);
     void updateDisplay();
 }

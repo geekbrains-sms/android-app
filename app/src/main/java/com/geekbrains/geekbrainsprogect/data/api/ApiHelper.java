@@ -6,6 +6,7 @@ import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.geekbrains.geekbrainsprogect.data.Role;
 import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
@@ -24,12 +25,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Path;
 
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.235:8189";
+    private static final String BASE_URL = "http://192.168.1.126:8189";
     private Retrofit.Builder builder;
-
     private IAuthService auth;
     private IApiService api;
     public ApiHelper()
@@ -196,6 +197,22 @@ public class ApiHelper {
     public Single<Response<List<Role>>>getAllRoles()
     {
         return api.getAllRoles().subscribeOn(Schedulers.io());
+    }
+    public  Single<Response<List<UserAction>>>getAllUserActions()
+    {
+        return api.getAllUserActions().subscribeOn(Schedulers.io());
+    }
+    public Single<Response<List<UserAction>>>getUserActionByProductId(long id)
+    {
+        return api.getUserActionByProductId(id).subscribeOn(Schedulers.io());
+    }
+    public Single<Response<List<UserAction>>>getUserActionByAuthor(@Path("author")String author)
+    {
+        return api.getUserActionByAuthor(author);
+    }
+    public Single<Response<List<UserAction>>>getUserActionByData(String data)
+    {
+        return api.getUserActionByData(data);
     }
 
 

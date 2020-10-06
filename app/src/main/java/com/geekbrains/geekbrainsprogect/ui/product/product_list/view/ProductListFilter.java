@@ -16,7 +16,11 @@ public class ProductListFilter {
     public ProductListFilter(Category selectCategory)
     {
         this.selectCategory = selectCategory;
-        fundList.addAll(AppData.getProductList());
+        List<Fund>funds = AppData.getProductList();
+        if(funds != null)
+        {
+            fundList.addAll(funds);
+        }
     }
 
     public void setFundList(List<Fund> fundList) {
