@@ -112,13 +112,13 @@ public class PersonalDialog extends DialogFragment {
                 {
                     List<Role>roles = new ArrayList<>();
                     roles.add(selectedRole);
-                    User userLocal = new User(login, firstName, lastName, email, phone, password, roles);
 
+                    User userLocal = new User(login, firstName, lastName, email, phone, password, roles);
                     if(user != null)
                     {
                         userLocal.setId(user.getId());
                     }
-                    onClickEditButton.onClick(userLocal);
+                    onClickEditButton.onClick(userLocal, user);
                     dialog1.dismiss();
                 }
             });
@@ -152,8 +152,6 @@ public class PersonalDialog extends DialogFragment {
 
     public interface OnClickEditButton
     {
-        void onClick(User user);
+        void onClick(User newUser, User oldUser);
     }
-
-
 }

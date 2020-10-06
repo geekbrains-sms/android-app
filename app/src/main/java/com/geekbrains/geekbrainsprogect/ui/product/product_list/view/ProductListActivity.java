@@ -38,7 +38,6 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     ProductListPresenter presenter;
     @BindView(R.id.data_recycler)
     RecyclerView productList;
-    @Inject
     ProductListAdapter adapter;
     private SearchView searchView;
 
@@ -47,13 +46,13 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_list);
         ButterKnife.bind(this);
-        AppData.getAppComponent().inject(this);
         createRecycler();
         createToolbar();
     }
 
     void createRecycler()
     {
+        adapter = new ProductListAdapter();
         productList.setAdapter(adapter);
         adapter.setIOnClickListener(new ProductListAdapter.IOnClickListener() {
             @Override
