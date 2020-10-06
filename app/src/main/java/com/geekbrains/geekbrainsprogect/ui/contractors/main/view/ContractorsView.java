@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.contractors.view;
+package com.geekbrains.geekbrainsprogect.ui.contractors.main.view;
 
 import moxy.MvpView;
 

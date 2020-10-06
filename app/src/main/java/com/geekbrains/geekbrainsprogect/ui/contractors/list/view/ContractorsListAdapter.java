@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view;
+package com.geekbrains.geekbrainsprogect.ui.contractors.list.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,15 +8,11 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Role;
-import com.geekbrains.geekbrainsprogect.data.User;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
+import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.google.android.material.card.MaterialCardView;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +20,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapter.ViewHolder> implements Filterable {
-    private List<User> allUsers = new ArrayList<>();
-    private List<User> filteredUser = new ArrayList<>();
-    private List<User> selectedUser = new ArrayList<>();
+public class ContractorsListAdapter extends RecyclerView.Adapter<ContractorsListAdapter.ViewHolder> implements Filterable {
+    private List<Contractor> allContractors = new ArrayList<>();
+    private List<Contractor> filteredContractors = new ArrayList<>();
+    private List<Contractor> selectedContractors = new ArrayList<>();
     private IOnItemClickListener onItemClickListener;
     private IOnCheckedClickListener onCheckedClickListener;
     private boolean checkedMode = false;
@@ -41,34 +37,32 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
         this.onCheckedClickListener = onCheckedClickListener;
     }
 
-    public void setAllUsers(List<User> allUsers) {
-        this.allUsers = allUsers;
-        filteredUser.clear();
-        selectedUser.clear();
-        filteredUser.addAll(allUsers);
-        onCheckedClickListener.onCheckedClick();
+    public void setAllContractor(List<Contractor> allUsers) {
+        this.allContractors = allUsers;
+        filteredContractors.clear();
+        filteredContractors.addAll(allUsers);
         notifyDataSetChanged();
     }
 
-    public List<User> getSelectedUser() {
-        return selectedUser;
+    public List<Contractor> getSelectedContractors() {
+        return selectedContractors;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+    public ContractorsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contractor_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(filteredUser.get(position));
+    public void onBindViewHolder(@NonNull ContractorsListAdapter.ViewHolder holder, int position) {
+        holder.bind(filteredContractors.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return filteredUser.size();
+        return filteredContractors.size();
     }
 
     @Override
@@ -78,46 +72,40 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
-                List<User>allFunds = allUsers;
+                List<Contractor>allFunds = allContractors;
                 if(charString.isEmpty())
                 {
-                    filteredUser = allFunds;
+                    filteredContractors = allFunds;
                 }
                 else
                 {
-                    List<User>filtered = new ArrayList<>();
-                    for(User user: allFunds)
+                    List<Contractor>filtered = new ArrayList<>();
+                    for(Contractor contractor: allFunds)
                     {
-                        if(user.getFullname().toLowerCase().contains(charString.toLowerCase()))
+                        if(contractor.getTitle().toLowerCase().contains(charString.toLowerCase()))
                         {
-                            filtered.add(user);
+                            filtered.add(contractor);
                         }
                     }
-                    filteredUser = filtered;
+                    filteredContractors = filtered;
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredUser;
+                filterResults.values = filteredContractors;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredUser = (ArrayList<User>) results.values;
+                filteredContractors = (ArrayList<Contractor>) results.values;
                 notifyDataSetChanged();
             }
         };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
-        @BindView(R.id.user_id)
-        TextView id;
-        @BindView(R.id.user_name)
-        TextView name;
-        @BindView(R.id.user_login)
-        TextView login;
-        @BindView(R.id.user_role)
-        TextView role;
-        @BindView(R.id.user_card)
+        @BindView(R.id.contractor_title)
+        TextView title;
+        @BindView(R.id.contractor_card)
         MaterialCardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,21 +115,9 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
             cardView.setOnCheckedChangeListener(this);
         }
 
-        public void bind(User user)
+        public void bind(Contractor contractor)
         {
-            login.setText(user.getLogin());
-            name.setText(user.getFullname());
-            id.setText(user.getId() + "");
-            StringBuilder stringBuffer = new StringBuilder();
-            for(Role role : user.getRoles())
-            {
-                if(stringBuffer.length() != 0)
-                {
-                    stringBuffer.append("/");
-                }
-                stringBuffer.append(role.getName());
-            }
-            role.setText(stringBuffer.toString());
+            title.setText(contractor.getTitle());
         }
 
         @Override
@@ -151,7 +127,7 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
             {
                 if(onItemClickListener != null)
                 {
-                    onItemClickListener.onItemClick(filteredUser.get(getAdapterPosition()));
+                    onItemClickListener.onItemClick(filteredContractors.get(getAdapterPosition()));
                 }
             }
             else
@@ -165,7 +141,7 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
             if(!checkedMode)
             {
                 checkedMode = true;
-                selectedUser.clear();
+                selectedContractors.clear();
                 onCheckedClickListener.onCheckedClick();
             }
             checkedControl();
@@ -187,17 +163,17 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
             if(isChecked)
             {
                 checkedItem++;
-                User user = filteredUser.get(getAdapterPosition());
-                if(!selectedUser.contains(user))
+                Contractor contractor = filteredContractors.get(getAdapterPosition());
+                if(!selectedContractors.contains(contractor))
                 {
-                    selectedUser.add(user);
+                    selectedContractors.add(contractor);
                 }
             }
             else
             {
                 checkedItem--;
-                User user = filteredUser.get(getAdapterPosition());
-                selectedUser.remove(user);
+                Contractor contractor = filteredContractors.get(getAdapterPosition());
+                selectedContractors.remove(contractor);
             }
             if(checkedItem == 0)
             {
@@ -205,15 +181,13 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
                 checkedMode = false;
             }
         }
-        }
+    }
     public interface IOnItemClickListener
     {
-        void onItemClick(User user);
+        void onItemClick(Contractor contractor);
     }
     public interface IOnCheckedClickListener
     {
         void onCheckedClick();
     }
-
-    }
-
+}

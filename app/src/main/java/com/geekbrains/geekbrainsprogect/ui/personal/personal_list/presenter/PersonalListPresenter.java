@@ -50,13 +50,12 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     }
 
     public void loadUserListFromServer() {
-        Single<Response<List<User>>> single = AppData.getApiHelper().getAllUsers();
+        Single<Response<List<User>>> single = AppData.getApiHelper().getActualUsers();
 
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
             if(userResponse.isSuccessful())
             {
                 this.userList = userResponse.body();
-                getViewState().updateRecyclerView();
                 getViewState().setDataToAdapter(userList);
             }
             else
@@ -75,8 +74,10 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
             if(requestMsg.isSuccessful())
             {
+
+//                getViewState().setDataToAdapter(userList);
                 userList.remove(user);
-                getViewState().setDataToAdapter(userList);
+                getViewState().updateRecyclerView();
                 getViewState().showToast(R.string.user_deleted);
             }
             else
@@ -87,15 +88,17 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
-    public void editUser(User user)
+    public void editUser(User user, User oldUser)
     {
         Single<Response<ResponseBody>> single = AppData.getApiHelper().editUser(user.getId(), user);
 
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
             if(requestMsg.isSuccessful())
             {
+                updateUser(oldUser, user);
+//                getViewState().setDataToAdapter(userList);
                 getViewState().updateRecyclerView();
-                getViewState().showToast(R.string.user_deleted);
+                getViewState().showToast(R.string.user_edited);
             }
             else
             {
@@ -112,7 +115,8 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
             if(requestMsg.isSuccessful())
             {
                 userList.add(requestMsg.body());
-                getViewState().setDataToAdapter(userList);
+//                getViewState().setDataToAdapter(userList);
+                getViewState().updateRecyclerView();
                 getViewState().showToast(R.string.user_added);
             }
             else
@@ -121,5 +125,13 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
             }
 
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    }
+
+    public void updateUser(User old, User newContractor)
+    {
+        if(userList != null)
+        {
+            userList.set(userList.indexOf(old), newContractor);
+        }
     }
 }

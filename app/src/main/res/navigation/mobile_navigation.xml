@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_contractors"
-        android:name="com.geekbrains.geekbrainsprogect.ui.contractors.view.ContractorsFragment"
+        android:name="com.geekbrains.geekbrainsprogect.ui.contractors.main.view.ContractorsFragment"
         android:label="@string/contractors_management"
         tools:layout="@layout/fragment_contractor" >
         <action

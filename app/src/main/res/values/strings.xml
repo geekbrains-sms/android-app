@@ -78,4 +78,9 @@
     <string name="phone">Телефон</string>
     <string name="email">E-mail</string>
     <string name="user_added">Пользователь успешно добавлен!</string>
+    <string name="contractors_added">Контрагент успешно добавлен!</string>
+    <string name="user_edited">Юзер успешно изменен!</string>
+    <string name="contractors_edit">Контрагент успешно изменен!</string>
+    <string name="create_edit_contractor">Создание/редактирование контрагента</string>
+    <string name="contractors_delete">Контрагент успешно удален!</string>
 </resources>

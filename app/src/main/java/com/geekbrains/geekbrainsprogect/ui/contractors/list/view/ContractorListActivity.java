@@ -1,5 +1,10 @@
-package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view;
+package com.geekbrains.geekbrainsprogect.ui.contractors.list.view;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -10,36 +15,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.User;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.presenter.PersonalListPresenter;
+import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.ui.contractors.list.presenter.ContractorsListPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDividerItemDecoration;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
-import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
-public class PersonalListActivity extends MvpAppCompatActivity implements PersonalListView{
+public class ContractorListActivity extends MvpAppCompatActivity implements ContractorsListView {
     @InjectPresenter
-    PersonalListPresenter presenter;
+    ContractorsListPresenter presenter;
     @BindView(R.id.data_recycler)
-    RecyclerView personalList;
-    @BindView(R.id.add_product_float_action)
-    FloatingActionButton actionButton;
-    PersonalListAdapter adapter;
-    SearchView searchView;
-
+    RecyclerView contractorsList;
+    private ContractorsListAdapter adapter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,58 +42,68 @@ public class PersonalListActivity extends MvpAppCompatActivity implements Person
         setContentView(R.layout.activity_data_list);
         ButterKnife.bind(this);
         recyclerSetting();
-        createToolbar();
         setListeners();
+        createToolbar();
     }
 
+    @OnClick({R.id.add_product_float_action})
+    void onClick(View view) {
+        showAddContractorDialog();
+    }
+
+
     private void setListeners() {
-        actionButton.setOnClickListener(v -> showAddPersonalDialog());
         adapter.setOnCheckedClickListener(this::invalidateOptionsMenu);
     }
 
-    private void showAddPersonalDialog() {
-        DialogFragment personalDialog = new PersonalDialog((user, userOld) -> {
-            presenter.addUser(user);
-        }, presenter.getRolesList());
-        personalDialog.show(getSupportFragmentManager(), "personalDialog");
+    private void showAddContractorDialog() {
+        DialogFragment personalDialog = new ContractorDialog((old, contractor) -> {
+            presenter.addContractor(contractor);
+        });
+        personalDialog.show(getSupportFragmentManager(), "contractorDialog");
     }
 
     private void recyclerSetting() {
-        adapter = new PersonalListAdapter();
-        adapter.setOnItemClickListener(this::showEditPersonalDialog);
-        personalList.setAdapter(adapter);
-        personalList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        personalList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
+        adapter = new ContractorsListAdapter();
+        adapter.setOnItemClickListener(this::showEditContractorDialog);
+        contractorsList.setAdapter(adapter);
+        contractorsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        contractorsList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
     }
-    @Override
+
+
     public void showToast(int text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
-    @Override
-    public void setDataToAdapter(List<User> body) {
-        adapter.setAllUsers(body);
+
+
+    public void setDataToAdapter(List<Contractor> body) {
+        adapter.setAllContractor(body);
     }
-    @Override
+
     public void showAlertDialog(String string) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.error);
         builder.setMessage(string);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {});
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
+        });
         builder.create().show();
     }
+
     @Override
     public void updateRecyclerView() {
         adapter.notifyDataSetChanged();
     }
-    public void showEditPersonalDialog(User user) {
-        DialogFragment personalDialog = new PersonalDialog(user, (userEdit, oldUser) -> {
-            presenter.editUser(userEdit, oldUser);
-        }, presenter.getRolesList());
-        personalDialog.show(getSupportFragmentManager(), "personalDialog");
+
+
+    public void showEditContractorDialog(Contractor contractor) {
+        DialogFragment personalDialog = new ContractorDialog(contractor, (contractorOld,contractorEdit) -> {
+            presenter.editContractor(contractorEdit, contractorOld);
+        });
+        personalDialog.show(getSupportFragmentManager(), "contractorDialog");
     }
 
-    public void createToolbar()
-    {
+    public void createToolbar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(null);
     }
@@ -106,14 +111,12 @@ public class PersonalListActivity extends MvpAppCompatActivity implements Person
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_list_menu, menu);
-        if (adapter.getSelectedUser() != null && adapter.getSelectedUser().size() > 0) {
+        if (adapter.getSelectedContractors() != null && adapter.getSelectedContractors().size() > 0) {
             menu.findItem(R.id.bar_search).setVisible(false);
             menu.findItem(R.id.open).setVisible(false);
             menu.findItem(R.id.delete).setVisible(true);
             menu.findItem(R.id.filter).setVisible(false);
-        }
-        else
-        {
+        } else {
             menu.findItem(R.id.bar_search).setVisible(true);
             menu.findItem(R.id.open).setVisible(false);
             menu.findItem(R.id.delete).setVisible(false);
@@ -144,14 +147,13 @@ public class PersonalListActivity extends MvpAppCompatActivity implements Person
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.delete:
-                for(User user : adapter.getSelectedUser())
-                {
-                    if(user != null)
-                    presenter.deleteUser(user);
+                for (Contractor contractor : adapter.getSelectedContractors()) {
+                    if (contractor != null)
+                        presenter.deleteContractor(contractor);
                 }
+
         }
         return super.onOptionsItemSelected(item);
     }

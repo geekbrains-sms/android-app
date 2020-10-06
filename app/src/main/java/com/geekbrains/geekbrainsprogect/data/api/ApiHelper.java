@@ -13,7 +13,6 @@ import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
 
 
-import java.util.Date;
 import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -25,11 +24,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.Path;
 
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.126:8189";
+    private static final String BASE_URL = "http://192.168.1.235:8189";
     private Retrofit.Builder builder;
 
     private IAuthService auth;
@@ -152,11 +150,11 @@ public class ApiHelper {
     {
         return api.addContractor(contractor).subscribeOn(Schedulers.io());
     }
-    public Single<Response<Contractor>>deleteContractorById(long id)
+    public Single<Response<ResponseBody>>deleteContractorById(long id)
     {
         return api.deleteContractorById(id).subscribeOn(Schedulers.io());
     }
-    public Single<Response<Contractor>>editContractor(Contractor contractor)
+    public Single<Response<ResponseBody>>editContractor(Contractor contractor)
     {
         return api.editContractor(contractor).subscribeOn(Schedulers.io());
     }
@@ -174,9 +172,9 @@ public class ApiHelper {
         return api.getFundsByProductId(id).subscribeOn(Schedulers.io());
     }
 
-    public Single<Response<List<User>>>getAllUsers()
+    public Single<Response<List<User>>> getActualUsers()
     {
-        return api.getAllUsers().subscribeOn(Schedulers.io());
+        return api.getActualUsers().subscribeOn(Schedulers.io());
     }
     public Single<Response<User>>getUserById(long id)
     {

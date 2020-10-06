@@ -77,13 +77,12 @@ public interface IApiService {
     @GET("/api/v1/contractors/providers/{productId}")
     Single<Response<List<Contractor>>>getProvidersByProductId(@Path("productId")long id);
 
-    @Headers("Content-Type: application/json")
     @POST("/api/v1/contractors")
     Single<Response<Contractor>>addContractor(@Body Contractor contractor);
     @DELETE("/api/v1/contractors/{id}")
-    Single<Response<Contractor>>deleteContractorById(@Path("id")long id);
+    Single<Response<ResponseBody>>deleteContractorById(@Path("id")long id);
     @PUT("/api/v1/contractors")
-    Single<Response<Contractor>>editContractor(@Body Contractor contractor);
+    Single<Response<ResponseBody>>editContractor(@Body Contractor contractor);
 
     @GET("/api/v1/funds")
     Single<Response<List<Fund>>>getAllFunds();
@@ -91,8 +90,8 @@ public interface IApiService {
     Single<Response<Fund>>getFundsByProductId(@Path("var")long id);
 
 
-    @GET("/api/v1/users")
-    Single<Response<List<User>>>getAllUsers();
+    @GET("/api/v1/users/actual")
+    Single<Response<List<User>>> getActualUsers();
     @GET("/api/v1/users/{id}")
     Single<Response<User>>getUserById(@Path("id")long id);
     @PUT("/api/v1/users/{id}")
