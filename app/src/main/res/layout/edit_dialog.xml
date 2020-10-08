@@ -16,7 +16,9 @@
             android:id="@+id/edit_dialog_autocomlete_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/units" />
+            android:hint="@string/units"
+            android:inputType="textAutoComplete"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -29,7 +31,9 @@
             android:id="@+id/edit_dialog_edit_text_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="@string/fullname_unit_hint"
+            android:inputType="text"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

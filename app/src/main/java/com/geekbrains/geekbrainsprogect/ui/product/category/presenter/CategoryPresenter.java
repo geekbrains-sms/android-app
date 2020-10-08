@@ -58,4 +58,22 @@ public class CategoryPresenter extends MvpPresenter<CategoryView> {
         });
 
     }
+
+    public void deleteCategory(Category category) {
+        Single<Response<List<Category>>> single = AppData.getApiHelper().deleteCategoryById(category.getId());
+        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
+            if(categoryResponse.isSuccessful())
+            {
+                AppData.setCategoryList(categoryResponse.body());
+                getViewState().updateRecyclerView();
+                getViewState().showToast(R.string.category_create_sucesses);
+            }
+            else
+            {
+                getViewState().showAlertDialog(categoryResponse.errorBody().string());
+            }
+        }, throwable -> {
+            getViewState().showAlertDialog(throwable.getMessage());
+        });
+    }
 }

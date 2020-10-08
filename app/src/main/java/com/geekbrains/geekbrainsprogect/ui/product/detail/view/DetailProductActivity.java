@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
@@ -46,9 +48,6 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
     @BindView(R.id.save_edit_product)
     Button saveProduct;
 
-
-    
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +79,7 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
             case R.id.product_name:
                 productNameEdit(presenter.getProduct());
             case R.id.product_category:
-//               editCategoty(presenter.getProduct());
+               editCategory(presenter.getProduct());
                 break;
             case R.id.product_description:
                 editDescription(presenter.getProduct());
@@ -92,6 +91,14 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
                 presenter.saveChangesProduct();
                 break;
         }
+    }
+
+    private void editCategory(Product product) {
+        DialogFragment dialog = new EditCategoryDialog(product, () -> {
+            presenter.setEditFlag(true);
+            updatePage(presenter.getFund());
+        });
+        dialog.show(getSupportFragmentManager(), TAG);
     }
 
 

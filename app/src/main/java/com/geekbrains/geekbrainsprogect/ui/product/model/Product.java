@@ -82,7 +82,7 @@ public class Product {
         {
             if(builder.length() != 0)
             {
-                builder.append(";");
+                builder.append("/");
             }
             builder.append(category.title);
         }

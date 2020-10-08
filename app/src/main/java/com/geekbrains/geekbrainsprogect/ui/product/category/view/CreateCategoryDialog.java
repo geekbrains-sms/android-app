@@ -32,9 +32,6 @@ public class CreateCategoryDialog extends DialogFragment {
         this.iOnClickListener = iOnClickListener;
     }
 
-
-
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

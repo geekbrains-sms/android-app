@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.ui.product.category.view;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,7 +41,6 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
 
     @BindView(R.id.data_recycler)
     RecyclerView categoryList;
-    @Inject
     CategoryListAdapter adapter;
     SearchView searchView;
 
@@ -51,8 +51,6 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_list);
         ButterKnife.bind(this);
-        AppData.getAppComponent().inject(this);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(null);
         
@@ -60,11 +58,21 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
     }
 
     private void createRecycler() {
-        adapter.setSelectItemListener(category -> {
-            Intent intent = new Intent(CategoryActivity.this, ProductListActivity.class);
-            intent.putExtra(CATEGORY, category);
-            startActivity(intent);
+        adapter = new CategoryListAdapter();
+        adapter.setSelectItemListener(new CategoryListAdapter.ISelectItemListener() {
+            @Override
+            public void onItemClick(Category category) {
+                Intent intent = new Intent(CategoryActivity.this, ProductListActivity.class);
+                intent.putExtra(CATEGORY, category);
+                startActivity(intent);
+            }
+            @Override
+            public void onLongItemClick() {
+                invalidateOptionsMenu();
+            }
         });
+
+
 
         categoryList.setAdapter(adapter);
         categoryList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -100,6 +108,18 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
         getMenuInflater().inflate(R.menu.user_list_menu, menu);
 
         menu.findItem(R.id.open).setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+
+        if(adapter.getSelectedCategories().size() > 0)
+        {
+            menu.findItem(R.id.bar_search).setVisible(false);
+            menu.findItem(R.id.delete).setVisible(true);
+        }
+        else
+        {
+            menu.findItem(R.id.bar_search).setVisible(true);
+            menu.findItem(R.id.delete).setVisible(false);
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -130,25 +150,37 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
     }
 
     private void showAddCategoryDialog() {
-        CreateCategoryDialog dialog = new CreateCategoryDialog(new CreateCategoryDialog.IOnClickListener() {
-            @Override
-            public void onClick(Category category) {
-                presenter.saveCategory(category);
-            }
-        });
+        CreateCategoryDialog dialog = new CreateCategoryDialog(category -> presenter.saveCategory(category));
         dialog.show(getSupportFragmentManager(),  TAG);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId())
-//        {
-//            case R.id.delete:
-//                showAlertDeleteDialog();
-//                break;
+        switch (item.getItemId())
+        {
+            case R.id.delete:
+                showAlertDeleteDialog();
+                break;
 //            case R.id.filter:
 //                break;
-//        }
+        }
         return super.onOptionsItemSelected(item);
     }
+
+    private void showAlertDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.alert)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(R.string.alert_delete_message)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    for(Category category : adapter.getSelectedCategories())
+                    {
+                        presenter.deleteCategory(category);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
+        builder.create().show();
+    }
+
+
 }

@@ -211,6 +211,5 @@ public class PersonalListAdapter extends RecyclerView.Adapter<PersonalListAdapte
     {
         void onCheckedClick();
     }
-
     }
 

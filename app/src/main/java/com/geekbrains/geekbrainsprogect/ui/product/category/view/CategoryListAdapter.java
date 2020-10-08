@@ -1,7 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.product.category.view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,33 +9,47 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListAdapter;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> implements Filterable {
-    List<Category>allCategory = new ArrayList<>();
-    List<Category>filterCategory = new ArrayList<>();
-    Context context;
-    ISelectItemListener selectItemListener;
+    private List<Category>allCategory = new ArrayList<>();
+    private List<Category>filterCategory = new ArrayList<>();
+    private Context context;
+    private ISelectItemListener selectItemListener;
+    List<Category>selectedCategories = new ArrayList<>();
+    private boolean checkedMode = false;
+    private long checkedItem = 0;
 
     public void setAllCategory(Context context, List<Category> allCategory) {
         this.allCategory = allCategory;
+        resetFilteredCategory();
+        this.context = context;
+        notifyDataSetChanged();
+    }
+
+    private void resetFilteredCategory()
+    {
         filterCategory.clear();
         filterCategory.addAll(allCategory);
         filterCategory.add(0, new Category("ВСЕ"));
-        this.context = context;
-        notifyDataSetChanged();
+        selectedCategories.clear();
+    }
+
+    public List<Category> getSelectedCategories() {
+        return selectedCategories;
     }
 
     public void setSelectItemListener(ISelectItemListener selectItemListener) {
@@ -69,7 +82,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 String charString = constraint.toString();
                 if(charString.isEmpty())
                 {
-                    filterCategory = allCategory;
+                    resetFilteredCategory();
                 }
                 else
                 {
@@ -96,17 +109,21 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         };
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener
     {
         @BindView(R.id.category_name)
         TextView categoryName;
+        @BindView(R.id.category_card)
+        MaterialCardView cardView;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            categoryName.setOnClickListener(this);
+            cardView.setOnClickListener(this);
+            cardView.setOnLongClickListener(this);
+            cardView.setOnCheckedChangeListener(this);
         }
 
         public void bind(Category category)
@@ -114,19 +131,76 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             categoryName.setText(category.getTitle());
         }
 
+
         @Override
         public void onClick(View v) {
-            Category category = null;
-            if(!filterCategory.get(getAdapterPosition()).getTitle().equals("ВСЕ"))
+
+            if(!checkedMode)
             {
-                category = filterCategory.get(getAdapterPosition());
+                Category category = null;
+                if(!filterCategory.get(getAdapterPosition()).getTitle().equals("ВСЕ"))
+                {
+                    category = filterCategory.get(getAdapterPosition());
+                }
+                selectItemListener.onItemClick(category);
             }
-            selectItemListener.onItemClick(category);
+            else
+            {
+                checkedControl();
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if(!checkedMode)
+            {
+                checkedMode = true;
+                selectedCategories.clear();
+                selectItemListener.onLongItemClick();
+            }
+            checkedControl();
+            return true;
+        }
+        private void checkedControl() {
+            if(cardView.isChecked())
+            {
+                cardView.setChecked(false);
+            }
+            else
+            {
+                cardView.setChecked(true);
+            }
+        }
+
+        @Override
+        public void onCheckedChanged(MaterialCardView card, boolean isChecked) {
+            if(isChecked)
+            {
+                checkedItem++;
+                Category category = filterCategory.get(getAdapterPosition());
+                if(!selectedCategories.contains(category))
+                {
+                    selectedCategories.add(category);
+                }
+            }
+            else
+            {
+                checkedItem--;
+                Category category = filterCategory.get(getAdapterPosition());
+                selectedCategories.remove(category);
+            }
+            if(checkedItem == 0)
+            {
+                selectItemListener.onLongItemClick();
+                checkedMode = false;
+            }
         }
     }
-
     public interface ISelectItemListener
     {
         void onItemClick(Category category);
+        void onLongItemClick();
     }
-}
+    }
+
+

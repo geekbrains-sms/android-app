@@ -43,7 +43,7 @@ public interface IApiService {
     @GET("/api/v1/categories/{id}")
     Single<Response<Category>>getCategoryById(@Path("id")long id);
     @DELETE("/api/v1/categories/{id}")
-    Single<Response<String>>deleteCategoryById(@Path("id")long id);
+    Single<Response<List<Category>>>deleteCategoryById(@Path("id")long id);
     @POST("/api/v1/categories")
     Single<Response<Category>>addCategory(@Body Category category);
     @PUT("/api/v1/categories")

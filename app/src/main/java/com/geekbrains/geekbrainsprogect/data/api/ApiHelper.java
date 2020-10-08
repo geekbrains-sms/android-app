@@ -29,7 +29,7 @@ import retrofit2.http.Path;
 
 
 public class ApiHelper {
-    private static final String BASE_URL = "http://192.168.1.235:8189";
+    private static final String BASE_URL = "http://192.168.1.126:8189";
     private Retrofit.Builder builder;
     private IAuthService auth;
     private IApiService api;
@@ -109,7 +109,7 @@ public class ApiHelper {
     {
         return api.getCategoryById(id).subscribeOn(Schedulers.io());
     }
-    public Single<Response<String>>deleteCategoryById(long id) {
+    public Single<Response<List<Category>>>deleteCategoryById(long id) {
         return api.deleteCategoryById(id).subscribeOn(Schedulers.io()); }
     public Single<Response<Category>>addCategory(Category category) {
         return api.addCategory(category).subscribeOn(Schedulers.io()); }

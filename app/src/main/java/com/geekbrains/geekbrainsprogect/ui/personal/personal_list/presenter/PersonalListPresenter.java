@@ -74,10 +74,8 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
         Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
             if(requestMsg.isSuccessful())
             {
-
-//                getViewState().setDataToAdapter(userList);
                 userList.remove(user);
-                getViewState().updateRecyclerView();
+                getViewState().setDataToAdapter(userList);
                 getViewState().showToast(R.string.user_deleted);
             }
             else
@@ -96,8 +94,7 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
             if(requestMsg.isSuccessful())
             {
                 updateUser(oldUser, user);
-//                getViewState().setDataToAdapter(userList);
-                getViewState().updateRecyclerView();
+                getViewState().setDataToAdapter(userList);
                 getViewState().showToast(R.string.user_edited);
             }
             else
@@ -115,8 +112,8 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
             if(requestMsg.isSuccessful())
             {
                 userList.add(requestMsg.body());
-//                getViewState().setDataToAdapter(userList);
-                getViewState().updateRecyclerView();
+                getViewState().setDataToAdapter(userList);
+//                getViewState().updateRecyclerView();
                 getViewState().showToast(R.string.user_added);
             }
             else
