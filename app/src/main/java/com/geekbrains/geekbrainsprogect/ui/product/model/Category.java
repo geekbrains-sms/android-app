@@ -1,11 +1,12 @@
 package com.geekbrains.geekbrainsprogect.ui.product.model;
 
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Category implements Serializable {
+public class Category implements Serializable, Item {
     long id;
     String title;
 
@@ -25,6 +26,11 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
+        return title;
+    }
+
+    @Override
+    public String getItemName() {
         return title;
     }
 }

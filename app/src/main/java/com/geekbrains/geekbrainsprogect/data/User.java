@@ -3,6 +3,7 @@ package com.geekbrains.geekbrainsprogect.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class User implements Parcelable {
+public class User implements Parcelable, Item {
 
     private long id;
     private String login;
@@ -166,5 +167,10 @@ public class User implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(id, login, firstname, lastname, email, password, phone, roles);
+    }
+
+    @Override
+    public String getItemName() {
+        return login;
     }
 }

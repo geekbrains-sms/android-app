@@ -168,6 +168,11 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
                 break;
             case R.id.filter:
                 break;
+            case android.R.id.home:
+            {
+                onBackPressed();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -33,6 +33,7 @@ public class AuthPresenter extends MvpPresenter<AuthView> {
     {
         if(correctLoginAndPassword(login,password))
         {
+            getViewState().showProgressBar(true);
             Single<Response<AuthToken>> single = AppData.getApiHelper().authUser(login, password);
             Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(request ->{
 
@@ -49,9 +50,11 @@ public class AuthPresenter extends MvpPresenter<AuthView> {
                    assert request.errorBody() != null;
                    Log.d(TAG, "Auth error: " + request.errorBody().string());
                    getViewState().showAlertDialog(request.errorBody().string());
+                   getViewState().showProgressBar(false);
                }
             }, throwable -> {
                 getViewState().showAlertDialog(throwable.toString());
+                getViewState().showProgressBar(false);
                 Log.e(TAG, throwable.toString());
             });
         }

@@ -1,9 +1,8 @@
 package com.geekbrains.geekbrainsprogect.ui.auth.view;
 
-import moxy.MvpView;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseView;
 
-public interface AuthView extends MvpView {
-    void showToast(int message);
-    void showAlertDialog(String message);
+public interface AuthView extends BaseView {
     void startMainActivity();
+    void showProgressBar(boolean b);
 }

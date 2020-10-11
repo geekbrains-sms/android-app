@@ -15,7 +15,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.product.actions.view.ActionProductActivity"></activity>
         <activity android:name=".ui.contractors.list.view.ContractorListActivity" />
-        <activity android:name=".ui.personal.detail.view.DetailUserActivity" />
         <activity android:name=".ui.product.category.view.CategoryActivity" />
         <activity android:name=".ui.product.detail.view.DetailProductActivity" />
         <activity android:name=".ui.product.product_list.view.ProductListActivity">

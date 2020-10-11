@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
@@ -25,7 +26,7 @@ import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
 
-public class DetailProductActivity extends MvpAppCompatActivity implements DetailProductView {
+public class DetailProductActivity extends BaseActivity implements DetailProductView {
     private static final String TAG = "DetailProductActivity";
     @InjectPresenter
     DetailProductPresenter presenter;
@@ -188,19 +189,4 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
         editDialog.show(getSupportFragmentManager(), TAG);
 
     }
-
-    @Override
-    public void showToast(int stringResource) {
-        Toast.makeText(getApplicationContext(), stringResource,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showErrorDialog(String error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setTitle(R.string.error);
-        builder.setMessage(error);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {});
-        builder.create().show();
-    }
-
 }

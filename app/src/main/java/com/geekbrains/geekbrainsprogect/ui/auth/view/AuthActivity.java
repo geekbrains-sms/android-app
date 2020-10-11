@@ -1,27 +1,31 @@
 package com.geekbrains.geekbrainsprogect.ui.auth.view;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.geekbrains.geekbrainsprogect.MainNavigateActivity;
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
 import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
-public class AuthActivity extends MvpAppCompatActivity implements AuthView{
+public class AuthActivity extends BaseActivity implements AuthView{
+    private static final int MIN_TEXT_LENGTH = 4;
     @InjectPresenter
     AuthPresenter authPresenter;
     @BindView(R.id.login_edit_text)
     TextInputEditText editLogin;
     @BindView(R.id.firstname_edit_text)
     TextInputEditText editPassword;
+    @BindView(R.id.auth_progress_bar)
+    ProgressBar progressBar;
+
 
 
     @Override
@@ -38,23 +42,31 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView{
         authPresenter.signIn(editLogin.getText().toString(), editPassword.getText().toString());
     }
 
-    @Override
-    public void showToast(int message) {
-        Toast.makeText(getApplicationContext(), message,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showAlertDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.error);
-        builder.setMessage(message);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {});
-        builder.create().show();
+    public void showProgressBar(boolean show)
+    {
+        if(show)
+        {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void startMainActivity() {
         Intent intent = new Intent(this, MainNavigateActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(progressBar != null)
+        {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

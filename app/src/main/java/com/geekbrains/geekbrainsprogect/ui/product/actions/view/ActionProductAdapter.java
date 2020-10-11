@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.product.actions.view;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
 
@@ -18,18 +20,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ActionProductAdapter extends RecyclerView.Adapter<ActionProductAdapter.ViewHolder> implements Filterable {
-    private List<UserAction> userActionList = new ArrayList<>();
-    private List<UserAction> filteredList = new ArrayList<>();
+public class ActionProductAdapter extends BaseListAdapter<UserAction, ActionProductAdapter.ViewHolder> {
 
-    public void setData(List<UserAction> list)
-    {
-        userActionList = list;
-        filteredList.clear();
-        filteredList.addAll(list);
-        notifyDataSetChanged();
+
+    public ActionProductAdapter(Context context) {
+        super(context);
     }
-
 
     @NonNull
     @Override
@@ -40,49 +36,7 @@ public class ActionProductAdapter extends RecyclerView.Adapter<ActionProductAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(filteredList.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return filteredList.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String charString = constraint.toString();
-                List<UserAction>allFunds = userActionList;
-                if(charString.isEmpty())
-                {
-                    filteredList = allFunds;
-                }
-                else
-                {
-                    List<UserAction>filtered = new ArrayList<>();
-                    for(UserAction userAction: userActionList)
-                    {
-                        if(userAction.getProductName().toLowerCase().contains(charString.toLowerCase()))
-                        {
-                            filtered.add(userAction);
-                        }
-                    }
-                    filteredList = filtered;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredList;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredList = (ArrayList<UserAction>) results.values;
-                notifyDataSetChanged();
-            }
-        };
+        holder.bind(getFilteredItem().get(position));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder

@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
+import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.category.presenter.CategoryPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
@@ -33,17 +35,14 @@ import butterknife.OnClick;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
-public class CategoryActivity extends MvpAppCompatActivity implements CategoryView {
+public class CategoryActivity extends ListActivity implements CategoryView {
     public static final String CATEGORY = "Category";
     private static final String TAG = "CategoryActivity";
     @InjectPresenter
     CategoryPresenter presenter;
-
     @BindView(R.id.data_recycler)
     RecyclerView categoryList;
     CategoryListAdapter adapter;
-    SearchView searchView;
-
 
 
     @Override
@@ -51,29 +50,24 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_list);
         ButterKnife.bind(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(null);
-        
         createRecycler();
     }
 
     private void createRecycler() {
-        adapter = new CategoryListAdapter();
-        adapter.setSelectItemListener(new CategoryListAdapter.ISelectItemListener() {
+        adapter = new CategoryListAdapter(getApplicationContext());
+        adapter.setOnItemClickListener(new BaseListAdapter.IOnItemClickListener<Category>() {
             @Override
-            public void onItemClick(Category category) {
+            public void onItemClick(Category item) {
                 Intent intent = new Intent(CategoryActivity.this, ProductListActivity.class);
-                intent.putExtra(CATEGORY, category);
+                intent.putExtra(CATEGORY, item);
                 startActivity(intent);
             }
+
             @Override
-            public void onLongItemClick() {
+            public void onItemChangeChecked() {
                 invalidateOptionsMenu();
             }
         });
-
-
-
         categoryList.setAdapter(adapter);
         categoryList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         categoryList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
@@ -81,7 +75,7 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
 
     @Override
     public void setDataToAdapter(List<Category> body) {
-        adapter.setAllCategory(getApplicationContext(), body);
+        adapter.setItemList(body);
     }
 
     @Override
@@ -110,7 +104,7 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
         menu.findItem(R.id.open).setVisible(false);
         menu.findItem(R.id.filter).setVisible(false);
 
-        if(adapter.getSelectedCategories().size() > 0)
+        if(adapter.getSelectedList().size() > 0)
         {
             menu.findItem(R.id.bar_search).setVisible(false);
             menu.findItem(R.id.delete).setVisible(true);
@@ -121,26 +115,7 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
             menu.findItem(R.id.delete).setVisible(false);
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            searchView = (SearchView) menu.findItem(R.id.bar_search).getActionView();
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setMaxWidth(Integer.MAX_VALUE);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    adapter.getFilter().filter(query);
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    adapter.getFilter().filter(newText);
-                    return false;
-                }
-            });
-        }
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @OnClick({R.id.add_product_float_action})
@@ -154,26 +129,13 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
         dialog.show(getSupportFragmentManager(),  TAG);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.delete:
-                showAlertDeleteDialog();
-                break;
-//            case R.id.filter:
-//                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void showAlertDeleteDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.alert)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(R.string.alert_delete_message)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    for(Category category : adapter.getSelectedCategories())
+                    for(Category category : adapter.getSelectedList())
                     {
                         presenter.deleteCategory(category);
                     }
@@ -181,6 +143,16 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
         builder.create().show();
     }
+
+    @Override
+    protected void delete() {
+        showAlertDeleteDialog();}
+
+    @Override
+    protected void open() {}
+
+    @Override
+    protected void filter() {}
 
 
 }

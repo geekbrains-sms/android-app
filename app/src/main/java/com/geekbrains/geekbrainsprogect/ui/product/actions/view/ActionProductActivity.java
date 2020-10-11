@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.product.actions.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,10 +11,12 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.presenter.ActionProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDividerItemDecoration;
@@ -26,7 +29,7 @@ import butterknife.ButterKnife;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
-public class ActionProductActivity extends MvpAppCompatActivity implements ActionProductView {
+public class ActionProductActivity extends ListActivity implements ActionProductView {
     @InjectPresenter
     ActionProductPresenter presenter;
     ActionProductAdapter adapter;
@@ -48,7 +51,7 @@ public class ActionProductActivity extends MvpAppCompatActivity implements Actio
     }
 
     private void createRecycler() {
-        adapter = new ActionProductAdapter();
+        adapter = new ActionProductAdapter(getApplicationContext());
         dataList.setAdapter(adapter);
         dataList.setLayoutManager(new LinearLayoutManager(getApplication()));
         dataList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
@@ -57,17 +60,14 @@ public class ActionProductActivity extends MvpAppCompatActivity implements Actio
 
     @Override
     public void setDataToAdapter(List<UserAction> body) {
-        adapter.setData(body);
+        adapter.setItemList(body);
     }
 
     @Override
-    public void setAlertDialog(String text) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.error);
-        builder.setMessage(text);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {});
-        builder.create().show();
+    public void updateRecyclerView() {
+        adapter.notifyDataSetChanged();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_list_menu, menu);
@@ -77,25 +77,23 @@ public class ActionProductActivity extends MvpAppCompatActivity implements Actio
             menu.findItem(R.id.delete).setVisible(false);
             menu.findItem(R.id.filter).setVisible(false);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            searchView = (SearchView) menu.findItem(R.id.bar_search).getActionView();
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setMaxWidth(Integer.MAX_VALUE);
-            searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    adapter.getFilter().filter(query);
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    adapter.getFilter().filter(newText);
-                    return false;
-                }
-            });
-        }
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void delete() {}
+
+    @Override
+    protected void open() {}
+
+    @Override
+    protected void filter() {}
 }

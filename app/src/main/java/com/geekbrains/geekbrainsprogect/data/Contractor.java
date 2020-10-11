@@ -1,6 +1,8 @@
 package com.geekbrains.geekbrainsprogect.data;
 
-public class Contractor {
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
+
+public class Contractor implements Item {
     private long id;
     private String title;
 
@@ -23,5 +25,10 @@ public class Contractor {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public String getItemName() {
+        return title;
     }
 }

@@ -203,7 +203,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     private void addRole(TextView textView, Role role) {
 
         userRoles.add(role);
-        textView.setText(role.getName());
+        textView.setText(role.getTitle());
         updateAdapter();
         rolesSelect.setText(null);
     }
@@ -228,7 +228,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     private void removeCategory(String text) {
         for(Iterator<Role> iterator = userRoles.iterator(); iterator.hasNext();)
         {
-            if(text.trim().equals(iterator.next().getName().trim()))
+            if(text.trim().equals(iterator.next().getTitle().trim()))
             {
                 iterator.remove();
             }
@@ -245,7 +245,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
             boolean empty = false;
             for(Role role2 : userRoles)
             {
-                if (role.getName().trim().equals(role2.getName().trim())) {
+                if (role.getTitle().trim().equals(role2.getTitle().trim())) {
                     empty = true;
                     break;
                 }
@@ -271,7 +271,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
         {
             for(Role role : roles)
             {
-                if(text.trim().equals(role.getName().trim()))
+                if(text.trim().equals(role.getTitle().trim()))
                 {
                     addDataCategory(role);
                     break;

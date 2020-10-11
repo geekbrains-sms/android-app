@@ -1,6 +1,8 @@
 package com.geekbrains.geekbrainsprogect.ui.product.actions.model;
 
-public class UserAction {
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
+
+public class UserAction implements Item {
     private Long id;
     private String type;
     private Long productId;
@@ -59,5 +61,10 @@ public class UserAction {
     @Override
     public String toString() {
         return authorName + " " + type + " " + productName + ". Дата: " + data;
+    }
+
+    @Override
+    public String getItemName() {
+        return toString();
     }
 }
