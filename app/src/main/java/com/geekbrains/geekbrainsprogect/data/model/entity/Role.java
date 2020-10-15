@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.data;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import com.google.gson.annotations.Expose;
 

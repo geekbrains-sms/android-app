@@ -2,7 +2,6 @@ package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 
 import java.util.List;
 

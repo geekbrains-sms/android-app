@@ -73,4 +73,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.test:rules:1.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
+    implementation "androidx.room:room-runtime:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
+
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:2.2.5"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:2.2.5"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:2.2.5"
 }

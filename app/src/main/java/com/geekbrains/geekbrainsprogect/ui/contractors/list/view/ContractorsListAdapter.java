@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.CardViewHolder;
 import com.google.android.material.card.MaterialCardView;

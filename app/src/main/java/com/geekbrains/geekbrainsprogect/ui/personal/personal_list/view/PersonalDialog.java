@@ -19,10 +19,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Role;
-import com.geekbrains.geekbrainsprogect.data.User;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
+import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;

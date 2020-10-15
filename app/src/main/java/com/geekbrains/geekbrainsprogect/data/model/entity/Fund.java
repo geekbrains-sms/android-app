@@ -1,6 +1,5 @@
-package com.geekbrains.geekbrainsprogect.ui.product.model;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
-import java.io.File;
 import java.text.DecimalFormat;
 
 public class Fund {

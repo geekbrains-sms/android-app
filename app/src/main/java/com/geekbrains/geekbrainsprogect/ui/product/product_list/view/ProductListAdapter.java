@@ -1,7 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.product.product_list.view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;

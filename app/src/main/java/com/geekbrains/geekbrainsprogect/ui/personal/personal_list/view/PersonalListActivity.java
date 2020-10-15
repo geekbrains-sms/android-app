@@ -5,7 +5,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.presenter.PersonalListPresenter;

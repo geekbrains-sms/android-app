@@ -3,9 +3,8 @@ package com.geekbrains.geekbrainsprogect.ui.product.category.presenter;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryView;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;

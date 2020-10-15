@@ -6,8 +6,6 @@ import android.widget.Filterable;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-
 import java.util.ArrayList;
 import java.util.List;
 

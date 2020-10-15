@@ -2,21 +2,18 @@ package com.geekbrains.geekbrainsprogect.ui.product.category.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import butterknife.BindView;

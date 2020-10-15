@@ -1,14 +1,11 @@
 package com.geekbrains.geekbrainsprogect.ui.product.actions.presenter;
 
-import androidx.annotation.MainThread;
-
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.view.ActionProductView;
 
 import java.util.List;
 
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

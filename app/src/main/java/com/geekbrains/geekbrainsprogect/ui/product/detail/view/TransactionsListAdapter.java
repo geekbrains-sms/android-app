@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;

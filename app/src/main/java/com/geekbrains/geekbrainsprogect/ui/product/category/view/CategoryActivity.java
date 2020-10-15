@@ -1,18 +1,12 @@
 package com.geekbrains.geekbrainsprogect.ui.product.category.view;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,18 +15,15 @@ import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.category.presenter.CategoryPresenter;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDividerItemDecoration;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
 public class CategoryActivity extends ListActivity implements CategoryView {

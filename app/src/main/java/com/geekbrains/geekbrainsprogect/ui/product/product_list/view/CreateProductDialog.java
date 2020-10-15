@@ -2,37 +2,28 @@ package com.geekbrains.geekbrainsprogect.ui.product.product_list.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.icu.text.Edits;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;

@@ -1,13 +1,10 @@
-package com.geekbrains.geekbrainsprogect.data;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.geekbrains.geekbrainsprogect.ui.base.Item;
-import com.google.gson.annotations.Expose;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

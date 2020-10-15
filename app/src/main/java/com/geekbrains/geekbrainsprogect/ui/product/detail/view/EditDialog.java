@@ -14,8 +14,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

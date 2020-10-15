@@ -1,8 +1,8 @@
 package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.presenter;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Role;
-import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
+import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view.PersonalListView;
 

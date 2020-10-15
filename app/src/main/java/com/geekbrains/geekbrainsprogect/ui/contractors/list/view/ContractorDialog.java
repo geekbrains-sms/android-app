@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;

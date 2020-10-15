@@ -1,10 +1,5 @@
 package com.geekbrains.geekbrainsprogect.ui.product.product_list.view;
 
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-
-import java.util.List;
-
 import moxy.MvpView;
 
 public interface ProductListView extends MvpView {

@@ -1,9 +1,6 @@
-package com.geekbrains.geekbrainsprogect.ui.product.model;
-
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import java.util.List;
-import java.util.Set;
 
 public class Product {
     int id;

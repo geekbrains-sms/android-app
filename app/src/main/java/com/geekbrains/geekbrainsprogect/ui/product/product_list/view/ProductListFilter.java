@@ -1,9 +1,9 @@
 package com.geekbrains.geekbrainsprogect.ui.product.product_list.view;
 
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;

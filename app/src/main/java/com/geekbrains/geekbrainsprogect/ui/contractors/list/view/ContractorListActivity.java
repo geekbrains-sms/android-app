@@ -1,19 +1,15 @@
 package com.geekbrains.geekbrainsprogect.ui.contractors.list.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.contractors.list.presenter.ContractorsListPresenter;

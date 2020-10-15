@@ -1,7 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.product.model;
-
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.data.User;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import java.text.DecimalFormat;
 import java.util.Date;

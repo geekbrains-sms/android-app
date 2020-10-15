@@ -15,10 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;

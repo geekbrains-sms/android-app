@@ -2,19 +2,20 @@ package com.geekbrains.geekbrainsprogect.data.api;
 
 import android.text.TextUtils;
 
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.data.Role;
-import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.data.api.service.AuthService;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
+import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.data.model.response.CategoryResponse;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
-import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
-
-
+import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import java.util.List;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -31,8 +32,8 @@ import retrofit2.http.Path;
 public class ApiHelper {
     private static final String BASE_URL = "http://192.168.1.235:8189";
     private Retrofit.Builder builder;
-    private IAuthService auth;
-    private IApiService api;
+    private AuthService auth;
+    private ApiService api;
     public ApiHelper()
     {
         builder = createBuilder();
@@ -57,7 +58,7 @@ public class ApiHelper {
         OkHttpClient.Builder client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor);
         builder.client(client.build());
-        auth = builder.build().create(IAuthService.class);
+        auth = builder.build().create(AuthService.class);
     }
     public void createApiService(String token) {
         HttpLoggingInterceptor interceptorLog = new HttpLoggingInterceptor();
@@ -74,7 +75,7 @@ public class ApiHelper {
                 builder.client(httpClient.build());
             }
         }
-        api = builder.build().create(IApiService.class);
+        api = builder.build().create(ApiService.class);
     }
 
     public Single<Response<AuthToken>>authUser(String login, String password)
@@ -101,17 +102,17 @@ public class ApiHelper {
     {
         return api.editProduct(product).subscribeOn(Schedulers.io());
     }
-    public Single<Response<List<Category>>>getCategoryList()
+    public Observable<CategoryResponse> getCategoryList()
     {
         return api.getCategoryList().subscribeOn(Schedulers.io());
     }
-    public Single<Response<Category>>getCategoryById(Long id)
+    public Observable<Category>getCategoryById(Long id)
     {
         return api.getCategoryById(id).subscribeOn(Schedulers.io());
     }
-    public Single<Response<List<Category>>>deleteCategoryById(long id) {
+    public Observable<CategoryResponse>deleteCategoryById(long id) {
         return api.deleteCategoryById(id).subscribeOn(Schedulers.io()); }
-    public Single<Response<Category>>addCategory(Category category) {
+    public Observable<Category>addCategory(Category category) {
         return api.addCategory(category).subscribeOn(Schedulers.io()); }
     public Single<Response<List<String>>>editCategory(@Body Category category) {
         return api.editCategory(category).subscribeOn(Schedulers.io()); }

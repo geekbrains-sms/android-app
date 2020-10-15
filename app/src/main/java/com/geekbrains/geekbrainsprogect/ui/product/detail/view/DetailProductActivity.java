@@ -1,28 +1,25 @@
 package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
 

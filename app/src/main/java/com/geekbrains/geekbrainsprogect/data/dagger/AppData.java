@@ -2,14 +2,13 @@ package com.geekbrains.geekbrainsprogect.data.dagger;
 
 import android.app.Application;
 
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.data.User;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 
 import java.util.List;
 
@@ -60,11 +59,11 @@ public class AppData extends Application {
                 .build();
     }
 
-    public static void setApiHelper(ApiHelper helper) {
-        apiHelper = helper;
-    }
-
     public static ApiHelper getApiHelper() {
+        if(apiHelper == null)
+        {
+            apiHelper = new ApiHelper();
+        }
         return apiHelper;
     }
 

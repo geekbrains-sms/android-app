@@ -4,25 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.data.User;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.CardViewHolder;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

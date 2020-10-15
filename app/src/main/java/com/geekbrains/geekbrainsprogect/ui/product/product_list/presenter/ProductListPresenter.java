@@ -4,10 +4,9 @@ import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListView;
 import java.util.List;
 import java.util.Objects;

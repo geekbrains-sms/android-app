@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.product.model;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 public class Unit {
     String title;

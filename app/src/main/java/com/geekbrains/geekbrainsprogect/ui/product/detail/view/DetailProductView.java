@@ -1,14 +1,11 @@
 package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
 import com.geekbrains.geekbrainsprogect.ui.base.BaseView;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 
 import java.util.List;
-
-import moxy.MvpView;
-import okhttp3.ResponseBody;
 
 public interface DetailProductView extends BaseView {
     void leftArrowVisibility(boolean visibility);

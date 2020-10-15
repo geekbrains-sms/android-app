@@ -1,7 +1,7 @@
 package com.geekbrains.geekbrainsprogect.ui.contractors.list.presenter;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.contractors.list.view.ContractorsListView;
 

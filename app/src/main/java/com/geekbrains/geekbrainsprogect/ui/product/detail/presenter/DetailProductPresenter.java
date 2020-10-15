@@ -3,21 +3,18 @@ package com.geekbrains.geekbrainsprogect.ui.product.detail.presenter;
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.model.Model;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductView;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

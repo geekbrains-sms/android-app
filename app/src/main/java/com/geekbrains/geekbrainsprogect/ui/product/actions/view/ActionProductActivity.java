@@ -1,23 +1,17 @@
 package com.geekbrains.geekbrainsprogect.ui.product.actions.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
-import com.geekbrains.geekbrainsprogect.ui.product.actions.model.UserAction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.presenter.ActionProductPresenter;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDividerItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,7 +20,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 
 public class ActionProductActivity extends ListActivity implements ActionProductView {
