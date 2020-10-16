@@ -1,28 +1,27 @@
-package com.geekbrains.geekbrainsprogect.data.model.entity;
+package com.geekbrains.geekbrainsprogect.domain.model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.Expose;
-
-import java.io.Serializable;
-@Entity(tableName = "roles")
-public class Role {
-    @PrimaryKey
+public class RoleModel {
     private int id;
     private String name;
     private String title;
+
+    public RoleModel(int id, String name, String title) {
+        this.id = id;
+        this.name = name;
+        this.title = title;
+    }
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {

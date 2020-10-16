@@ -1,8 +1,11 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
-import com.geekbrains.geekbrainsprogect.ui.base.Item;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class Contractor implements Item {
+@Entity(tableName = "contractor")
+public class Contractor{
+    @PrimaryKey
     private long id;
     private String title;
 
@@ -14,11 +17,6 @@ public class Contractor implements Item {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return title;
-    }
-
     public long getId() {
         return id;
     }
@@ -27,8 +25,4 @@ public class Contractor implements Item {
         this.id = id;
     }
 
-    @Override
-    public String getItemName() {
-        return title;
-    }
 }

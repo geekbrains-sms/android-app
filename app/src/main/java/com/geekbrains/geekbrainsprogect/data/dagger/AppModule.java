@@ -21,19 +21,19 @@ public class AppModule {
         this.application = application;
     }
 
-    @Provides
-    @Singleton
-    ProductListAdapter provideProductListAdapter()
-    {
-        return new ProductListAdapter();
-    }
-
-    @Provides
-    @Singleton
-    CategoryListAdapter provideCategoryListAdapter(){return new CategoryListAdapter();}
-
-    @Provides
-    @Singleton
-    PersonalListAdapter providePersonalListAdapter(){return new PersonalListAdapter();}
+//    @Provides
+//    @Singleton
+//    ProductListAdapter provideProductListAdapter()
+//    {
+//        return new ProductListAdapter();
+//    }
+//
+//    @Provides
+//    @Singleton
+//    CategoryListAdapter provideCategoryListAdapter(){return new CategoryListAdapter();}
+//
+//    @Provides
+//    @Singleton
+//    PersonalListAdapter providePersonalListAdapter(){return new PersonalListAdapter();}
 
 }

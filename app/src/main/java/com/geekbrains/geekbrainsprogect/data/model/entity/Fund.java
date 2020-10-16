@@ -1,34 +1,31 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
-import java.text.DecimalFormat;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+import static androidx.room.ForeignKey.CASCADE;
 
+@Entity(tableName = "fund",
+  foreignKeys = @ForeignKey(entity = Product.class, parentColumns = "id", childColumns = "product_id", onDelete = CASCADE))
 public class Fund {
+    @PrimaryKey
     long id;
-    Product product;
+    @ColumnInfo(name = "product_id")
+    long productId;
     double balance;
 
-    public Fund(Product product)
+    public Fund(long productId, double balance)
     {
-        this.product = product;
-        balance = 0;
+        this.productId = productId;
+        this.balance = balance;
     }
 
     public long getId() {
         return id;
     }
-
-    public Product getProduct() {
-        return product;
-    }
-
     public double getBalance() {
         return balance;
     }
-
-    public String getStringBalance()
-    {
-        return new DecimalFormat("#.##").format(balance);
-    }
-
 
 }

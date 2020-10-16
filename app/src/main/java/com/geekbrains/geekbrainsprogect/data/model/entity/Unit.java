@@ -1,10 +1,17 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "unit")
 public class Unit {
+    @PrimaryKey
+    long id;
     String title;
     String description;
 
-    public Unit(String title, String description) {
+    public Unit(long id,String title, String description) {
+        this.id = id;
         this.title = title;
         this.description = description;
     }

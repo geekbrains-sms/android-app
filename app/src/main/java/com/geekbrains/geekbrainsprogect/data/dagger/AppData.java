@@ -15,36 +15,12 @@ import java.util.List;
 
 public class AppData extends Application {
     private static AppComponent appComponent;
-    private static User currentUser;
-    private static List<Fund> selectedProducts;
-    private static List<Fund> productList;
-    private static List<Contractor> contractorList;
-    private static List<ProductTransaction> supplyTransactions;
-    private static List<ProductTransaction> shipmentTransactions;
-    private static List<Unit>unitList;
-    private static List<Category>categoryList;
-    private static ApiHelper apiHelper;
-    private static Category selectCategory;
-
-    public static List<Category> getCategoryList() {
-        return categoryList;
-    }
-
-    public static void setCategoryList(List<Category>categoryList)
-    {
-        AppData.categoryList = categoryList;
-    }
-
 
     @Override
     public void onCreate() {
         super.onCreate();
         appComponent = generateAppComponent();
         appComponent.inject(this);
-    }
-
-    public static void setCurrentUser(User user) {
-        currentUser = user;
     }
 
     public static AppComponent getAppComponent() {
@@ -56,95 +32,9 @@ public class AppData extends Application {
         return DaggerAppComponent
                 .builder()
                 .appModule(new AppModule(this))
+                .roomModule(new RoomModule(this))
+                .networkModule(new NetworkModule())
                 .build();
     }
 
-    public static ApiHelper getApiHelper() {
-        if(apiHelper == null)
-        {
-            apiHelper = new ApiHelper();
-        }
-        return apiHelper;
-    }
-
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-
-    public static List<Fund> getSelectedProducts() {
-        return selectedProducts;
-    }
-
-    public static void setSelectedProducts(List<Fund> selectedProducts) {
-        AppData.selectedProducts = selectedProducts;
-    }
-
-    public static List<Contractor> getContractorList() {
-        return contractorList;
-    }
-
-    public static void setContractorList(List<Contractor> contractorList) {
-        AppData.contractorList = contractorList;
-    }
-
-    public static List<ProductTransaction> getShipmentTransactions() {
-        return shipmentTransactions;
-    }
-
-    public static List<ProductTransaction> getSupplyTransactions() {
-        return supplyTransactions;
-    }
-
-    public static void setShipmentTransactions(List<ProductTransaction> shipmentTransactions) {
-        AppData.shipmentTransactions = shipmentTransactions;
-    }
-
-    public static void setSupplyTransactions(List<ProductTransaction> supplyTransactions) {
-        AppData.supplyTransactions = supplyTransactions;
-    }
-
-    public static void setProductList(List<Fund> productList) {
-        AppData.productList = productList;
-    }
-
-    public static List<Fund> getProductList() {
-        return productList;
-    }
-
-    public static List<Unit> getUnitList() {
-        return unitList;
-    }
-
-    public static void setUnitList(List<Unit> unitList) {
-        AppData.unitList = unitList;
-    }
-
-    public static void updateFund(Fund oldFund, Fund newFund)
-    {
-        if(productList != null)
-        {
-            productList.set(productList.indexOf(oldFund), newFund);
-        }
-        if(selectedProducts != null)
-        {
-            selectedProducts.set(selectedProducts.indexOf(oldFund), newFund);
-        }
-    }
-
-    public static void updateContractors(Contractor old, Contractor newContractor)
-    {
-        if(contractorList != null)
-        {
-            contractorList.set(contractorList.indexOf(old), newContractor);
-        }
-    }
-
-
-    public static Category getSelectCategory() {
-        return selectCategory;
-    }
-
-    public static void setSelectCategory(Category selectCategory) {
-        AppData.selectCategory = selectCategory;
-    }
 }

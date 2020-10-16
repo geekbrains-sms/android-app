@@ -1,17 +1,23 @@
-package com.geekbrains.geekbrainsprogect.data.model.entity;
+package com.geekbrains.geekbrainsprogect.domain.model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
 
-@Entity(tableName = "user_action")
-public class UserAction{
-    @PrimaryKey
+public class UserActionModel implements Item {
     private Long id;
     private String type;
     private Long productId;
     private String productName;
     private String data;
     private String authorName;
+
+    public UserActionModel(Long id, String type, Long productId, String productName, String data, String authorName) {
+        this.id = id;
+        this.type = type;
+        this.productId = productId;
+        this.productName = productName;
+        this.data = data;
+        this.authorName = authorName;
+    }
 
     public Long getId() {
         return id;
@@ -61,4 +67,8 @@ public class UserAction{
         this.authorName = authorName;
     }
 
+    @Override
+    public String getItemName() {
+        return productName + " " + authorName;
+    }
 }

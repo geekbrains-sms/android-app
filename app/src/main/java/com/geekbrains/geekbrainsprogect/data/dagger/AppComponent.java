@@ -10,12 +10,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = AppModule.class)
+@Component(modules = {AppModule.class, NetworkModule.class, RoomModule.class})
 public interface AppComponent {
     void inject(AuthPresenter authPresenter);
     void inject(AppData appData);
-    void inject(ApiHelper apiHelper);
-    void inject(ProductListActivity productListActivity);
-    void inject(CategoryActivity categoryActivity);
-    void inject(PersonalListActivity personalListActivity);
 }
