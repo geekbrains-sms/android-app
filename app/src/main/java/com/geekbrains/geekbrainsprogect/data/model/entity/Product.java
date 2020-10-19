@@ -10,25 +10,26 @@ import java.util.List;
 @Entity(tableName = "product")
 public class Product {
     @PrimaryKey
-    int id;
+    long id;
     String title;
     String description;
+    String imageUrl;
+    double quantity;
     @ColumnInfo(name = "unit_id")
     @ForeignKey(entity = Unit.class, parentColumns = "id", childColumns = "unit_id")
     long idUnit;
     String imagePath;
-    @Ignore
-    List<Category>categories;
 
 
-    public Product(String title, String description, List<Category>categories, long unitId) {
+    public Product(long id, String title, String description, long unitId, double quantity, String imageUrl) {
         this.title = title;
         this.description = description;
-        this.categories = categories;
         this.idUnit = unitId;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -42,10 +43,6 @@ public class Product {
 
     public String getImagePath() {
         return imagePath;
-    }
-
-    public List<Category> getCategoryList() {
-        return categories;
     }
 
     public void setId(int id) {
@@ -64,10 +61,7 @@ public class Product {
         this.imagePath = imagePath;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
-        this.categories = categoryList;
+    public double getQuantity() {
+        return quantity;
     }
-
-
-
 }

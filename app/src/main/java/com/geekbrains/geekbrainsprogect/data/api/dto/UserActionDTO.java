@@ -1,8 +1,6 @@
-package com.geekbrains.geekbrainsprogect.domain.model;
+package com.geekbrains.geekbrainsprogect.data.api.dto;
 
-import com.geekbrains.geekbrainsprogect.ui.base.Item;
-
-public class UserActionModel implements Item {
+public class UserActionDTO {
     private Long id;
     private String type;
     private Long productId;
@@ -10,7 +8,7 @@ public class UserActionModel implements Item {
     private String data;
     private String authorName;
 
-    public UserActionModel(Long id, String type, Long productId, String productName, String data, String authorName) {
+    public UserActionDTO(Long id, String type, Long productId, String productName, String data, String authorName) {
         this.id = id;
         this.type = type;
         this.productId = productId;
@@ -65,10 +63,5 @@ public class UserActionModel implements Item {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
-    }
-
-    @Override
-    public String getItemName() {
-        return productName + " " + authorName;
     }
 }

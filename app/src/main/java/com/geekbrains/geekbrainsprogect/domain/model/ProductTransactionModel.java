@@ -2,27 +2,29 @@ package com.geekbrains.geekbrainsprogect.domain.model;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 
 import java.util.Date;
 
-public class ProductTransactionModel {
+public class ProductTransactionModel implements IProductTransactions {
     private long id;
-    private ProductModel product;
-    private ContractorModel contractor;
+    private Contractor contractor;
     private UserModel user;
-    private Date date;
+    private String date;
     private double quantity;
     private String comment;
+    private ProductModel product;
 
-    public ProductTransactionModel(long id, ProductModel product, ContractorModel contractor, UserModel user, Date date, double quantity, String comment) {
+    public ProductTransactionModel(long id, Contractor contractor, UserModel user, String date, double quantity, String comment, ProductModel product) {
         this.id = id;
-        this.product = product;
         this.contractor = contractor;
         this.user = user;
         this.date = date;
         this.quantity = quantity;
         this.comment = comment;
+        this.product = product;
     }
 
     public long getId() {
@@ -33,35 +35,27 @@ public class ProductTransactionModel {
         this.id = id;
     }
 
-    public ProductModel getProduct() {
-        return product;
-    }
-
-    public void setProduct(ProductModel product) {
-        this.product = product;
-    }
-
-    public ContractorModel getContractor() {
+    public Contractor getContractor() {
         return contractor;
     }
 
-    public void setContractor(ContractorModel contractor) {
+    public void setContractor(Contractor contractor) {
         this.contractor = contractor;
     }
 
-    public UserModel getUser() {
-        return user;
+    public IUser getUser() {
+        return (IUser) user;
     }
 
     public void setUser(UserModel user) {
         this.user = user;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -75,6 +69,11 @@ public class ProductTransactionModel {
 
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public IProduct getProduct() {
+        return product;
     }
 
     public void setComment(String comment) {

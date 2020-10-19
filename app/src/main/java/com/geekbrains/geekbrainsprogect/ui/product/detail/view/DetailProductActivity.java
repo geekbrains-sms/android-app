@@ -11,7 +11,6 @@ import androidx.fragment.app.DialogFragment;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 

@@ -5,12 +5,15 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
+
 import java.text.DecimalFormat;
 import java.util.Date;
 
 import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "product_transaction")
-public class ProductTransaction {
+public class ProductTransaction implements IProductTransactions {
     @PrimaryKey
     long id;
     @ColumnInfo(name = "product_id")
@@ -22,7 +25,7 @@ public class ProductTransaction {
     @ColumnInfo(name = "user_id")
     @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id")
     long userId;
-    Date date;
+    String date;
     double quantity;
     private String comment;
 
@@ -35,9 +38,20 @@ public class ProductTransaction {
         this.comment = comment;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
+
+    @Override
+    public Contractor getContractor() {
+        return null;
+    }
+
+    @Override
+    public IUser getUser() {
+        return null;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -48,7 +62,7 @@ public class ProductTransaction {
     {
         return new DecimalFormat("#.##").format(quantity);
     }
-    public Date getDate() {
+    public String getDate() {
          return date;
     }
     public String getComment() {
@@ -56,5 +70,13 @@ public class ProductTransaction {
     }
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public long getContractorId() {
+        return contractorId;
     }
 }

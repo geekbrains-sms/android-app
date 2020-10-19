@@ -2,8 +2,6 @@ package com.geekbrains.geekbrainsprogect.data.database.room.dao;
 
 import androidx.room.Query;
 
-import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
-
 import java.util.List;
 
 import io.reactivex.Completable;

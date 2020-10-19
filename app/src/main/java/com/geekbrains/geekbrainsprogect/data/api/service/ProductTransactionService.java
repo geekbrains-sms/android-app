@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
+import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.response.ProductTransactionResponse;
 
@@ -16,15 +17,15 @@ import retrofit2.http.Path;
 
 public interface ProductTransactionService {
     @GET("/api/v1/transactions/supply")
-    Observable<ProductTransactionResponse> getAllSupplyProductTransactions();
+    Observable<List<ProductTransactionDTO>> getAllSupplyProductTransactions();
     @GET("/api/v1/transactions/shipment")
-    Observable<ProductTransactionResponse>getAllShipmentProductTransactions();
+    Observable<List<ProductTransactionDTO>>getAllShipmentProductTransactions();
     @Headers("Content-Type: application/json")
     @POST("/api/v1/transactions/supply")
-    Observable<ProductTransactionResponse>addSupplyTransactions(@Body ProductTransaction productTransaction);
+    Observable<List<ProductTransactionDTO>>addSupplyTransactions(@Body ProductTransaction productTransaction);
     @Headers("Content-Type: application/json")
     @POST("/api/v1/transactions/shipment")
-    Observable<ProductTransactionResponse>addShipmentTransactions(@Body ProductTransaction productTransaction);
+    Observable<List<ProductTransactionDTO>>addShipmentTransactions(@Body ProductTransaction productTransaction);
     @GET("/api/v1/transactions/product/{id}")
-    Observable<ProductTransactionResponse>getProductTransactionById(@Path("id")long id);
+    Observable<List<ProductTransactionDTO>>getProductTransactionById(@Path("id")long id);
 }

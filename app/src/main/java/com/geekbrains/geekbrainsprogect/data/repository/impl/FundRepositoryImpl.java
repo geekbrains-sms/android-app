@@ -1,6 +1,5 @@
 package com.geekbrains.geekbrainsprogect.data.repository.impl;
 
-import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
 import com.geekbrains.geekbrainsprogect.data.model.response.FundResponse;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.FundRepository;
 

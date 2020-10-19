@@ -1,7 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
 import com.geekbrains.geekbrainsprogect.ui.base.BaseView;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Fund;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 

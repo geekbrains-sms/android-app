@@ -4,9 +4,11 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
+
 import java.util.List;
 @Entity(tableName = "users")
-public class User {
+public class User implements IUser {
     @PrimaryKey
     private long id;
     private String login;
@@ -20,14 +22,14 @@ public class User {
     private List<Role> roles;
 
 
-    public User(String login, String firstname, String lasname, String email, String phone, String password, List<Role> roles) {
+    public User(long id, String login, String firstname, String lastname, String email, String phone, List<Role> roles) {
+        this.id = id;
         this.login = login;
         this.firstname = firstname;
-        this.lastname = lasname;
+        this.lastname = lastname;
         this.email = email;
         this.phone = phone;
         this.roles = roles;
-        this.password = password;
     }
 
     public long getId() {
@@ -36,6 +38,11 @@ public class User {
 
     public String getLogin() {
         return login;
+    }
+
+    @Override
+    public String getFirstName() {
+        return firstname;
     }
 
     public void setPassword(String password) {
@@ -86,11 +93,14 @@ public class User {
         return phone;
     }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
     public List<Role> getRoles() {
         return roles;
     }
-
-
     public void setId(long id) {
         this.id = id;
     }

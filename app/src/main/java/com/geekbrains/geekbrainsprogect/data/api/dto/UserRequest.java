@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.data.api;
+package com.geekbrains.geekbrainsprogect.data.api.dto;
 
 
 public class UserRequest {

@@ -28,6 +28,10 @@ public class Unit {
         return description;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

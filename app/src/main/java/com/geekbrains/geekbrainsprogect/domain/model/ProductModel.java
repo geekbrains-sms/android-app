@@ -3,22 +3,29 @@ package com.geekbrains.geekbrainsprogect.domain.model;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.geekbrains.geekbrainsprogect.ui.base.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductModel implements Item {
-    int id;
+public class ProductModel implements Item, IProduct {
+    long id;
     String title;
     String description;
-    UnitModel unit;
+    Unit unit;
     String imagePath;
-    List<CategoryModel> categories;
-    private List<ContractorModel> contractors;
+    List<Category> categories;
+    double quantity;
+    private List<Contractor> contractors;
     private List<ProductTransactionModel>transactions;
     private boolean changed = false;
 
-    public ProductModel(int id, String title, String description, UnitModel unit, String imagePath, List<CategoryModel> categories, List<ContractorModel> contractors, List<ProductTransactionModel> transactions, boolean changed) {
+    public ProductModel(long id, String title, String description, Unit unit, String imagePath,
+                        List<Category> categories, List<Contractor> contractors,
+                        List<ProductTransactionModel> transactions, double quantity) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -27,10 +34,9 @@ public class ProductModel implements Item {
         this.categories = categories;
         this.contractors = contractors;
         this.transactions = transactions;
-        this.changed = changed;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -54,11 +60,11 @@ public class ProductModel implements Item {
         this.description = description;
     }
 
-    public UnitModel getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
-    public void setUnit(UnitModel unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 
@@ -66,23 +72,35 @@ public class ProductModel implements Item {
         return imagePath;
     }
 
+    @Override
+    public double getQuantity() {
+        return quantity;
+    }
+
+    @Override
+    public List<Category> getCategoryList() {
+        return categories;
+    }
+
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
-    public List<CategoryModel> getCategories() {
-        return categories;
-    }
 
-    public void setCategories(List<CategoryModel> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
-    public List<ContractorModel> getContractors() {
+    public List<Contractor> getContractors() {
         return contractors;
     }
 
-    public void setContractors(List<ContractorModel> contractors) {
+    @Override
+    public List<IProductTransactions> getProductTransactions() {
+        return new ArrayList<>(transactions);
+    }
+
+    public void setContractors(List<Contractor> contractors) {
         this.contractors = contractors;
     }
 
@@ -105,7 +123,7 @@ public class ProductModel implements Item {
     public String getContractorsString()
     {
         StringBuilder builder = new StringBuilder();
-        for(ContractorModel contractor : contractors)
+        for(Contractor contractor : contractors)
         {
             if(builder.length() != 0)
             {
@@ -119,7 +137,7 @@ public class ProductModel implements Item {
     public String getCategoriesString()
     {
         StringBuilder builder = new StringBuilder();
-        for(CategoryModel category : categories)
+        for(Category category : categories)
         {
             if(builder.length() != 0)
             {

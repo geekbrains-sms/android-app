@@ -3,11 +3,8 @@ package com.geekbrains.geekbrainsprogect.data.model.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.geekbrains.geekbrainsprogect.ui.base.Item;
-
-import java.io.Serializable;
 @Entity(tableName = "category")
-public class Category {
+public class Category implements ICategory {
     @PrimaryKey
     private long id;
     private String title;

@@ -13,7 +13,7 @@ public interface ContractorDao extends BaseDao<Contractor> {
     @Query("SELECT * FROM contractor")
     Flowable<List<Contractor>> getAllContractor();
     @Query("SELECT * FROM contractor WHERE contractor.id = :id")
-    Flowable<Contractor>getContractorById(long id);
+    List<Contractor>getContractorById(long id);
     @Query("DELETE FROM contractor")
     Completable deleteAllContractor();
 }

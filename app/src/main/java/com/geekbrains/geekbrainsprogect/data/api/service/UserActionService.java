@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
+import com.geekbrains.geekbrainsprogect.data.api.dto.UserActionDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
 import com.geekbrains.geekbrainsprogect.data.model.response.UserActionResponse;
 
@@ -12,11 +13,11 @@ import retrofit2.http.Path;
 
 public interface UserActionService {
     @GET("/api/v1/actions")
-    Observable<UserActionResponse> getAllUserActions();
+    Observable<List<UserActionDTO>> getAllUserActions();
     @GET("/api/v1/actions/{id}")
-    Observable<UserActionResponse>getUserActionByProductId(@Path("id")long id);
+    Observable<List<UserActionDTO>>getUserActionByProductId(@Path("id")long id);
     @GET("/api/v1/actions/{author}")
-    Observable<UserActionResponse>getUserActionByAuthor(@Path("author")String author);
+    Observable<List<UserActionDTO>>getUserActionByAuthor(@Path("author")String author);
     @GET("/api/v1/actions/{data}")
-    Observable<UserActionResponse>getUserActionByData(@Path("data")String data);
+    Observable<List<UserActionDTO>>getUserActionByData(@Path("data")String data);
 }

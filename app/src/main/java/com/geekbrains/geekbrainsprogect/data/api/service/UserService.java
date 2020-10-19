@@ -1,10 +1,10 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
+import com.geekbrains.geekbrainsprogect.data.api.dto.UserDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
-import com.geekbrains.geekbrainsprogect.data.model.response.UserResponse;
-
 import java.util.List;
-import io.reactivex.Single;
+
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -16,13 +16,13 @@ import retrofit2.http.Path;
 
 public interface UserService {
     @GET("/api/v1/users/actual")
-    Single<UserResponse> getActualUsers();
+    Observable<List<UserDTO>> getActualUsers();
     @GET("/api/v1/users/{id}")
-    Single<User>getUserById(@Path("id")long id);
+    Observable<UserDTO>getUserById(@Path("id")long id);
     @PUT("/api/v1/users/{id}")
-    Single<ResponseBody>editUser(@Path("id")long id, @Body User user);
+    Observable<ResponseBody>editUser(@Path("id")long id, @Body UserDTO user);
     @POST("/api/v1/users")
-    Single<Response<User>>addUser(@Body User user);
+    Observable<Response<User>>addUser(@Body UserDTO user);
     @DELETE("/api/v1/users/{id}")
-    Single<ResponseBody>deleteUser(@Path("id")long id);
+    Observable<ResponseBody>deleteUser(@Path("id")long id);
 }
