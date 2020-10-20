@@ -3,7 +3,10 @@ package com.geekbrains.geekbrainsprogect.data.api.service;
 import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import java.util.List;
+
+import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -16,11 +19,11 @@ public interface ProductService {
     @GET("/api/v1/products")
     Observable<List<ProductDTO>> getProductList();
     @POST("/api/v1/products")
-    Observable<ProductDTO>addProduct(@Body Product product);
+    Observable<ProductDTO>addProduct(@Body ProductDTO product);
     @DELETE("/api/v1/products/{id}")
-    Observable<String>deleteProductById(@Path("id")long id);
+    Completable deleteProductById(@Path("id")long id);
     @DELETE("/api/v1/products")
     Observable<String>deleteAllProduct();
     @PUT("/api/v1/products")
-    Observable<ResponseBody>editProduct(@Body Product product);
+    Observable<ResponseBody>editProduct(@Body ProductDTO product);
 }

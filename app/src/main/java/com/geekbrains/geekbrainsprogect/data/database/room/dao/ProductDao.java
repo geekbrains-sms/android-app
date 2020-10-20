@@ -20,5 +20,7 @@ public interface ProductDao extends BaseDao<Product> {
     Flowable<ProductWithCategory>getProductById(long id);
     @Query("DELETE FROM product")
     Completable deleteAllProduct();
+    @Query("DELETE * FROM product WHERE id = :id")
+    Completable deleteProductById(long id);
 
 }

@@ -86,4 +86,8 @@ public class ProductWithCategory implements IProduct {
     public List<IProductTransactions> getProductTransactions() {
         return new ArrayList<>(productTransactions);
     }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 }
