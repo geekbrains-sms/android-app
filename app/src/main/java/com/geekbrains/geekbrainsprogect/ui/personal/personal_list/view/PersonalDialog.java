@@ -21,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -116,13 +117,13 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
 
                 if(password.equals(confirmPassword) && textEntered(login) && textEntered(password) && textEntered(firstName) && textEntered(lastName) && !userRoles.isEmpty())
                 {
-                    User userLocal = new User(login, firstName, lastName, email, phone, password, userRoles);
-                    if(user != null)
-                    {
-                        userLocal.setId(user.getId());
-                    }
-                    onClickEditButton.onClick(userLocal, user);
-                    dialog1.dismiss();
+//                    UserModel userLocal = new User(login, firstName, lastName, email, phone, password, userRoles);
+//                    if(user != null)
+//                    {
+//                        userLocal.setId(user.getId());
+//                    }
+//                    onClickEditButton.onClick(userLocal, user);
+//                    dialog1.dismiss();
                 }
             });
         });

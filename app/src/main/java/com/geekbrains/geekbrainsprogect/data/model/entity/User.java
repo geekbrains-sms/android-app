@@ -10,16 +10,14 @@ import java.util.List;
 @Entity(tableName = "users")
 public class User implements IUser {
     @PrimaryKey
-    private long id;
-    private String login;
-    private String firstname;
-    private String lastname;
-    private String email;
+    public long id;
+    public String login;
+    public String firstname;
+    public String lastname;
+    public String email;
+    public String phone;
     @Ignore
-    private String password;
-    private String phone;
-    @Ignore
-    private List<Role> roles;
+    public List<Role> roles;
 
 
     public User(long id, String login, String firstname, String lastname, String email, String phone, List<Role> roles) {
@@ -30,6 +28,14 @@ public class User implements IUser {
         this.email = email;
         this.phone = phone;
         this.roles = roles;
+    }
+    public User(long id, String login, String firstname, String lastname, String email, String phone) {
+        this.id = id;
+        this.login = login;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
     }
 
     public long getId() {
@@ -45,9 +51,6 @@ public class User implements IUser {
         return firstname;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -95,7 +98,7 @@ public class User implements IUser {
 
     @Override
     public String getPassword() {
-        return password;
+        return null;
     }
 
     public List<Role> getRoles() {

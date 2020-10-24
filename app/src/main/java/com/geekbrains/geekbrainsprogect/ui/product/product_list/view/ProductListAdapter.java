@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ import butterknife.ButterKnife;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> implements Filterable {
     Context context;
     ProductListFilter productListFilter;
-    List<Fund>filteredList = new ArrayList<>();
-    List<Fund>selectedProduct = new ArrayList<>();
+    List<ProductModel>filteredList = new ArrayList<>();
+    List<ProductModel>selectedProduct = new ArrayList<>();
     IOnClickListener iOnClickListener;
     boolean checkedMode = false;
     long checkedItem = 0;
@@ -63,7 +64,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return filteredList.size();
     }
 
-    public List<Fund> getSelectedProduct() {
+    public List<ProductModel> getSelectedProduct() {
         return selectedProduct;
     }
 
@@ -74,17 +75,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
-                List<Fund>allFunds = productListFilter.filtered();
+                List<ProductModel>allFunds = productListFilter.filtered();
                 if(charString.isEmpty())
                 {
                     filteredList = allFunds;
                 }
                 else
                 {
-                    List<Fund>filtered = new ArrayList<>();
-                    for(Fund fund: allFunds)
+                    List<ProductModel>filtered = new ArrayList<>();
+                    for(ProductModel fund: allFunds)
                     {
-                        if(fund.getProduct().getTitle().toLowerCase().contains(charString.toLowerCase()))
+                        if(fund.getTitle().toLowerCase().contains(charString.toLowerCase()))
                         {
                             filtered.add(fund);
                         }
@@ -98,7 +99,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredList = (ArrayList<Fund>) results.values;
+                filteredList = (ArrayList<ProductModel>) results.values;
                 notifyDataSetChanged();
             }
         };
@@ -125,14 +126,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             cardView.setOnLongClickListener(this);
             cardView.setOnCheckedChangeListener(this);
         }
-        public void bind(Fund fund) {
-            Product product = fund.getProduct();
-            name.setText(product.getTitle());
-            description.setText(context.getString(R.string.description_field, product.getDescription()));
-            count.setText(fund.getStringBalance());
-            units.setText(product.getUnitsTitle());
+        public void bind(ProductModel productModel) {
+            name.setText(productModel.getTitle());
+            description.setText(context.getString(R.string.description_field, productModel.getDescription()));
+            count.setText(productModel.getQuantity() + "");
+            units.setText(productModel.getUnit().getTitle());
             StringBuilder builder = new StringBuilder();
-            for(Category category : product.getCategoryList())
+            for(Category category : productModel.getCategoryList())
             {
                 builder.append(category.getTitle()).append("; ");
             }
@@ -187,7 +187,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             if(isChecked)
             {
                 checkedItem++;
-                Fund fund = filteredList.get(getAdapterPosition());
+                ProductModel fund = filteredList.get(getAdapterPosition());
                 if(!selectedProduct.contains(fund))
                 {
                     selectedProduct.add(fund);
@@ -196,7 +196,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             else
             {
                 checkedItem--;
-                Fund fund = filteredList.get(getAdapterPosition());
+                ProductModel fund = filteredList.get(getAdapterPosition());
                 selectedProduct.remove(fund);
             }
             if(checkedItem == 0)

@@ -1,8 +1,10 @@
 package com.geekbrains.geekbrainsprogect.ui.product.product_list.view;
 
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.ProductModule;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,25 +12,21 @@ import java.util.List;
 public class ProductListFilter {
     private Category selectCategory;
     private boolean showNullFund = true;
-    private List<Fund>fundList = new ArrayList<>();
+    private List<ProductModel> productModels = new ArrayList<>();
 
-    public ProductListFilter(Category selectCategory)
+    public ProductListFilter(Category selectCategory, List<ProductModel> productModels)
     {
         this.selectCategory = selectCategory;
-        List<Fund>funds = AppData.getProductList();
-        if(funds != null)
-        {
-            fundList.addAll(funds);
-        }
+        this.productModels = productModels;
     }
 
-    public void setFundList(List<Fund> fundList) {
-        this.fundList = fundList;
+    public void setProductModels(List<ProductModel> productModels) {
+        this.productModels = productModels;
     }
 
 
-    public List<Fund> getFundList() {
-        return fundList;
+    public List<ProductModel> getProductModels() {
+        return productModels;
     }
 
     public Category getSelectCategory() {
@@ -47,9 +45,9 @@ public class ProductListFilter {
         this.showNullFund = showNullFund;
     }
 
-    public List<Fund>filtered()
+    public List<ProductModel>filtered()
     {
-        List<Fund>filtered = filteredForCategory();
+        List<ProductModel>filtered = filteredForCategory();
         if(!showNullFund)
         {
             filtered = filteredFoNull(filtered);
@@ -59,35 +57,32 @@ public class ProductListFilter {
 
 
 
-    private List<Fund> filteredForCategory() {
-        List<Fund>categoryFilter = new ArrayList<>();
+    private List<ProductModel> filteredForCategory() {
+        List<ProductModel>categoryFilter = new ArrayList<>();
         if(selectCategory != null)
         {
-            for(Fund fund : fundList)
-            {
-                 Product product = fund.getProduct();
-                    for(Category category : product.getCategoryList())
+            for(ProductModel productModel : productModels)
+                    for(Category category : productModel.getCategoryList())
                     {
                         if(category.getTitle().equals(selectCategory.getTitle()))
                         {
-                            categoryFilter.add(fund);
+                            categoryFilter.add(productModel);
                         }
                     }
-            }
         }
         else
         {
-            categoryFilter.addAll(fundList);
+            categoryFilter.addAll(productModels);
         }
         return categoryFilter;
     }
-    private List<Fund> filteredFoNull(List<Fund> filtered) {
-        List<Fund>filterForNull = new ArrayList<>();
-        for(Fund fund : filtered)
+    private List<ProductModel> filteredFoNull(List<ProductModel> filtered) {
+        List<ProductModel>filterForNull = new ArrayList<>();
+        for(ProductModel productModel : filtered)
         {
-            if(fund.getBalance() > 0)
+            if(productModel.getQuantity() > 0)
             {
-                filterForNull.add(fund);
+                filterForNull.add(productModel);
             }
         }
         return filterForNull;

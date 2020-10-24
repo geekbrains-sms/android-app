@@ -41,7 +41,7 @@ public class CreateCategoryDialog extends DialogFragment {
                     String text = Objects.requireNonNull(editText.getText()).toString();
                     if(text != null && !text.trim().equals(""))
                     {
-                        Category category = new Category(Objects.requireNonNull(editText.getText()).toString());
+                        Category category = new Category(0,Objects.requireNonNull(editText.getText()).toString());
                         iOnClickListener.onClick(category);
                     }
                 })

@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
@@ -83,16 +83,16 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
 
     private void setAdapters() {
         categoryArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, getActualCategory());
-        ArrayAdapter<Unit>unitsArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, AppData.getUnitList());
-
-        editUnit.setAdapter(unitsArrayAdapter);
+//        ArrayAdapter<Unit>unitsArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, AppData.getUnitList());
+//
+//        editUnit.setAdapter(unitsArrayAdapter);
         editCategory.setAdapter(categoryArrayAdapter);
     }
 
     private void setListener() {
 
         editUnit.setOnItemClickListener((parent, view, position, id) -> {
-                editUnitDescription.setText(AppData.getUnitList().get(position).getDescription());
+//                editUnitDescription.setText(AppData.getUnitList().get(position).getDescription());
         });
 
         AlertDialog dialog = (AlertDialog) getDialog();
@@ -106,10 +106,10 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
                 String unitDescription = Objects.requireNonNull(editUnitDescription.getText()).toString();
 
                 if(checkText(name) && checkText(unit) && checkText(unitDescription) && categories.size() > 0) {
-                    Unit newUnit = new Unit(unit, unitDescription);
+//                    Unit newUnit = new Unit(unit, unitDescription);
                     String description = Objects.requireNonNull(editDescription.getText()).toString();
-                    Product product = new Product(name, description, categories, newUnit);
-                    iOnClickListener.onClick(product);
+//                    Product product = new Product(name, description, categories, newUnit);
+//                    iOnClickListener.onClick(product);
                     dialog1.dismiss();
                 }
 
@@ -180,10 +180,10 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
     }
 
     private void addCategory(TextView textView) {
-        Category category;
-        category = new Category(editCategory.getText().toString());
-        categories.add(category);
-        textView.setText(category.getTitle());
+//        Category category;
+//        category = new Category(editCategory.getText().toString());
+//        categories.add(category);
+//        textView.setText(category.getTitle());
     }
 
     private boolean emptyCategory(String text) {
@@ -235,21 +235,21 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
     private List<Category> getActualCategory()
     {
         List<Category>actualCategory = new ArrayList<>();
-        for(Category category : AppData.getCategoryList())
-        {
-            boolean empty = false;
-            for(Category category2 : categories)
-            {
-                if (category.getTitle().trim().equals(category2.getTitle().trim())) {
-                    empty = true;
-                    break;
-                }
-            }
-            if(!empty)
-            {
-                actualCategory.add(category);
-            }
-        }
+//        for(Category category : AppData.getCategoryList())
+//        {
+//            boolean empty = false;
+//            for(Category category2 : categories)
+//            {
+//                if (category.getTitle().trim().equals(category2.getTitle().trim())) {
+//                    empty = true;
+//                    break;
+//                }
+//            }
+//            if(!empty)
+//            {
+//                actualCategory.add(category);
+//            }
+//        }
         return actualCategory;
     }
 

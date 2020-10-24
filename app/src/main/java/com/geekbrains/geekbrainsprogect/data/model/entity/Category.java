@@ -1,13 +1,19 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
+
+import java.io.Serializable;
+
 @Entity(tableName = "category")
-public class Category implements ICategory {
+public class Category implements Item, Serializable {
     @PrimaryKey
-    private long id;
-    private String title;
+    @ColumnInfo(name = "categoryId")
+    public long id;
+    public String title;
 
 
     public Category(long id, String title) {
@@ -31,4 +37,8 @@ public class Category implements ICategory {
         return title;
     }
 
+    @Override
+    public String getItemName() {
+        return title;
+    }
 }

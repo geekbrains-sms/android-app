@@ -12,6 +12,8 @@ import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.view.ActionProductActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.main.presenter.ProductPresenter;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListActivity;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moxy.MvpAppCompatFragment;
@@ -34,7 +36,7 @@ public class ProductFragment extends MvpAppCompatFragment implements ProductView
         switch (view.getId())
         {
             case R.id.product_list_button:
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                Intent intent = new Intent(getActivity(), ProductListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.actions_product_button:

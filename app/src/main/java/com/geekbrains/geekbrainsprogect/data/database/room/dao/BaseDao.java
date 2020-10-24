@@ -2,19 +2,19 @@ package com.geekbrains.geekbrainsprogect.data.database.room.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
+import androidx.room.Entity;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Update;
 
 import io.reactivex.Completable;
 
-@Dao
-public interface BaseDao<T> {
 
+public abstract class BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(T...objects);
+    public abstract void insert(T...objects);
     @Delete
-    void delete(T...objects);
+    public abstract void delete(T...objects);
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void update(T...objects);
+    public abstract void update(T...objects);
 }

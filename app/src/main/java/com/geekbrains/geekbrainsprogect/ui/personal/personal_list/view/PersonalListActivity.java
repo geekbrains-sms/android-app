@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.presenter.PersonalListPresenter;
@@ -37,18 +38,18 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     }
 
     private void setListeners() {
-        actionButton.setOnClickListener(v -> showAddPersonalDialog());
-        adapter.setOnItemClickListener(new BaseListAdapter.IOnItemClickListener<User>() {
-            @Override
-            public void onItemClick(User item) {
-                showEditPersonalDialog(item);
-            }
-
-            @Override
-            public void onItemChangeChecked() {
-                invalidateOptionsMenu();
-            }
-        });
+//        actionButton.setOnClickListener(v -> showAddPersonalDialog());
+//        adapter.setOnItemClickListener(new BaseListAdapter.IOnItemClickListener<User>() {
+//            @Override
+//            public void onItemClick(User item) {
+//                showEditPersonalDialog(item);
+//            }
+//
+//            @Override
+//            public void onItemChangeChecked() {
+//                invalidateOptionsMenu();
+//            }
+//        });
     }
 
     private void showAddPersonalDialog() {
@@ -68,7 +69,7 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
 
     @Override
     public void setDataToAdapter(List<User> body) {
-        adapter.setItemList(body);
+//        adapter.setItemList(body);
     }
 
     @Override
@@ -105,10 +106,10 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
 
     @Override
     protected void delete() {
-        for(User user : adapter.getSelectedList())
+        for(UserModel user : adapter.getSelectedList())
         {
-            if(user != null)
-                presenter.deleteUser(user);
+//            if(user != null)
+//                presenter.deleteUser(user);
         }
     }
 

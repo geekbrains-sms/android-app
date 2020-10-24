@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.google.android.material.textfield.TextInputEditText;
@@ -71,38 +71,38 @@ public class DialogTransaction extends AppCompatDialogFragment {
 
             if(selectedContractor != null && count != 0)
             {
-                ProductTransaction productTransaction = new ProductTransaction(product, selectedContractor,  count, Objects.requireNonNull(commentTransaction.getText()).toString());
-                onClickListener.onClick(productTransaction);
+//                ProductTransaction productTransaction = new ProductTransaction(product, selectedContractor,  count, Objects.requireNonNull(commentTransaction.getText()).toString());
+//                onClickListener.onClick(productTransaction);
             }
         };
     }
 
     private void createAdapter()
     {
-        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getContractorList());
-        providersAutoComplete.setAdapter(contractorArrayAdapter);
-
-        providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                assert selectedContractor != null;
-                Log.d(TAG, "selectedContractor = " + selectedContractor.toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
-            }
-        });
-
-        providersAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedContractor = contractorArrayAdapter.getItem(position);
-                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
-            }
-        });
+//        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getContractorList());
+//        providersAutoComplete.setAdapter(contractorArrayAdapter);
+//
+//        providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                assert selectedContractor != null;
+//                Log.d(TAG, "selectedContractor = " + selectedContractor.toString());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
+//            }
+//        });
+//
+//        providersAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                selectedContractor = contractorArrayAdapter.getItem(position);
+//                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
+//            }
+//        });
     }
 
     interface IOnClickListener

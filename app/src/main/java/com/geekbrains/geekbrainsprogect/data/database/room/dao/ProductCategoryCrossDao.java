@@ -8,9 +8,9 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductCategoryCr
 import io.reactivex.Completable;
 
 @Dao
-public interface ProductCategoryCrossDao extends BaseDao<ProductCategoryCrossRef> {
+public abstract class ProductCategoryCrossDao extends BaseDao<ProductCategoryCrossRef> {
     @Query("DELETE FROM product_category_cross WHERE productId = :id")
-    Completable deleteByProduct(long id);
+    public abstract Completable deleteByProduct(long id);
     @Query("DELETE FROM product_category_cross WHERE categoryId = :id")
-    Completable deleteByCategory(long id);
+    abstract Completable deleteByCategory(long id);
 }

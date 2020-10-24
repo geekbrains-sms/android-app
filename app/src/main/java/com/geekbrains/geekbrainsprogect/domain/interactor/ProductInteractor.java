@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.data.repository.contract;
+package com.geekbrains.geekbrainsprogect.domain.interactor;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
@@ -9,14 +9,13 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import okhttp3.ResponseBody;
 
-public interface ProductRepository {
-    Flowable<List<ProductWithCategory>> getProductListFromDB();
+public interface ProductInteractor {
+    Flowable<List<ProductModel>> getProductListFromDB();
     Completable addProduct(ProductModel product);
-    void deleteProductById(long id);
-    void deleteAllProduct();
+    Completable deleteProductById(long id);
+    Observable<String> deleteAllProduct();
     Observable<ResponseBody>editProduct(Product product);
     Completable getProductFromServer();
 }

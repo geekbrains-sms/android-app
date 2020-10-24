@@ -1,13 +1,19 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
+import android.content.ClipData;
+
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
+
 @Entity(tableName = "contractor")
-public class Contractor{
+public class Contractor implements Item {
     @PrimaryKey
-    private long id;
-    private String title;
+    @ColumnInfo(name = "contractorId")
+    public long id;
+    public String title;
 
     public String getTitle() {
         return title;
@@ -25,4 +31,8 @@ public class Contractor{
         this.id = id;
     }
 
+    @Override
+    public String getItemName() {
+        return title;
+    }
 }

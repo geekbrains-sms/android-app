@@ -1,10 +1,11 @@
 package com.geekbrains.geekbrainsprogect.data.repository.contract;
 
-import com.geekbrains.geekbrainsprogect.data.model.response.FundResponse;
 
-import io.reactivex.Observable;
+import android.database.Observable;
+
+import com.geekbrains.geekbrainsprogect.data.api.dto.FundDTO;
 
 public interface FundRepository {
-    Observable<FundResponse> getAllFunds();
-    Observable<Fund>getFundsByProductId(long id);
+    Observable<FundDTO> getAllFunds();
+    Observable<FundDTO>getFundsByProductId(long id);
 }

@@ -3,15 +3,17 @@ package com.geekbrains.geekbrainsprogect.data.model.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
+
 @Entity(tableName = "user_action")
-public class UserAction{
+public class UserAction implements Item {
     @PrimaryKey
-    private Long id;
-    private String type;
-    private Long productId;
-    private String productName;
-    private String data;
-    private String authorName;
+    public Long id;
+    public String type;
+    public Long productId;
+    public String productName;
+    public String data;
+    public String authorName;
 
     public Long getId() {
         return id;
@@ -61,4 +63,8 @@ public class UserAction{
         this.authorName = authorName;
     }
 
+    @Override
+    public String getItemName() {
+        return toString();
+    }
 }

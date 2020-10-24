@@ -64,7 +64,7 @@ public class ProductDTO {
 
 
     public String getImagePath() {
-        return image.getImage();
+        return null;
     }
 
 

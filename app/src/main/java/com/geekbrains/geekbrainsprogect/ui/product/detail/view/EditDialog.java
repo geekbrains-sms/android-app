@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.google.android.material.textfield.TextInputEditText;
@@ -68,7 +68,7 @@ public class EditDialog extends DialogFragment {
                     else if(type == PRODUCT_UNITS)
                     {
                         Unit unit = getProductUnits();
-                        product.setUnits(unit);
+//                        product.setUnits(unit);
                     }
                     else if(type == PRODUCT_DESCRIPTION)
                     {
@@ -80,7 +80,7 @@ public class EditDialog extends DialogFragment {
     }
 
     private Unit getProductUnits() {
-        return new Unit(autocopleteText.getText().toString(), Objects.requireNonNull(editText.getText()).toString());
+        return new Unit(0,autocopleteText.getText().toString(), Objects.requireNonNull(editText.getText()).toString());
     }
 
     private void fieldsVisibility() {
@@ -96,27 +96,27 @@ public class EditDialog extends DialogFragment {
         }
         else if(type == PRODUCT_UNITS)
         {
-            editText.setHint(R.string.fullname_unit_hint);
-            ArrayAdapter<Unit>adapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getUnitList());
-            autocopleteText.setAdapter(adapter);
-            autocopleteText.setText(product.getUnit().getTitle());
-            editText.setText(product.getUnit().getDescription());
+//            editText.setHint(R.string.fullname_unit_hint);
+//            ArrayAdapter<Unit>adapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getUnitList());
+//            autocopleteText.setAdapter(adapter);
+//            autocopleteText.setText(product.getUnit().getTitle());
+//            editText.setText(product.getUnit().getDescription());
         }
     }
 
     private void setClickListeners()
     {
-        autocopleteText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editText.setText(AppData.getUnitList().get(position).getDescription());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        autocopleteText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                editText.setText(AppData.getUnitList().get(position).getDescription());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 
     public interface IOnClick

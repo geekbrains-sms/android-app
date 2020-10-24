@@ -1,6 +1,5 @@
 package com.geekbrains.geekbrainsprogect.data.api.dto;
 
-import com.geekbrains.geekbrainsprogect.data.model.interf.base.IDto;
 
 public class CategoryTransactionDTO {
     private Long id;

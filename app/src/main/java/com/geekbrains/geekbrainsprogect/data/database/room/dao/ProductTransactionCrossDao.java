@@ -8,9 +8,11 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactio
 import io.reactivex.Completable;
 
 @Dao
-public interface ProductTransactionCrossDao extends BaseDao<ProductTransactionCrossRef> {
+public abstract class ProductTransactionCrossDao extends BaseDao<ProductTransactionCrossRef> {
     @Query("DELETE FROM product_transaction_cross WHERE productId = :id")
-    Completable deleteByProduct(long id);
+    public abstract Completable deleteByProduct(long id);
     @Query("DELETE FROM product_transaction_cross WHERE transactionId = :id")
-    Completable deleteByTransaction(long id);
+    public abstract Completable deleteByTransaction(long id);
+    @Query("DELETE FROM product_transaction_cross")
+    public abstract void deleteAll();
 }

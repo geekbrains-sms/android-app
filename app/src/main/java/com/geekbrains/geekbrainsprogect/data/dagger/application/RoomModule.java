@@ -1,38 +1,39 @@
-package com.geekbrains.geekbrainsprogect.data.dagger;
+package com.geekbrains.geekbrainsprogect.data.dagger.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.room.Room;
 
 import com.geekbrains.geekbrainsprogect.data.database.room.Database;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.CategoryDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ContractorDao;
-import com.geekbrains.geekbrainsprogect.data.database.room.dao.FundDao;
-import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductCategoryDao;
+
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductCategoryCrossDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductContractorCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.RoleDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.UnitDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserActionDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserDao;
-import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserRoleDao;
+
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class RoomModule {
-    private Database database;
-
-    public RoomModule(Application mApplication) {
-        database = Room.databaseBuilder(mApplication, Database.class, "database").build();
-    }
 
     @Singleton
     @Provides
-    Database providesRoomDatabase() {
-        return database;
+    Database providesRoomDatabase(Context context) {
+        return Room.databaseBuilder(context, Database.class, "database").build();
+
     }
 
     @Singleton
@@ -53,17 +54,6 @@ public class RoomModule {
         return database.getContractorDao();
     }
 
-    @Singleton
-    @Provides
-    FundDao providesFundDao(Database database) {
-        return database.getFundDao();
-    }
-
-    @Singleton
-    @Provides
-    ProductCategoryDao providesProductCategoryDao(Database database) {
-        return database.getProductCategoryDao();
-    }
 
     @Singleton
     @Provides
@@ -91,10 +81,23 @@ public class RoomModule {
 
     @Singleton
     @Provides
-    UserRoleDao providesUserRoleDao(Database database) {
-        return database.getUserRoleDao();
+    ProductCategoryCrossDao providesProductCategoryCrossDao(Database database) {
+        return database.getProductCategoryCrossDao();
     }
-
-
-
+    @Singleton
+    @Provides
+    ProductContractorCrossDao providesProductContractorCrossDao(Database database) {
+        return database.getProductContractorCrossDao();
+    }
+    @Singleton
+    @Provides
+    ProductTransactionCrossDao providesProductTransactionCrossDao(Database database) {
+        return database.getProductTransactionCrossDao();
+    }
+    @Singleton
+    @Provides
+    UnitDao provideUnitDao(Database database)
+    {
+        return database.getUnitDao();
+    }
 }

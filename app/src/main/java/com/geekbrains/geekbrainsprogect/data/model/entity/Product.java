@@ -1,28 +1,37 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
+
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
+
+import java.util.List;
 
 @Entity(tableName = "product")
-public class Product {
+public class Product implements IProduct {
     @PrimaryKey
-    long id;
-    String title;
-    String description;
-    String imageUrl;
-    double quantity;
+    @ColumnInfo(name = "productId")
+    public long id;
+    public String title;
+    public String description;
+    public String imageUrl;
+    public double quantity;
     @ColumnInfo(name = "unit_id")
     @ForeignKey(entity = Unit.class, parentColumns = "id", childColumns = "unit_id")
-    long idUnit;
-    String imagePath;
+    public long idUnit;
 
 
-    public Product(long id, String title, String description, long unitId, double quantity, String imageUrl) {
+
+    public Product(long id, String title, String description, long idUnit, double quantity, String imageUrl) {
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.idUnit = unitId;
+        this.idUnit = idUnit;
         this.quantity = quantity;
         this.imageUrl = imageUrl;
     }
@@ -40,7 +49,7 @@ public class Product {
     }
 
     public String getImagePath() {
-        return imagePath;
+        return imageUrl;
     }
 
     public void setId(int id) {
@@ -56,14 +65,46 @@ public class Product {
     }
 
     public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+        this.imageUrl = imagePath;
     }
 
     public double getQuantity() {
         return quantity;
     }
 
+    @Override
+    public List<Category> getCategoryList() {
+        return null;
+    }
+
+    @Override
+    public Unit getUnit() {
+        return null;
+    }
+
+    @Override
+    public List<Contractor> getContractors() {
+        return null;
+    }
+
+    @Override
+    public List<IProductTransactions> getProductTransactions() {
+        return null;
+    }
+
     public long getIdUnit() {
         return idUnit;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", quantity=" + quantity +
+                ", idUnit=" + idUnit +
+                '}';
     }
 }

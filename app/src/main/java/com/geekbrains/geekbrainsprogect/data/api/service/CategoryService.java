@@ -1,7 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
-import com.geekbrains.geekbrainsprogect.data.model.response.CategoryResponse;
 
 import java.util.List;
 
@@ -15,13 +14,13 @@ import retrofit2.http.Path;
 
 public interface CategoryService {
     @GET("/api/v1/categories")
-    Observable<List<CategoryDTO>> getCategoryList();
+    Observable<List<Category>> getCategoryList();
     @GET("/api/v1/categories/{id}")
-    Observable<CategoryDTO> getCategoryById(@Path("id")long id);
+    Observable<Category> getCategoryById(@Path("id")long id);
     @DELETE("/api/v1/categories/{id}")
-    Observable<List<CategoryDTO>>deleteCategoryById(@Path("id")long id);
+    Observable<List<Category>>deleteCategoryById(@Path("id")long id);
     @POST("/api/v1/categories")
-    Observable<CategoryDTO>addCategory(@Body Category category);
+    Observable<Category>addCategory(@Body Category category);
     @PUT("/api/v1/categories")
-    Observable<CategoryResponse> editCategory(@Body Category category);
+    Observable<List<Category>> editCategory(@Body Category category);
 }

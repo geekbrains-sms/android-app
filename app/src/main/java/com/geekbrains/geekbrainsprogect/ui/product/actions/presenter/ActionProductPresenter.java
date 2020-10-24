@@ -1,6 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.product.actions.presenter;
 
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.view.ActionProductView;
 
@@ -22,19 +22,19 @@ public class ActionProductPresenter extends MvpPresenter<ActionProductView> {
     }
 
     private void loadUserActions() {
-        Single<Response<List<UserAction>>> single = AppData.getApiHelper().getAllUserActions();
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(actionResponse ->{
-            if(actionResponse.isSuccessful())
-            {
-                getViewState().setDataToAdapter(actionResponse.body());
-            }
-            else
-            {
-                getViewState().setAlertDialog(actionResponse.errorBody().string());
-            }
-        }, throwable -> {
-            getViewState().setAlertDialog(throwable.getMessage());
-        });
+//        Single<Response<List<UserAction>>> single = AppData.getApiHelper().getAllUserActions();
+//
+//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(actionResponse ->{
+//            if(actionResponse.isSuccessful())
+//            {
+//                getViewState().setDataToAdapter(actionResponse.body());
+//            }
+//            else
+//            {
+//                getViewState().setAlertDialog(actionResponse.errorBody().string());
+//            }
+//        }, throwable -> {
+//            getViewState().setAlertDialog(throwable.getMessage());
+//        });
     }
 }

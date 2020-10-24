@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.category.presenter.CategoryPresenter;
@@ -85,7 +85,7 @@ public class CategoryActivity extends ListActivity implements CategoryView {
 
     @Override
     public void updateRecyclerView() {
-        setDataToAdapter(AppData.getCategoryList());
+//        setDataToAdapter(AppData.getCategoryList());
     }
 
     @Override

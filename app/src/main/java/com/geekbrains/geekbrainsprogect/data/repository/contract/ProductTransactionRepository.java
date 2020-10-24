@@ -1,19 +1,14 @@
 package com.geekbrains.geekbrainsprogect.data.repository.contract;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.data.model.response.ProductTransactionResponse;
-
+import java.util.List;
 import io.reactivex.Observable;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+
 
 public interface ProductTransactionRepository {
-    Observable<ProductTransactionResponse> getAllSupplyProductTransactions();
-    Observable<ProductTransactionResponse>getAllShipmentProductTransactions();
-    Observable<ProductTransactionResponse>addSupplyTransactions(ProductTransaction productTransaction);
-    Observable<ProductTransactionResponse>addShipmentTransactions(ProductTransaction productTransaction);
-    Observable<ProductTransactionResponse>getProductTransactionById(long id);
+    Observable<List<ProductTransaction>> getAllSupplyProductTransactions();
+    Observable<List<ProductTransaction>>getAllShipmentProductTransactions();
+    Observable<List<ProductTransaction>>addSupplyTransactions(ProductTransaction productTransaction);
+    Observable<List<ProductTransaction>>addShipmentTransactions(ProductTransaction productTransaction);
+    Observable<List<ProductTransaction>>getProductTransactionById(long id);
 }

@@ -9,9 +9,9 @@ import java.io.Serializable;
 @Entity(tableName = "roles")
 public class Role {
     @PrimaryKey
-    private int id;
-    private String name;
-    private String title;
+    public int id;
+    public String name;
+    public String title;
 
     public int getId() {
         return id;

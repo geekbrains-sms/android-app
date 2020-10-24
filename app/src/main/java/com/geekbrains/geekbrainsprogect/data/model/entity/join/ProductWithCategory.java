@@ -1,6 +1,8 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity.join;
 
 import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
@@ -15,7 +17,7 @@ import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity
 public class ProductWithCategory implements IProduct {
     @Embedded public Product product;
     @Relation(parentColumn = "productId",
@@ -30,6 +32,7 @@ public class ProductWithCategory implements IProduct {
             entityColumn = "transactionId",
             associateBy = @Junction(ProductTransactionCrossRef.class))
     public List<ProductTransaction>productTransactions;
+    @Ignore
     public Unit unit;
 
     public ProductWithCategory(Product product, List<Category> categories,
@@ -40,6 +43,14 @@ public class ProductWithCategory implements IProduct {
         this.contractors = contractors;
         this.productTransactions = productTransactions;
         this.unit = unit;
+    }
+    public ProductWithCategory(Product product, List<Category> categories,
+                               List<Contractor> contractors,
+                               List<ProductTransaction> productTransactions) {
+        this.product = product;
+        this.categories = categories;
+        this.contractors = contractors;
+        this.productTransactions = productTransactions;
     }
 
     @Override

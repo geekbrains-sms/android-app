@@ -135,10 +135,10 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
                 contractor.setText(context.getString(R.string.contractor_field_transaction, transaction.getContractor().getTitle()));
             }
             comment.setText(context.getString(R.string.comment_trasaction_field, transaction.getComment()));
-            userName.setText(context.getString(R.string.operator, transaction.getUser().getFullname()));
+//            userName.setText(context.getString(R.string.operator, transaction.getUser().getFullname()));
 //            date.setText(transaction.getDate().toString());
             count.setText(transaction.getStringQuantity());
-            units.setText(transaction.getProduct().getUnitsTitle());
+//            units.setText(transaction.getProduct().getUnitsTitle());
 
         }
     }

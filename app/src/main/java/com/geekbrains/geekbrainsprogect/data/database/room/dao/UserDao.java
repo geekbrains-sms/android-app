@@ -10,11 +10,11 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 @Dao
-public interface UserDao extends BaseDao<User> {
+public abstract class UserDao extends BaseDao<User> {
     @Query("SELECT * FROM users")
-    Flowable<List<User>> getAllUser();
+    abstract Flowable<List<User>> getAllUser();
     @Query("SELECT * FROM users WHERE users.id = :id")
-    Flowable<User>getUserById(long id);
+    abstract Flowable<User>getUserById(long id);
     @Query("DELETE FROM users")
-    Completable deleteAllUsers();
+    abstract Completable deleteAllUsers();
 }

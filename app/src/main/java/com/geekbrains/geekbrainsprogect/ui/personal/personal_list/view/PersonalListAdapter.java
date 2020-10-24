@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.CardViewHolder;
 import com.google.android.material.card.MaterialCardView;
@@ -19,7 +20,7 @@ import com.google.android.material.card.MaterialCardView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalListAdapter extends BaseListAdapter<User, PersonalListAdapter.ViewHolder> {
+public class PersonalListAdapter extends BaseListAdapter<UserModel, PersonalListAdapter.ViewHolder> {
     public PersonalListAdapter(Context context) {
         super(context);
     }
@@ -35,7 +36,7 @@ public class PersonalListAdapter extends BaseListAdapter<User, PersonalListAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(getFilteredItem().get(position));
     }
-    public class ViewHolder extends CardViewHolder<User> implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
+    public class ViewHolder extends CardViewHolder<UserModel> implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
         @BindView(R.id.user_name)
         TextView name;
         @BindView(R.id.user_login)
@@ -53,9 +54,9 @@ public class PersonalListAdapter extends BaseListAdapter<User, PersonalListAdapt
             cardView.setOnCheckedChangeListener(this);
         }
 
-        public void bind(User user) {
+        public void bind(UserModel user) {
             login.setText(user.getLogin());
-            name.setText(user.getFullname());
+            name.setText(user.getFirstname());
             StringBuilder stringBuffer = new StringBuilder();
             for (Role role : user.getRoles()) {
                 if (stringBuffer.length() != 0) {
@@ -90,7 +91,7 @@ public class PersonalListAdapter extends BaseListAdapter<User, PersonalListAdapt
 
         @Override
         public void onCheckedChanged(MaterialCardView card, boolean isChecked) {
-            User user = getFilteredItem().get(getAdapterPosition());
+            UserModel user = getFilteredItem().get(getAdapterPosition());
             if (isChecked) {
 
                 addCheckedItemCount();

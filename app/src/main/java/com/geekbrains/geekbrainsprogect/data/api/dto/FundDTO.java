@@ -5,7 +5,7 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
-import com.geekbrains.geekbrainsprogect.data.model.interf.base.IDto;
+
 
 import java.util.List;
 

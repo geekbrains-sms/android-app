@@ -1,7 +1,7 @@
 package com.geekbrains.geekbrainsprogect.ui.product.category.presenter;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryView;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 
@@ -25,54 +25,54 @@ public class CategoryPresenter extends MvpPresenter<CategoryView> {
 
     private void getCategoryList()
     {
-        Single<Response<List<Category>>> single = AppData.getApiHelper().getCategoryList();
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
-            if(categoryResponse.isSuccessful())
-            {
-                List<Category>categories = categoryResponse.body();
-                AppData.setCategoryList(categories);
-                getViewState().setDataToAdapter(categories);
-            }
-
-        }, throwable -> {
-            getViewState().showAlertDialog(throwable.getMessage());
-        });
+//        Single<Response<List<Category>>> single = AppData.getApiHelper().getCategoryList();
+//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
+//            if(categoryResponse.isSuccessful())
+//            {
+//                List<Category>categories = categoryResponse.body();
+//                AppData.setCategoryList(categories);
+//                getViewState().setDataToAdapter(categories);
+//            }
+//
+//        }, throwable -> {
+//            getViewState().showAlertDialog(throwable.getMessage());
+//        });
     }
 
     public void saveCategory(Category category) {
-        Single<Response<Category>> single = AppData.getApiHelper().addCategory(category);
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
-            if(categoryResponse.isSuccessful())
-            {
-                AppData.getCategoryList().add(categoryResponse.body());
-                getViewState().updateRecyclerView();
-                getViewState().showToast(R.string.category_create_sucesses);
-            }
-            else
-            {
-                getViewState().showAlertDialog(categoryResponse.errorBody().string());
-            }
-        }, throwable -> {
-            getViewState().showAlertDialog(throwable.getMessage());
-        });
+//        Single<Response<Category>> single = AppData.getApiHelper().addCategory(category);
+//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
+//            if(categoryResponse.isSuccessful())
+//            {
+//                AppData.getCategoryList().add(categoryResponse.body());
+//                getViewState().updateRecyclerView();
+//                getViewState().showToast(R.string.category_create_sucesses);
+//            }
+//            else
+//            {
+//                getViewState().showAlertDialog(categoryResponse.errorBody().string());
+//            }
+//        }, throwable -> {
+//            getViewState().showAlertDialog(throwable.getMessage());
+//        });
 
     }
 
     public void deleteCategory(Category category) {
-        Single<Response<List<Category>>> single = AppData.getApiHelper().deleteCategoryById(category.getId());
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
-            if(categoryResponse.isSuccessful())
-            {
-                AppData.setCategoryList(categoryResponse.body());
-                getViewState().updateRecyclerView();
-                getViewState().showToast(R.string.category_create_sucesses);
-            }
-            else
-            {
-                getViewState().showAlertDialog(categoryResponse.errorBody().string());
-            }
-        }, throwable -> {
-            getViewState().showAlertDialog(throwable.getMessage());
-        });
+//        Single<Response<List<Category>>> single = AppData.getApiHelper().deleteCategoryById(category.getId());
+//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categoryResponse ->{
+//            if(categoryResponse.isSuccessful())
+//            {
+//                AppData.setCategoryList(categoryResponse.body());
+//                getViewState().updateRecyclerView();
+//                getViewState().showToast(R.string.category_create_sucesses);
+//            }
+//            else
+//            {
+//                getViewState().showAlertDialog(categoryResponse.errorBody().string());
+//            }
+//        }, throwable -> {
+//            getViewState().showAlertDialog(throwable.getMessage());
+//        });
     }
 }

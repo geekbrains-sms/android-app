@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "unit")
 public class Unit {
     @PrimaryKey
-    long id;
-    String title;
-    String description;
+    public long id;
+    public String title;
+    public String description;
 
     public Unit(long id,String title, String description) {
         this.id = id;

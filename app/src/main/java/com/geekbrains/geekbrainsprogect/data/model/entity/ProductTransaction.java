@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 
@@ -15,27 +16,30 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "product_transaction")
 public class ProductTransaction implements IProductTransactions {
     @PrimaryKey
-    long id;
-    @ColumnInfo(name = "product_id")
+    @ColumnInfo(name = "transactionId")
+    public long id;
+    @ColumnInfo(name = "productId")
     @ForeignKey(entity = Product.class, parentColumns = "id", childColumns = "product_id", onDelete = CASCADE)
-    long productId;
-    @ColumnInfo(name = "contractor_id")
+    public long productId;
+    @ColumnInfo(name = "contractorId")
     @ForeignKey(entity = Contractor.class, parentColumns = "id", childColumns = "contractor_id")
-    long contractorId;
-    @ColumnInfo(name = "user_id")
+    public long contractorId;
+    @ColumnInfo(name = "userId")
     @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id")
-    long userId;
+    public long userId;
     String date;
-    double quantity;
-    private String comment;
+    public double quantity;
+    public String comment;
 
 
-    public ProductTransaction(long productId, long contractorId,long userId, double count, String comment) {
+    public ProductTransaction(long id,long productId, long contractorId,long userId, String date, double quantity, String comment) {
+        this.id = id;
         this.productId = productId;
         this.contractorId = contractorId;
         this.userId = userId;
-        quantity = count;
+        this.quantity = quantity;
         this.comment = comment;
+        this.date = date;
     }
 
     public long getId() {
@@ -68,6 +72,12 @@ public class ProductTransaction implements IProductTransactions {
     public String getComment() {
         return comment;
     }
+
+    @Override
+    public IProduct getProduct() {
+        return null;
+    }
+
     public void setComment(String comment) {
         this.comment = comment;
     }

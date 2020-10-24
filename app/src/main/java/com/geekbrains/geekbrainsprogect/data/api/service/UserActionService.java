@@ -1,8 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
 import com.geekbrains.geekbrainsprogect.data.api.dto.UserActionDTO;
-import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
-import com.geekbrains.geekbrainsprogect.data.model.response.UserActionResponse;
 
 import java.util.List;
 

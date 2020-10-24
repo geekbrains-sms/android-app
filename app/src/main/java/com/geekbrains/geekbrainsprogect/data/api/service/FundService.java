@@ -1,7 +1,5 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
-
 import com.geekbrains.geekbrainsprogect.data.api.dto.FundDTO;
-import com.geekbrains.geekbrainsprogect.data.model.response.FundResponse;
 
 
 import java.util.List;

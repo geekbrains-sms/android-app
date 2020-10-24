@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.data.dagger;
+package com.geekbrains.geekbrainsprogect.data.dagger.application;
 
 import com.geekbrains.geekbrainsprogect.data.api.AuthenticationInterceptor;
 import com.geekbrains.geekbrainsprogect.data.api.service.AuthService;
@@ -12,7 +12,10 @@ import com.geekbrains.geekbrainsprogect.data.api.service.UnitService;
 import com.geekbrains.geekbrainsprogect.data.api.service.UserActionService;
 import com.geekbrains.geekbrainsprogect.data.api.service.UserService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -27,7 +30,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
-    private String BASE_URL = "http://192.168.1.235:8189";
+    private String BASE_URL = "http://192.168.1.126:8189";
     public static final int TIMEOUT = 20;
 
     @Provides
@@ -56,16 +59,25 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor, AuthenticationInterceptor authInterceptor) {
+    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor, AuthenticationInterceptor authenticationInterceptor) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
 
         builder.addInterceptor(loggingInterceptor)
-                .addInterceptor(authInterceptor)
+                .addInterceptor(authenticationInterceptor)
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS);
         return builder.build();
+    }
+
+    @Provides
+    @Singleton
+    Gson provideGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Date.class,
+                        (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
+                .create();
     }
 
     @Provides

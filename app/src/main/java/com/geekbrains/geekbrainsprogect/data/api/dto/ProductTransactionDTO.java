@@ -1,6 +1,7 @@
 package com.geekbrains.geekbrainsprogect.data.api.dto;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 
 import java.util.Date;
@@ -40,8 +41,8 @@ public class ProductTransactionDTO implements IProductTransactions {
         this.transactionDate = transactionDate;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public IProduct getProduct() {
+        return (IProduct) product;
     }
 
     public void setProduct(ProductDTO product) {
