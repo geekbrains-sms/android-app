@@ -20,10 +20,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -50,13 +50,17 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
     @BindView(R.id.category_field_layout)
     LinearLayout categoryContainer;
 
-    private List<Category>categories = new ArrayList<>();
     private IOnClickListener iOnClickListener;
     private ArrayAdapter<Category>categoryArrayAdapter;
+    private final List<Unit> unitList;
+    private final List<Category> categoryList;
+    private final List<Category> selectedCategories = new ArrayList<>();
 
-    public CreateProductDialog(IOnClickListener iOnClickListener)
+    public CreateProductDialog(IOnClickListener iOnClickListener, UnitsWithCategories unitsWithCategories)
     {
         this.iOnClickListener = iOnClickListener;
+        unitList = unitsWithCategories.getUnitList();
+        this.categoryList = unitsWithCategories.getCategoryList();
     }
 
 
@@ -82,17 +86,16 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
     }
 
     private void setAdapters() {
-        categoryArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, getActualCategory());
-//        ArrayAdapter<Unit>unitsArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, AppData.getUnitList());
-//
-//        editUnit.setAdapter(unitsArrayAdapter);
+        categoryArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, getCategoryList());
+        ArrayAdapter<Unit>unitsArrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, unitList);
+        editUnit.setAdapter(unitsArrayAdapter);
         editCategory.setAdapter(categoryArrayAdapter);
     }
 
     private void setListener() {
 
         editUnit.setOnItemClickListener((parent, view, position, id) -> {
-//                editUnitDescription.setText(AppData.getUnitList().get(position).getDescription());
+                editUnitDescription.setText(unitList.get(position).getDescription());
         });
 
         AlertDialog dialog = (AlertDialog) getDialog();
@@ -105,11 +108,11 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
                 String unit = editUnit.getText().toString();
                 String unitDescription = Objects.requireNonNull(editUnitDescription.getText()).toString();
 
-                if(checkText(name) && checkText(unit) && checkText(unitDescription) && categories.size() > 0) {
-//                    Unit newUnit = new Unit(unit, unitDescription);
+                if(checkText(name) && checkText(unit) && checkText(unitDescription) && selectedCategories.size() > 0) {
+                    Unit newUnit = new Unit(0,unit, unitDescription);
                     String description = Objects.requireNonNull(editDescription.getText()).toString();
-//                    Product product = new Product(name, description, categories, newUnit);
-//                    iOnClickListener.onClick(product);
+                    ProductModel product = new ProductModel(0, name, description, newUnit, null, selectedCategories, null, null, 0);
+                    iOnClickListener.onClick(product);
                     dialog1.dismiss();
                 }
 
@@ -180,14 +183,14 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
     }
 
     private void addCategory(TextView textView) {
-//        Category category;
-//        category = new Category(editCategory.getText().toString());
-//        categories.add(category);
-//        textView.setText(category.getTitle());
+        Category category;
+        category = new Category(0,editCategory.getText().toString());
+        selectedCategories.add(category);
+        textView.setText(category.getTitle());
     }
 
     private boolean emptyCategory(String text) {
-        for(Category category: categories)
+        for(Category category: selectedCategories)
         {
             if(category.getTitle().equals(text))
             {
@@ -199,7 +202,7 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
 
     private void updateAdapter() {
         categoryArrayAdapter.clear();
-        categoryArrayAdapter.addAll(getActualCategory());
+        categoryArrayAdapter.addAll(getCategoryList());
         categoryArrayAdapter.notifyDataSetChanged();
     }
 
@@ -221,7 +224,7 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
     }
 
     private void removeCategory(String text) {
-        for(Iterator<Category> iterator = categories.iterator(); iterator.hasNext();)
+        for(Iterator<Category> iterator = selectedCategories.iterator(); iterator.hasNext();)
         {
             if(text.trim().equals(iterator.next().getTitle().trim()))
             {
@@ -232,29 +235,29 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
         editCategory.setText(null);
     }
 
-    private List<Category> getActualCategory()
+    private List<Category> getCategoryList()
     {
         List<Category>actualCategory = new ArrayList<>();
-//        for(Category category : AppData.getCategoryList())
-//        {
-//            boolean empty = false;
-//            for(Category category2 : categories)
-//            {
-//                if (category.getTitle().trim().equals(category2.getTitle().trim())) {
-//                    empty = true;
-//                    break;
-//                }
-//            }
-//            if(!empty)
-//            {
-//                actualCategory.add(category);
-//            }
-//        }
+        for(Category category : categoryList)
+        {
+            boolean empty = false;
+            for(Category category2 : selectedCategories)
+            {
+                if (category.getTitle().trim().equals(category2.getTitle().trim())) {
+                    empty = true;
+                    break;
+                }
+            }
+            if(!empty)
+            {
+                actualCategory.add(category);
+            }
+        }
         return actualCategory;
     }
 
     public interface IOnClickListener
     {
-        void onClick(Product product);
+        void onClick(ProductModel product);
     }
 }

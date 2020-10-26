@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.repository.contract;
 
+import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
@@ -14,9 +15,8 @@ import okhttp3.ResponseBody;
 
 public interface ProductRepository {
     Flowable<List<ProductWithCategory>> getProductListFromDB();
-    Completable addProduct(ProductModel product);
-    void deleteProductById(long id);
     void deleteAllProduct();
-    Observable<ResponseBody>editProduct(Product product);
     Completable getProductFromServer();
+    Completable deleteProducts(List<Product>products);
+    Completable addProduct(ProductModel productModel);
 }

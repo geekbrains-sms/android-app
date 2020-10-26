@@ -1,7 +1,5 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
-import android.content.ClipData;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,7 +9,7 @@ import com.geekbrains.geekbrainsprogect.ui.base.Item;
 @Entity(tableName = "contractor")
 public class Contractor implements Item {
     @PrimaryKey
-    @ColumnInfo(name = "contractorId")
+    @ColumnInfo(name = "contractorId", index = true)
     public long id;
     public String title;
 

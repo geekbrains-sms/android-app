@@ -2,13 +2,15 @@ package com.geekbrains.geekbrainsprogect.data.repository.contract;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import java.util.List;
+
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 
 public interface ProductTransactionRepository {
-    Observable<List<ProductTransaction>> getAllSupplyProductTransactions();
-    Observable<List<ProductTransaction>>getAllShipmentProductTransactions();
-    Observable<List<ProductTransaction>>addSupplyTransactions(ProductTransaction productTransaction);
-    Observable<List<ProductTransaction>>addShipmentTransactions(ProductTransaction productTransaction);
-    Observable<List<ProductTransaction>>getProductTransactionById(long id);
+    Completable getProductTransactionsFromServer();
+    Flowable<List<ProductTransaction>> getProductTransactionsFromDB();
+    Completable addProductTransactions(ProductTransaction productTransaction);
+    Observable<List<ProductTransaction>>getProductTransactionsByProductId(long id);
 }

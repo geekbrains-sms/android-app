@@ -16,7 +16,7 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "product_transaction")
 public class ProductTransaction implements IProductTransactions {
     @PrimaryKey
-    @ColumnInfo(name = "transactionId")
+    @ColumnInfo(name = "transactionId", index = true)
     public long id;
     @ColumnInfo(name = "productId")
     @ForeignKey(entity = Product.class, parentColumns = "id", childColumns = "product_id", onDelete = CASCADE)
@@ -71,11 +71,6 @@ public class ProductTransaction implements IProductTransactions {
     }
     public String getComment() {
         return comment;
-    }
-
-    @Override
-    public IProduct getProduct() {
-        return null;
     }
 
     public void setComment(String comment) {

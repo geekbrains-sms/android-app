@@ -27,7 +27,7 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactio
 
 
 @androidx.room.Database(entities = {Product.class, ProductTransaction.class, User.class, UserAction.class, Category.class, Unit.class,
-        Contractor.class, Role.class, ProductCategoryCrossRef.class, ProductContractorCrossRef.class, ProductTransactionCrossRef.class}, version = 1)
+        Contractor.class, Role.class, ProductCategoryCrossRef.class, ProductContractorCrossRef.class, ProductTransactionCrossRef.class}, version = 4)
 public abstract class Database extends RoomDatabase {
 
     public abstract CategoryDao getCategoryDao();

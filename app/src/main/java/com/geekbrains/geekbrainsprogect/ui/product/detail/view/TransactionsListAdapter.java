@@ -121,7 +121,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
         public void bind(ProductTransaction transaction)
         {
-            productName.setText(context.getString(R.string.product_name_field, transaction.getProduct().getTitle()));
+//            productName.setText(context.getString(R.string.product_name_field, transaction.getProduct().getTitle()));
             if(transaction.getQuantity() > 0)
             {
                 type.setText(context.getString(R.string.type_transaction_field, context.getString(R.string.supply)));

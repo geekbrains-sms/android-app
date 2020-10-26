@@ -10,11 +10,9 @@ import io.reactivex.Flowable;
 @Dao
 public abstract class CategoryDao extends BaseDao<Category> {
     @Query("SELECT * FROM category")
-    abstract Flowable<List<Category>> getAllCategory();
+    public abstract Flowable<List<Category>> getAllCategory();
     @Query("SELECT * FROM category WHERE category.categoryId = :id")
-    abstract Flowable<Category>getCategoryById(long id);
-//    @Query("SELECT * FROM category INNER JOIN product_category_join ON category.id = product_category_join.category_id WHERE product_category_join.product_id = :id")
-//    Flowable<List<Category>> getCategoriesByProductId(long id);
+    public abstract Flowable<Category>getCategoryById(long id);
     @Query("DELETE FROM category")
-    abstract Completable deleteAllCategory();
+    public abstract void deleteAllCategory();
 }

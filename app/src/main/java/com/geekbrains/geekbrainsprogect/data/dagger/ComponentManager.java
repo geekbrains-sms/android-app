@@ -5,13 +5,14 @@ import android.content.Context;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppComponent;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppModule;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.DaggerAppComponent;
+import com.geekbrains.geekbrainsprogect.data.dagger.warehouse.WarehouseComponent;
 
 
 public class ComponentManager {
     private AppComponent appComponent;
     private WarehouseComponent warehouseComponent;
 
-    private Context context;
+    private final Context context;
 
     public ComponentManager(Context context) {
         this.context = context.getApplicationContext();

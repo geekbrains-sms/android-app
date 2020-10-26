@@ -129,7 +129,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public void bind(ProductModel productModel) {
             name.setText(productModel.getTitle());
             description.setText(context.getString(R.string.description_field, productModel.getDescription()));
-            count.setText(productModel.getQuantity() + "");
+            count.setText(productModel.getStringQuantity());
             units.setText(productModel.getUnit().getTitle());
             StringBuilder builder = new StringBuilder();
             for(Category category : productModel.getCategoryList())

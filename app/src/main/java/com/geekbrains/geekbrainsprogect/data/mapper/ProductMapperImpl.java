@@ -2,6 +2,7 @@ package com.geekbrains.geekbrainsprogect.data.mapper;
 
 import android.util.Log;
 
+import com.geekbrains.geekbrainsprogect.data.api.dto.FundDTO;
 import com.geekbrains.geekbrainsprogect.data.api.dto.Image;
 import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
@@ -113,6 +114,16 @@ public class ProductMapperImpl implements ProductMapper {
             result.add(toEntity(iProduct));
         }
         Log.d(TAG, "toEntityList() end:" + result.toString());
+        return result;
+    }
+
+    @Override
+    public List<Product> toEntityListProducts(List<? extends IProduct> list) {
+        List<Product>result = new ArrayList<>();
+        for(IProduct iProduct : list)
+        {
+            result.add(toEntity(iProduct).product);
+        }
         return result;
     }
 }

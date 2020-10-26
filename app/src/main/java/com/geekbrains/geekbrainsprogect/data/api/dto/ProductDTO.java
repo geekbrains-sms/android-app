@@ -1,10 +1,14 @@
 package com.geekbrains.geekbrainsprogect.data.api.dto;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+
 import java.util.List;
 
-public class ProductDTO {
+public class ProductDTO implements IProduct {
     private Long id;
     private String title;
     private List<Category> categories;
@@ -21,7 +25,7 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -46,6 +50,16 @@ public class ProductDTO {
         return unit;
     }
 
+    @Override
+    public List<Contractor> getContractors() {
+        return null;
+    }
+
+    @Override
+    public List<IProductTransactions> getProductTransactions() {
+        return null;
+    }
+
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
@@ -67,6 +81,10 @@ public class ProductDTO {
         return null;
     }
 
+    @Override
+    public double getQuantity() {
+        return 0;
+    }
 
     public List<Category> getCategoryList() {
         return categories;

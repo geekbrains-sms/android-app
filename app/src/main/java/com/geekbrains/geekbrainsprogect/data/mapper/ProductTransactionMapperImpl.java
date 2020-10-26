@@ -2,37 +2,38 @@ package com.geekbrains.geekbrainsprogect.data.mapper;
 
 import android.util.Log;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.api.dto.UserDTO;
-import com.geekbrains.geekbrainsprogect.data.dagger.ProductTransactionModule;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
-import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ProductTransactionMapperImpl implements ProductTransactionMapper {
     private static final String TAG = "ProductTransactionMap";
-    ProductMapper productMapper;
     UserMapper userMapper;
+    @Inject
+    public ProductTransactionMapperImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
     @Override
     public ProductTransactionModel toModel(IProductTransactions object) {
         Log.d(TAG, "toModel() start: " + object.toString());
         long id = object.getId();
+        long productId = object.getProductId();
         Contractor contractor = object.getContractor();
-        ProductModel product = productMapper.toModel(object.getProduct());
         UserModel userModel = userMapper.toModel(object.getUser());
         double quantity = object.getQuantity();
         String comment = object.getComment();
         String date = object.getDate();
-        ProductTransactionModel productTransactionModel = new ProductTransactionModel(id,contractor,userModel,date,quantity,comment,product);
+        ProductTransactionModel productTransactionModel = new ProductTransactionModel(id,contractor,userModel,date,quantity,comment, productId);
         Log.d(TAG, "toModel() end: " + productTransactionModel.toString());
         return productTransactionModel;
     }
@@ -42,13 +43,11 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
         Log.d(TAG, "toDto() start: " + object.toString());
         long id = object.getId();
         Contractor contractor = object.getContractor();
-        ProductDTO product = productMapper.toDto(object.getProduct());
         UserDTO userDTO = userMapper.toDto(object.getUser());
         double quantity = object.getQuantity();
         String comment = object.getComment();
         String date = object.getDate();
-
-        ProductTransactionDTO productTransactionDTO = new ProductTransactionDTO(id,date,product,contractor,quantity,comment,userDTO);
+        ProductTransactionDTO productTransactionDTO = new ProductTransactionDTO(id,date,null,contractor,quantity,comment,userDTO);
         Log.d(TAG, "toDto() end: " + productTransactionDTO.toString());
         return productTransactionDTO;
     }
@@ -58,7 +57,7 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
         Log.d(TAG, "toEntity() start: " + object.toString());
         long id = object.getId();
         long contractorId = object.getContractor().id;
-        long productId = object.getId();
+        long productId = object.getProductId();
         long userId = object.getUser().getId();
         double quantity = object.getQuantity();
         String comment = object.getComment();

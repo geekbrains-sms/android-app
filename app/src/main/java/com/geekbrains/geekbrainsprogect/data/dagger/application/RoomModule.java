@@ -32,7 +32,9 @@ public class RoomModule {
     @Singleton
     @Provides
     Database providesRoomDatabase(Context context) {
-        return Room.databaseBuilder(context, Database.class, "database").build();
+        return Room.databaseBuilder(context, Database.class, "database")
+                .fallbackToDestructiveMigration()
+                .build();
 
     }
 

@@ -8,6 +8,7 @@ import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.geekbrains.geekbrainsprogect.ui.base.Item;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class ProductModel implements Item, IProduct {
         this.categories = categories;
         this.contractors = contractors;
         this.transactions = transactions;
+        this.quantity = quantity;
     }
 
     public long getId() {
@@ -132,6 +134,11 @@ public class ProductModel implements Item, IProduct {
             builder.append(contractor.getTitle());
         }
         return builder.toString();
+    }
+
+    public String getStringQuantity()
+    {
+        return new DecimalFormat("#.##").format(quantity);
     }
 
     public String getCategoriesString()

@@ -1,11 +1,13 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "unit")
 public class Unit {
     @PrimaryKey
+    @ColumnInfo(name = "unitId", index = true)
     public long id;
     public String title;
     public String description;

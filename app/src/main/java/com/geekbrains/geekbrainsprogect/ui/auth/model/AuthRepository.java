@@ -1,9 +1,7 @@
 package com.geekbrains.geekbrainsprogect.ui.auth.model;
 
-import com.geekbrains.geekbrainsprogect.data.api.ApiHelper;
 import com.geekbrains.geekbrainsprogect.data.api.dto.AuthDTO;
 import com.geekbrains.geekbrainsprogect.data.api.service.AuthService;
-import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 
 import javax.inject.Inject;
 

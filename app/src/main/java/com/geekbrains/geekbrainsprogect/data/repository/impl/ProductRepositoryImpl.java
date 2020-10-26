@@ -8,6 +8,7 @@ import com.geekbrains.geekbrainsprogect.data.api.service.ContractorService;
 import com.geekbrains.geekbrainsprogect.data.api.service.FundService;
 import com.geekbrains.geekbrainsprogect.data.api.service.ProductService;
 import com.geekbrains.geekbrainsprogect.data.api.service.ProductTransactionService;
+import com.geekbrains.geekbrainsprogect.data.api.service.UnitService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.CategoryDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ContractorDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductCategoryCrossDao;
@@ -19,9 +20,7 @@ import com.geekbrains.geekbrainsprogect.data.database.room.dao.UnitDao;
 import com.geekbrains.geekbrainsprogect.data.mapper.ProductMapper;
 import com.geekbrains.geekbrainsprogect.data.mapper.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductCategoryCrossRef;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductContractorCrossRef;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
@@ -29,18 +28,11 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCatego
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import java.util.List;
-import java.util.Observer;
-
 import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 public class ProductRepositoryImpl implements ProductRepository {
     private static final String TAG = "ProductRepository";
@@ -85,30 +77,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Flowable<List<ProductWithCategory>> getProductListFromDB() {
         Log.d(TAG, "LoadProductFromDB");
         return productDao.getAllProduct()
-                .subscribeOn(Schedulers.io())
-                .flatMapIterable(x -> x)
-                .flatMap(productWithCategory -> unitDao.getUnitById(productWithCategory.product.getIdUnit()),
-                        (productWithCategory, unit)-> {productWithCategory.setUnit(unit);
-                            return productWithCategory;})
-                .toList()
-                .toFlowable();
-    }
-
-    @Override
-    public Completable addProduct(ProductModel product) {
-        ProductDTO productDTO = productMapper.toDto(product);
-        Log.d(TAG, "addProduct()");
-        return Completable.fromAction(() -> {
-                Disposable disposable = productService.addProduct(productDTO)
-                .flatMap(x -> fundService.getFundsByProductId(x.getId()))
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::productSaved);});
-    }
-
-    @Override
-    public void deleteProductById(long id) {
-        Log.d(TAG, "deleteProductById()");
-       productService.deleteProductById(id);
+                .subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -118,68 +87,88 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Observable<ResponseBody> editProduct(Product product) {
-        return null;
-    }
-
-
-    @Override
     public Completable getProductFromServer() {
         Log.d(TAG, "getProductFromServer()");
         return fundService.getAllFunds()
-                    .doOnNext(x -> deleteAllProduct())
+                    .map(x -> productMapper.toEntityListProducts(x))
+                    .doOnNext(x -> {
+                        deleteAllProduct();
+                        productDao.insertAll(x);
+                    })
+                    .map(x -> productMapper.toEntityList(x))
                     .flatMap(Observable::fromIterable)
-                    .doOnNext(this::saveProductToDatabase)
-                    .flatMapCompletable(this::productSaved);
+                    .doOnNext(this::saveUnitsToDatabase)
+                    .flatMapCompletable(this::dataSaved);
                 }
 
-    private  Completable productSaved(FundDTO fundDTO)
+    @Override
+    public Completable deleteProducts(List<Product> products) {
+
+        Completable[]completables = new Completable[products.size()];
+        for(int i = 0; i < products.size(); i++)
+        {
+            completables[i] = productService.deleteProductById(products.get(i).getId());
+        }
+         return Completable.mergeArray(completables)
+                .andThen(productDao.deleteAll(products));
+    }
+
+    @Override
+    public Completable addProduct(ProductModel productModel) {
+        return productService.addProduct(productMapper.toDto(productModel))
+                .map(x -> productMapper.toEntity(x))
+                .doOnNext(x -> {
+                    productDao.insert(x.product);
+                    saveUnitsToDatabase(x);
+                })
+                .flatMapCompletable(this::dataSaved);
+    }
+
+    private  Completable dataSaved(ProductWithCategory productWithCategory)
     {
-        Log.d(TAG, "startProductSaved(): product id - " + fundDTO.getProduct().getId());
-       return Completable.mergeArray(loadProductTransactions(fundDTO), saveProductCategory(fundDTO), loadContractors(fundDTO));
+        Log.d(TAG, "startProductSaved(): product id - " + productWithCategory.product.getId());
+       return Completable.mergeArray(loadProductTransactions(productWithCategory), saveProductCategory(productWithCategory), loadContractors(productWithCategory));
     }
 
-    private Completable loadProductTransactions(FundDTO fundDTO) {
+    private Completable loadProductTransactions(ProductWithCategory productWithCategory) {
 
-        ProductDTO product = fundDTO.getProduct();
-        return productTransactionService.getProductTransactionById(product.getId())
+        return productTransactionService.getProductTransactionById(productWithCategory.getId())
                 .map(items -> productTransactionMapper.toEntityList(items))
-                .doOnNext(x -> productTransactionCrossDao.deleteAll())
+                .doOnNext(x -> productTransactionCrossDao.deleteByProduct(productWithCategory.product.getId()))
                 .flatMap(Observable::fromIterable)
-                .flatMapCompletable(x -> Completable.fromRunnable(() -> {productTransactionCrossDao.insert(new ProductTransactionCrossRef(product.getId(),x.getId()));
+                .flatMapCompletable(x -> Completable.fromRunnable(() -> {productTransactionCrossDao.insert(new ProductTransactionCrossRef(productWithCategory.product.getId(),x.getId()));
                     productTransactionDao.insert(x);
-                    Log.d(TAG, "loadProductTransactions: product id - " + fundDTO.getProduct().getId() + ", productTransactionID - " + x.getId());
+                    Log.d(TAG, "loadProductTransactions: product id - " + productWithCategory.product.getId() + ", productTransactionID - " + x.getId());
                 }));
-
     }
 
-    private void saveProductToDatabase(FundDTO fundDTO) {
-        Log.d(TAG, "saveProductToDatabase() start");
-        productDao.insert(productMapper.toEntity(fundDTO).product);
+    private void saveUnitsToDatabase(ProductWithCategory productWithCategory) {
+        Log.d(TAG, "saveUnitsToDatabase() start");
+        unitDao.insert(productWithCategory.getUnit());
     }
-    public Completable saveProductCategory(FundDTO fundDTO)
+    public Completable saveProductCategory(ProductWithCategory productWithCategory)
     {
         return Completable.fromRunnable(()->{
-            productCategoryCrossDao.deleteByProduct(fundDTO.getProduct().getId());
-            for(Category category: fundDTO.getCategoryList())
+            productCategoryCrossDao.deleteByProduct(productWithCategory.product.getId());
+            for(Category category: productWithCategory.getCategoryList())
            {
                Log.d(TAG, "saveCategoryToDatabase() start");
                categoryDao.insert(category);
-               productCategoryCrossDao.insert(new ProductCategoryCrossRef(fundDTO.getId(), category.getId()));
+               productCategoryCrossDao.insert(new ProductCategoryCrossRef(productWithCategory.product.id, category.getId()));
            }
         });
     }
 
-    public Completable loadContractors(FundDTO fund) {
+    public Completable loadContractors(ProductWithCategory productWithCategory) {
         Log.d(TAG, "loadContractors() start");
-        return contractorService.getProvidersByProductId(fund.getProduct().getId())
-                .doOnNext(x -> productContractorCrossDao.deleteByProduct(fund.getProduct().getId()))
+        return contractorService.getProvidersByProductId(productWithCategory.product.getId())
+                .doOnNext(x -> productContractorCrossDao.deleteByProduct(productWithCategory.product.getId()))
                 .flatMap(Observable::fromIterable)
                 .flatMapCompletable(x ->
                         Completable.fromRunnable(() -> {
                             contractorDao.insert(x);
-                            productContractorCrossDao.insert(new ProductContractorCrossRef(fund.getProduct().getId(), x.getId()));
-                            Log.d(TAG, "loadContractors product id - " + fund.getProduct().getId());
+                            productContractorCrossDao.insert(new ProductContractorCrossRef(productWithCategory.product.getId(), x.getId()));
+                            Log.d(TAG, "loadContractors product id - " + productWithCategory.product.getId());
                         }));
     }
 }

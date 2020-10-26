@@ -15,14 +15,13 @@ import java.util.List;
 @Entity(tableName = "product")
 public class Product implements IProduct {
     @PrimaryKey
-    @ColumnInfo(name = "productId")
+    @ColumnInfo(name = "productId", index = true)
     public long id;
     public String title;
     public String description;
     public String imageUrl;
     public double quantity;
     @ColumnInfo(name = "unit_id")
-    @ForeignKey(entity = Unit.class, parentColumns = "id", childColumns = "unit_id")
     public long idUnit;
 
 

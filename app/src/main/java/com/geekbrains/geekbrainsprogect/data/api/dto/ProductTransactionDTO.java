@@ -41,9 +41,6 @@ public class ProductTransactionDTO implements IProductTransactions {
         this.transactionDate = transactionDate;
     }
 
-    public IProduct getProduct() {
-        return (IProduct) product;
-    }
 
     public void setProduct(ProductDTO product) {
         this.product = product;
@@ -67,6 +64,11 @@ public class ProductTransactionDTO implements IProductTransactions {
 
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public long getProductId() {
+        return product.getId();
     }
 
     public void setComment(String comment) {

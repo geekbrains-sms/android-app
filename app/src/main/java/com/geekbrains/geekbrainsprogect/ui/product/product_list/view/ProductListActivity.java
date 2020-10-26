@@ -17,14 +17,14 @@ import android.widget.Toast;
 
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.ProductModule;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.domain.interactor.ProductInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
-import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.ProductListModel;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
 
 import java.util.ArrayList;
@@ -88,12 +88,12 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @OnClick({R.id.add_product_float_action})
     public void onClick(View view)
     {
-        presenter.getProductList();;
+        presenter.loadAddProductDialog();
     }
 
-    private void showAddProductDialog() {
-//        CreateProductDialog createProductDialog = new CreateProductDialog(product -> presenter.addProductToServer(product));
-//        createProductDialog.show(getSupportFragmentManager(), TAG);
+    public void showAddProductDialog(UnitsWithCategories unitsWithCategories) {
+        CreateProductDialog createProductDialog = new CreateProductDialog(product -> presenter.addProduct(product), unitsWithCategories);
+        createProductDialog.show(getSupportFragmentManager(), TAG);
     }
 
 
@@ -195,19 +195,19 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
 
     private void showAlertDeleteDialog()
     {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(R.string.alert)
-//                .setIcon(android.R.drawable.ic_dialog_alert)
-//                .setMessage(R.string.alert_delete_message)
-//                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProduct()))
-//                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
-//        builder.create().show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.alert)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(R.string.alert_delete_message)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProduct()))
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
+        builder.create().show();
     }
 
     private void starDetailActivity() {
-//        AppData.setSelectedProducts(adapter.getSelectedProduct());
-//        Intent intent = new Intent(this, DetailProductActivity.class);
-//        startActivity(intent);
+        ProductListModel.setSelectedProductList(adapter.getSelectedProduct());
+        Intent intent = new Intent(this, DetailProductActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -222,9 +222,5 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @Override
     protected void onResume() {
         super.onResume();
-        if(adapter != null)
-        {
-            setDataToAdapter(new ArrayList<>());
-        }
     }
 }
