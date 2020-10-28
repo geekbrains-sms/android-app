@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListModel {
-    private static List<ProductModel> selectedProductList;
+    private static List<Long> selectedProductList;
 
-    public static List<ProductModel> getSelectedProductList()
+    public static List<Long> getSelectedProductList()
     {
         if(selectedProductList == null)
         {
@@ -17,7 +17,7 @@ public class ProductListModel {
         }
         return selectedProductList;
     }
-    public static void setSelectedProductList(List<ProductModel>list)
+    public static void setSelectedProductList(List<Long>list)
     {
         selectedProductList = list;
     }

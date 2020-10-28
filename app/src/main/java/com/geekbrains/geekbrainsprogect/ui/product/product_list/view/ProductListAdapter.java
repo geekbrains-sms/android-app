@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.google.android.material.card.MaterialCardView;
@@ -27,7 +26,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     Context context;
     ProductListFilter productListFilter;
     List<ProductModel>filteredList = new ArrayList<>();
-    List<ProductModel>selectedProduct = new ArrayList<>();
+    List<Long> selectedProductId = new ArrayList<>();
     IOnClickListener iOnClickListener;
     boolean checkedMode = false;
     long checkedItem = 0;
@@ -64,8 +63,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return filteredList.size();
     }
 
-    public List<ProductModel> getSelectedProduct() {
-        return selectedProduct;
+    public List<Long> getSelectedProductId() {
+        return selectedProductId;
     }
 
     @Override
@@ -143,13 +142,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public void onClick(View v) {
             if(!checkedMode)
             {
-                if(selectedProduct.size() > 0)
+                if(selectedProductId.size() > 0)
                 {
-                    selectedProduct.set(0, filteredList.get(getAdapterPosition()));
+                    selectedProductId.set(0, filteredList.get(getAdapterPosition()).getId());
                 }
                 else
                 {
-                    selectedProduct.add(0, filteredList.get(getAdapterPosition()));
+                    selectedProductId.add(0, filteredList.get(getAdapterPosition()).getId());
                 }
                 iOnClickListener.onSingleClick();
             }
@@ -175,7 +174,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             if(!checkedMode)
             {
                 checkedMode = true;
-                selectedProduct.clear();
+                selectedProductId.clear();
                 iOnClickListener.onClick();
             }
             checkedControl();
@@ -188,16 +187,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             {
                 checkedItem++;
                 ProductModel fund = filteredList.get(getAdapterPosition());
-                if(!selectedProduct.contains(fund))
+                if(!selectedProductId.contains(fund.getId()))
                 {
-                    selectedProduct.add(fund);
+                    selectedProductId.add(fund.getId());
                 }
             }
             else
             {
                 checkedItem--;
                 ProductModel fund = filteredList.get(getAdapterPosition());
-                selectedProduct.remove(fund);
+                selectedProductId.remove(fund.getId());
             }
             if(checkedItem == 0)
             {

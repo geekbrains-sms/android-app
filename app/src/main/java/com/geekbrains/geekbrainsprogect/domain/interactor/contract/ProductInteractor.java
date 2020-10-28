@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.domain.interactor;
+package com.geekbrains.geekbrainsprogect.domain.interactor.contract;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
@@ -16,7 +16,7 @@ import okhttp3.ResponseBody;
 public interface ProductInteractor {
     Flowable<List<ProductModel>> getProductListFromDB();
     Completable addProduct(ProductModel product);
-    Completable deleteProducts(List<ProductModel> productList);
-    Completable getProductFromServer();
+    Completable deleteProducts(List<Long> productList);
+    Completable saveProductFromServerToDB();
     Single<UnitsWithCategories> loadUnitsWithCategories();
 }

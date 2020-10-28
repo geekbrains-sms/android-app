@@ -1,11 +1,11 @@
 package com.geekbrains.geekbrainsprogect.data.dagger.warehouse;
 
-import com.geekbrains.geekbrainsprogect.data.mapper.ProductMapper;
-import com.geekbrains.geekbrainsprogect.data.mapper.ProductMapperImpl;
-import com.geekbrains.geekbrainsprogect.data.mapper.ProductTransactionMapper;
-import com.geekbrains.geekbrainsprogect.data.mapper.ProductTransactionMapperImpl;
-import com.geekbrains.geekbrainsprogect.data.mapper.UserMapper;
-import com.geekbrains.geekbrainsprogect.data.mapper.UserMapperImpl;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
+import com.geekbrains.geekbrainsprogect.data.mapper.impl.ProductMapperImpl;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
+import com.geekbrains.geekbrainsprogect.data.mapper.impl.ProductTransactionMapperImpl;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
+import com.geekbrains.geekbrainsprogect.data.mapper.impl.UserMapperImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,7 +20,7 @@ public class MapperModule {
 
     @ProductScope
     @Provides
-    ProductTransactionMapper provideProductMapper(UserMapper userMapper)
+    ProductTransactionMapper provideProductTransactionMapper(UserMapper userMapper)
     {
         return new ProductTransactionMapperImpl(userMapper);
     }

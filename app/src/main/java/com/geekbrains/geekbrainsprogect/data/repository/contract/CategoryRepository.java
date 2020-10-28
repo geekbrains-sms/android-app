@@ -1,6 +1,8 @@
 package com.geekbrains.geekbrainsprogect.data.repository.contract;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
 
 
 import java.util.List;
@@ -15,4 +17,5 @@ public interface CategoryRepository {
     Completable getCategoriesByServer();
     Completable deleteCategory(Category category);
     Completable addCategory(Category category);
+    Completable addCategoryCross(ProductWithCategory productWithCategory);
 }

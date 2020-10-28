@@ -18,16 +18,13 @@ import android.widget.Toast;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
-import com.geekbrains.geekbrainsprogect.domain.interactor.ProductInteractor;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ProductInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.ProductListModel;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -136,7 +133,7 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_list_menu, menu);
-        if (adapter.getSelectedProduct() != null && adapter.getSelectedProduct().size() > 0) {
+        if (adapter.getSelectedProductId() != null && adapter.getSelectedProductId().size() > 0) {
             menu.findItem(R.id.bar_search).setVisible(false);
             menu.findItem(R.id.open).setVisible(true);
             menu.findItem(R.id.delete).setVisible(true);
@@ -199,13 +196,13 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
         builder.setTitle(R.string.alert)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(R.string.alert_delete_message)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProduct()))
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProductId()))
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
         builder.create().show();
     }
 
     private void starDetailActivity() {
-        ProductListModel.setSelectedProductList(adapter.getSelectedProduct());
+        ProductListModel.setSelectedProductList(adapter.getSelectedProductId());
         Intent intent = new Intent(this, DetailProductActivity.class);
         startActivity(intent);
     }

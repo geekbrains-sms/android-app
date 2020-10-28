@@ -20,6 +20,14 @@ public abstract class ProductDao extends BaseDao<Product> {
     @Transaction
     @Query("SELECT * FROM product WHERE product.productId = :id")
     abstract Flowable<ProductWithCategory>getProductById(long id);
+    @Transaction
+    @Query("SELECT * FROM product WHERE productId IN (:ids)")
+    public abstract Flowable<List<ProductWithCategory>>getProductsByIds(List<Integer>ids);
+
+    @Transaction
+    @Query("DELETE FROM product WHERE productId IN (:ids)")
+    public abstract Completable deleteAllById(List<Long>ids);
+
     @Query("DELETE FROM product")
     public abstract void deleteAllProduct();
     @Query("DELETE FROM product WHERE productId = :id")

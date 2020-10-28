@@ -17,6 +17,7 @@ public abstract class BaseDao<T> {
     public abstract void insert(T...objects);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertAll(List<T>list);
+    @Delete
     public abstract Completable deleteAll(List<T>list);
     @Delete
     public abstract void delete(T...objects);

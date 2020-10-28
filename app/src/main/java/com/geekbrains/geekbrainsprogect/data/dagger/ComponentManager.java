@@ -5,6 +5,9 @@ import android.content.Context;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppComponent;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppModule;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.DaggerAppComponent;
+import com.geekbrains.geekbrainsprogect.data.dagger.warehouse.InteractorModule;
+import com.geekbrains.geekbrainsprogect.data.dagger.warehouse.MapperModule;
+import com.geekbrains.geekbrainsprogect.data.dagger.warehouse.RepositoryModule;
 import com.geekbrains.geekbrainsprogect.data.dagger.warehouse.WarehouseComponent;
 
 
@@ -30,7 +33,7 @@ public class ComponentManager {
     public WarehouseComponent getWarehouseComponent() {
         if(warehouseComponent == null)
         {
-            warehouseComponent = appComponent.productComponent(new ProductModule(), new ProductTransactionModule());
+            warehouseComponent = appComponent.productComponent(new InteractorModule(), new RepositoryModule(), new MapperModule());
         }
         return warehouseComponent;
     }

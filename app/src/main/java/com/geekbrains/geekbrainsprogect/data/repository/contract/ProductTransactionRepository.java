@@ -12,5 +12,5 @@ public interface ProductTransactionRepository {
     Completable getProductTransactionsFromServer();
     Flowable<List<ProductTransaction>> getProductTransactionsFromDB();
     Completable addProductTransactions(ProductTransaction productTransaction);
-    Observable<List<ProductTransaction>>getProductTransactionsByProductId(long id);
+    Completable saveProductTransactionsByProductIdToDB(long id);
 }

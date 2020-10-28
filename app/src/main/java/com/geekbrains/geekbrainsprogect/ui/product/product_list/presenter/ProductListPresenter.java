@@ -3,7 +3,7 @@ package com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter;
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.domain.interactor.ProductInteractor;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ProductInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListView;
 import java.util.List;
@@ -34,7 +34,7 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
     }
 
     public void loadFromServer() {
-        Disposable disposable = productInteractor.getProductFromServer().
+        Disposable disposable = productInteractor.saveProductFromServerToDB().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(()->{
@@ -58,7 +58,7 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
         });
     }
 
-    public void deleteProduct(List<ProductModel> selectedProduct) {
+    public void deleteProduct(List<Long> selectedProduct) {
         productInteractor.deleteProducts(selectedProduct);
     }
 

@@ -1,19 +1,18 @@
-package com.geekbrains.geekbrainsprogect.data.mapper;
+package com.geekbrains.geekbrainsprogect.data.mapper.impl;
 
 import android.util.Log;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.FundDTO;
 import com.geekbrains.geekbrainsprogect.data.api.dto.Image;
 import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
-import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 
 import java.util.ArrayList;
 import java.util.List;

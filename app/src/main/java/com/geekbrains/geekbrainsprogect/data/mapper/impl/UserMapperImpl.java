@@ -1,12 +1,11 @@
-package com.geekbrains.geekbrainsprogect.data.mapper;
+package com.geekbrains.geekbrainsprogect.data.mapper.impl;
 
 import com.geekbrains.geekbrainsprogect.data.api.dto.UserDTO;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class UserMapperImpl implements UserMapper {

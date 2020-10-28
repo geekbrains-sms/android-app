@@ -1,7 +1,5 @@
-package com.geekbrains.geekbrainsprogect.data.mapper;
-import android.content.pm.LabeledIntent;
+package com.geekbrains.geekbrainsprogect.data.mapper.contract;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.FundDTO;
 import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;

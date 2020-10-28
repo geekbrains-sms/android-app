@@ -1,9 +1,11 @@
-package com.geekbrains.geekbrainsprogect.data.mapper;
+package com.geekbrains.geekbrainsprogect.data.mapper.impl;
 
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.api.dto.UserDTO;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
+import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;

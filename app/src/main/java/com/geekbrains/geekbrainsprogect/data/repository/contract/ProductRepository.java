@@ -15,8 +15,10 @@ import okhttp3.ResponseBody;
 
 public interface ProductRepository {
     Flowable<List<ProductWithCategory>> getProductListFromDB();
+    Flowable<List<ProductWithCategory>> getProductListFromDbByIds(List<Integer>idList);
     void deleteAllProduct();
-    Completable getProductFromServer();
-    Completable deleteProducts(List<Product>products);
-    Completable addProduct(ProductModel productModel);
+    Observable<List<ProductWithCategory>> getProductFromServer();
+    Completable deleteProducts(List<Long>productsId);
+    Observable<ProductWithCategory> addProduct(ProductModel productModel);
+    Observable<ProductWithCategory> editProduct(ProductModel productModel);
 }

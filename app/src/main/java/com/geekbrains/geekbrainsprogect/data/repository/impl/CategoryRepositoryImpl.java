@@ -1,8 +1,13 @@
 package com.geekbrains.geekbrainsprogect.data.repository.impl;
 
+import android.util.Log;
+
 import com.geekbrains.geekbrainsprogect.data.api.service.CategoryService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.CategoryDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductCategoryCrossDao;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductCategoryCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryRepository;
 
 import java.util.List;
@@ -14,6 +19,7 @@ import io.reactivex.Observable;
 public class CategoryRepositoryImpl implements CategoryRepository {
     CategoryDao categoryDao;
     CategoryService categoryService;
+    ProductCategoryCrossDao productCategoryCrossDao;
 
     public CategoryRepositoryImpl(CategoryDao categoryDao, CategoryService categoryService) {
         this.categoryDao = categoryDao;
@@ -45,7 +51,19 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Completable addCategory(Category category) {
         return categoryService.addCategory(category)
-                .doOnNext(x -> categoryDao.insert(category))
+                .doOnNext(x -> categoryDao.insert(x))
                 .ignoreElements();
+    }
+
+    @Override
+    public Completable addCategoryCross(ProductWithCategory productWithCategory) {
+        return Completable.fromRunnable(()->{
+            productCategoryCrossDao.deleteByProduct(productWithCategory.product.id);
+            for(Category category: productWithCategory.getCategoryList())
+            {
+                categoryDao.insert(category);
+                productCategoryCrossDao.insert(new ProductCategoryCrossRef(productWithCategory.product.id, category.getId()));
+            }
+        });
     }
 }

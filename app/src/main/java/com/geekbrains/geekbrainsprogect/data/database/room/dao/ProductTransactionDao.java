@@ -12,9 +12,11 @@ import io.reactivex.Flowable;
 @Dao
 public abstract class ProductTransactionDao extends BaseDao<ProductTransaction> {
     @Query("SELECT * FROM product_transaction")
-    abstract Flowable<List<ProductTransaction>> getAllTransaction();
+    public abstract Flowable<List<ProductTransaction>> getAllTransaction();
     @Query("SELECT * FROM product_transaction WHERE product_transaction.transactionId = :id")
-    abstract Flowable<ProductTransaction>getTransactionById(long id);
+    public abstract Flowable<ProductTransaction>getTransactionById(long id);
+    @Query("SELECT * FROM product_transaction WHERE productId = :id")
+    public abstract Flowable<List<ProductTransaction>>getTransactionsByProductId(long id);
     @Query("DELETE FROM product_transaction")
-    abstract Completable deleteAllTransaction();
+    public abstract Completable deleteAllTransaction();
 }

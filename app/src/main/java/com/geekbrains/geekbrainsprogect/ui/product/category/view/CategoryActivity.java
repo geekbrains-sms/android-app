@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.CategoryInteractor;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.category.presenter.CategoryPresenter;
@@ -21,10 +22,13 @@ import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDivid
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class CategoryActivity extends ListActivity implements CategoryView {
     public static final String CATEGORY = "Category";
@@ -34,6 +38,14 @@ public class CategoryActivity extends ListActivity implements CategoryView {
     @BindView(R.id.data_recycler)
     RecyclerView categoryList;
     CategoryListAdapter adapter;
+    @Inject
+    CategoryInteractor categoryInteractor;
+    @ProvidePresenter
+    CategoryPresenter provideCategoryPresenter()
+    {
+        AppData.getComponentsManager().getWarehouseComponent().inject(this);
+        return new CategoryPresenter(categoryInteractor);
+    }
 
 
     @Override
@@ -144,6 +156,4 @@ public class CategoryActivity extends ListActivity implements CategoryView {
 
     @Override
     protected void filter() {}
-
-
 }
