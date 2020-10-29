@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,39 +24,54 @@ import androidx.fragment.app.DialogFragment;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditCategoryDialog extends DialogFragment implements View.OnClickListener {
-    private Product product;
+    private ProductModel product;
     private static final int CATEGORIES_COUNT_IN_LINE = 4;
     private IOnClickListener onClickListener;
     private ArrayAdapter<Category>adapter;
-    List<Category>categories = new ArrayList<>();
+    private List<Category>categoryList;
+    private List<Unit>allUnits;
+    private List<Category> newCategories = new ArrayList<>();
 
-    @BindView(R.id.category_edit_text)
+    @BindView(R.id.product_name_edit_text)
+    TextInputEditText editProductName;
+    @BindView(R.id.product_description_edit_text)
+    TextInputEditText editProductDescription;
+    @BindView(R.id.select_category)
     AutoCompleteTextView editCategory;
+    @BindView(R.id.select_unit)
+    AutoCompleteTextView selectUnit;
     @BindView(R.id.category_container)
     LinearLayout mainContainer;
+    @BindView(R.id.unit_description_edit_text)
+    TextInputEditText unitDescriptionEdit;
 
-    public EditCategoryDialog(Product product, IOnClickListener iOnClickListener)
+
+    public EditCategoryDialog(ProductModel product, List<Category>categories,  IOnClickListener iOnClickListener)
     {
         this.product = product;
         onClickListener = iOnClickListener;
+        categoryList = categories;
     }
 
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.edit_category_product, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.edit_product_dialog, null);
         ButterKnife.bind(this, view);
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.edit_category_product)
@@ -70,30 +86,57 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
         super.onActivityCreated(savedInstanceState);
         setListener();
         setAdapter();
-        setDataToViews();
+        if(product != null)
+        {
+            setDataToViews();
+        }
     }
 
 
     private void setDataToViews() {
-//        for(Category category: product.getCategoryList())
-//        {
-//            addDataCategory(category.getTitle());
-//        }
+        for(Category category: product.getCategoryList())
+        {
+            addDataCategory(category.getTitle());
+        }
+        editProductName.setText(product.getTitle());
+        editProductDescription.setText(product.getTitle());
+        ArrayAdapter<Unit>adapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, allUnits);
+        selectUnit.setAdapter(adapter);
+        selectUnit.setText(product.getUnit().getTitle());
+        unitDescriptionEdit.setText(product.getUnit().getDescription());
+
+
     }
 
     private void setListener() {
-//        AlertDialog dialog = (AlertDialog)getDialog();
-//        dialog.setOnShowListener(dialog1 -> {
-//            Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-//            button.setOnClickListener(v -> {
-//                if(!categories.isEmpty())
-//                {
-//                    product.setCategoryList(categories);
-//                    onClickListener.onClick();
-//                    dialog.dismiss();
-//                }
-//            });
-//        });
+        AlertDialog dialog = (AlertDialog)getDialog();
+        dialog.setOnShowListener(dialog1 -> {
+            Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            button.setOnClickListener(v -> {
+
+                    Unit unit = getProductUnits();
+                    String name = editProductName.getText().toString();
+                    String descriptionProduct = editProductDescription.getText().toString();
+                    product.setCategories(newCategories);
+
+                    dialog.dismiss();
+
+                    ProductModel updatedProduct = new ProductModel(0, name, descriptionProduct,unit,
+                            product.getImagePath(), newCategories, product.getContractors(), product.getTransactions(),
+                            product.getQuantity());
+                    onClickListener.onClick(updatedProduct);
+            });
+        });
+
+        selectUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                unitDescriptionEdit.setText(allUnits.get(position).getDescription());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setAdapter() {
@@ -145,16 +188,16 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
     }
 
     private void addCategory(TextView textView, String text) {
-//        Category category;
-//        category = new Category(text);
-//        categories.add(category);
-//        textView.setText(category.getTitle());
-//        updateAdapter();
-//        editCategory.setText(null);
+        Category category;
+        category = new Category(0,text);
+        newCategories.add(category);
+        textView.setText(category.getTitle());
+        updateAdapter();
+        editCategory.setText(null);
     }
 
     private boolean emptyCategory(String text) {
-        for(Category category: categories)
+        for(Category category: newCategories)
         {
             if(category.getTitle().equals(text))
             {
@@ -182,7 +225,7 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
     }
 
     private void removeCategory(String text) {
-        for(Iterator<Category> iterator = categories.iterator(); iterator.hasNext();)
+        for(Iterator<Category> iterator = newCategories.iterator(); iterator.hasNext();)
         {
             if(text.trim().equals(iterator.next().getTitle().trim()))
             {
@@ -196,21 +239,21 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
     private List<Category> getActualCategory()
     {
         List<Category>actualCategory = new ArrayList<>();
-//        for(Category category : AppData.getCategoryList())
-//        {
-//            boolean empty = false;
-//            for(Category category2 : categories)
-//            {
-//                if (category.getTitle().trim().equals(category2.getTitle().trim())) {
-//                    empty = true;
-//                    break;
-//                }
-//            }
-//            if(!empty)
-//            {
-//                actualCategory.add(category);
-//            }
-//        }
+        for(Category category : categoryList)
+        {
+            boolean empty = false;
+            for(Category category2 : newCategories)
+            {
+                if (category.getTitle().trim().equals(category2.getTitle().trim())) {
+                    empty = true;
+                    break;
+                }
+            }
+            if(!empty)
+            {
+                actualCategory.add(category);
+            }
+        }
         return actualCategory;
     }
     private void updateAdapter() {
@@ -242,8 +285,12 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
         addCategory(textView, text);
     }
 
+    private Unit getProductUnits() {
+        return new Unit(0, selectUnit.getText().toString(), Objects.requireNonNull(unitDescriptionEdit.getText()).toString());
+    }
+
     public interface IOnClickListener
     {
-        void onClick();
+        void onClick(ProductModel productModel);
     }
 }
