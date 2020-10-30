@@ -8,6 +8,7 @@ import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionM
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductTransactionRepository;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 
 import java.util.List;
 
@@ -49,15 +50,15 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
     }
 
     @Override
-    public Completable addProductTransactions(ProductTransaction productTransaction) {
+    public Completable addProductTransactions(ProductTransactionModel productTransaction) {
         Observable<List<ProductTransactionDTO>>productTransactions;
-        if(productTransaction.quantity > 0)
+        if(productTransaction.getQuantity() > 0)
         {
-            productTransactions = productTransactionService.addSupplyTransactions(productTransaction);
+            productTransactions = productTransactionService.addSupplyTransactions(productTransactionMapper.toDto(productTransaction));
         }
         else
         {
-            productTransactions = productTransactionService.addShipmentTransactions(productTransaction);
+            productTransactions = productTransactionService.addShipmentTransactions(productTransactionMapper.toDto(productTransaction));
         }
         return productTransactions
                 .map(x -> productTransactionMapper.toEntityList(x))

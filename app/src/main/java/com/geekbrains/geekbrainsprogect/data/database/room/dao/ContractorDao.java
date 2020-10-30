@@ -12,9 +12,9 @@ import io.reactivex.Flowable;
 @Dao
 public abstract class ContractorDao extends BaseDao<Contractor> {
     @Query("SELECT * FROM contractor")
-    abstract Flowable<List<Contractor>> getAllContractor();
+    public abstract Flowable<List<Contractor>> getAllContractor();
     @Query("SELECT * FROM contractor WHERE contractor.contractorId = :id")
-    abstract List<Contractor>getContractorById(long id);
+    public abstract List<Contractor>getContractorById(long id);
     @Query("DELETE FROM contractor")
-    abstract Completable deleteAllContractor();
+    public abstract Completable deleteAllContractor();
 }

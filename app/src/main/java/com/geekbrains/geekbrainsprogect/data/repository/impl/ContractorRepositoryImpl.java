@@ -11,6 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 
@@ -25,9 +26,17 @@ public class ContractorRepositoryImpl implements ContractorRepository {
         this.productContractorCrossDao = productContractorCrossDao;
     }
 
+
+
     @Override
-    public Observable<List<Contractor>> getAllContractors() {
-        return null;
+    public Flowable<List<Contractor>> getAllContractors() {
+        return contractorDao.getAllContractor();
+    }
+
+    @Override
+    public Completable saveContractorFromServerToDB() {
+        return contractorService.getAllContractors()
+                .flatMapCompletable(x -> Completable.fromRunnable(() -> contractorDao.insertAll(x)));
     }
 
     @Override

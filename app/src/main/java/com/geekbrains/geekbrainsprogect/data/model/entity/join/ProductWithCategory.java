@@ -91,8 +91,8 @@ public class ProductWithCategory implements IProduct {
     }
 
     @Override
-    public List<IProductTransactions> getProductTransactions() {
-        return new ArrayList<>(productTransactions);
+    public List<? extends IProductTransactions> getProductTransactions() {
+        return productTransactions;
     }
 
     public void setUnit(Unit unit) {

@@ -19,8 +19,12 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -34,15 +38,21 @@ public class DialogTransaction extends AppCompatDialogFragment {
     TextInputEditText editCountProduct;
     @BindView(R.id.comment_edit_text_transaction)
     TextInputEditText commentTransaction;
+    public static final int TYPE_SHIPMENT = 0;
+    public static final int TYPE_SUPPLY = 1;
+    private int type;
+    private List<Contractor> contractorList;
     private DialogInterface.OnClickListener positiveButtonListener;
     private IOnClickListener onClickListener;
     private Contractor selectedContractor;
-    private Product product;
+    private ProductModel product;
 
-    public DialogTransaction(Product product, IOnClickListener iOnClickListener)
+    public DialogTransaction(ProductModel product, List<Contractor>contractors, int type, IOnClickListener iOnClickListener)
     {
         this.onClickListener = iOnClickListener;
         this.product = product;
+        this.type = type;
+        contractorList = contractors;
     }
 
     @NonNull
@@ -68,46 +78,49 @@ public class DialogTransaction extends AppCompatDialogFragment {
     private void createListeners() {
         positiveButtonListener = (dialog, which) -> {
             long count = Integer.parseInt(Objects.requireNonNull(editCountProduct.getText()).toString());
+            if(type == TYPE_SHIPMENT)
+            {
+                count *= -1;
+            }
+
 
             if(selectedContractor != null && count != 0)
             {
-//                ProductTransaction productTransaction = new ProductTransaction(product, selectedContractor,  count, Objects.requireNonNull(commentTransaction.getText()).toString());
-//                onClickListener.onClick(productTransaction);
+                String date = new Date().toString();
+                ProductTransactionModel productTransaction = new ProductTransactionModel(0, selectedContractor, null, date, count, Objects.requireNonNull(commentTransaction.getText()).toString(), product.getId() );
+                onClickListener.onClick(productTransaction);
             }
         };
     }
 
     private void createAdapter()
     {
-//        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getContractorList());
-//        providersAutoComplete.setAdapter(contractorArrayAdapter);
-//
-//        providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                assert selectedContractor != null;
-//                Log.d(TAG, "selectedContractor = " + selectedContractor.toString());
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
-//            }
-//        });
-//
-//        providersAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selectedContractor = contractorArrayAdapter.getItem(position);
-//                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
-//            }
-//        });
+        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, contractorList);
+        providersAutoComplete.setAdapter(contractorArrayAdapter);
+
+        providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                assert selectedContractor != null;
+                Log.d(TAG, "selectedContractor = " + selectedContractor.toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
+            }
+        });
+
+        providersAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
+            selectedContractor = contractorArrayAdapter.getItem(position);
+            Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
+        });
     }
 
     interface IOnClickListener
     {
-        void onClick(ProductTransaction productTransaction);
+        void onClick(ProductTransactionModel productTransaction);
     }
 
 }

@@ -46,10 +46,6 @@ public class ProductInteractorImpl implements ProductInteractor {
         this.productMapper = productMapper;
     }
 
-
-
-
-
     @Override
     public Flowable<List<ProductModel>> getProductListFromDB() {
         Log.d(TAG, "LoadProductFromDB");
@@ -93,10 +89,6 @@ public class ProductInteractorImpl implements ProductInteractor {
                 loadProductTransactions(productWithCategory),
                 saveProductCategory(productWithCategory),
                 loadContractors(productWithCategory));
-    }
-
-    private Completable loadAllUnits() {
-        return unitRepository.getAllUnitsFromServer();
     }
 
     private Completable loadProductTransactions(ProductWithCategory productWithCategory) {

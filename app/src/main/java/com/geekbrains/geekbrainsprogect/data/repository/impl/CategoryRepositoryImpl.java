@@ -12,6 +12,8 @@ import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryReposit
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -20,7 +22,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     CategoryDao categoryDao;
     CategoryService categoryService;
     ProductCategoryCrossDao productCategoryCrossDao;
-
+    @Inject
     public CategoryRepositoryImpl(CategoryDao categoryDao, CategoryService categoryService) {
         this.categoryDao = categoryDao;
         this.categoryService = categoryService;

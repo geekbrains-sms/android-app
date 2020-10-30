@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class TransactionsListDialog extends DialogFragment implements View.OnCli
     RecyclerView transactionsList;
 
     TransactionsListAdapter adapter;
-    List<ProductTransaction>transactions;
+    List<ProductTransactionModel>transactions;
 
-    TransactionsListDialog(List<ProductTransaction>transactions)
+    TransactionsListDialog(List<ProductTransactionModel>transactions)
     {
         this.transactions = transactions;
     }

@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Single;
 
 public class ProductRepositoryImpl implements ProductRepository {
     private static final String TAG = "ProductRepository";
@@ -38,8 +38,13 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Flowable<List<ProductWithCategory>> getProductListFromDbByIds(List<Integer> idList) {
+    public Flowable<List<ProductWithCategory>> getProductListFromDbByIds(List<Long> idList) {
         return productDao.getProductsByIds(idList);
+    }
+
+    @Override
+    public Flowable<ProductWithCategory> getProductFromDbById(long id) {
+        return productDao.getProductById(id);
     }
 
     @Override

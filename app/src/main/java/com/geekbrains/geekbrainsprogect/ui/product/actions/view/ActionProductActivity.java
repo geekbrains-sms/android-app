@@ -10,6 +10,9 @@ import android.view.View;
 
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ContractorInteractor;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.UserActionInteractor;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
 import com.geekbrains.geekbrainsprogect.ui.product.actions.presenter.ActionProductPresenter;
@@ -18,9 +21,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class ActionProductActivity extends ListActivity implements ActionProductView {
     @InjectPresenter
@@ -31,6 +37,14 @@ public class ActionProductActivity extends ListActivity implements ActionProduct
     @BindView(R.id.data_recycler)
     RecyclerView dataList;
     SearchView searchView;
+    @Inject
+    UserActionInteractor userActionInteractor;
+    @ProvidePresenter
+    ActionProductPresenter provideProductPresenter()
+    {
+        AppData.getComponentsManager().getWarehouseComponent().inject(this);
+        return new ActionProductPresenter(userActionInteractor);
+    }
 
 
     @Override

@@ -19,10 +19,10 @@ public interface ProductTransactionService {
     Observable<List<ProductTransactionDTO>>getAllShipmentProductTransactions();
     @Headers("Content-Type: application/json")
     @POST("/api/v1/transactions/supply")
-    Observable<List<ProductTransactionDTO>>addSupplyTransactions(@Body ProductTransaction productTransaction);
+    Observable<List<ProductTransactionDTO>>addSupplyTransactions(@Body ProductTransactionDTO productTransaction);
     @Headers("Content-Type: application/json")
     @POST("/api/v1/transactions/shipment")
-    Observable<List<ProductTransactionDTO>>addShipmentTransactions(@Body ProductTransaction productTransaction);
+    Observable<List<ProductTransactionDTO>>addShipmentTransactions(@Body ProductTransactionDTO productTransaction);
     @GET("/api/v1/transactions/product/{id}")
     Observable<List<ProductTransactionDTO>>getProductTransactionById(@Path("id")long id);
 }

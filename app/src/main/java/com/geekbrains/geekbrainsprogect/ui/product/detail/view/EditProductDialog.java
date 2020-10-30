@@ -26,6 +26,7 @@ import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditCategoryDialog extends DialogFragment implements View.OnClickListener {
+public class EditProductDialog extends DialogFragment implements View.OnClickListener {
     private ProductModel product;
     private static final int CATEGORIES_COUNT_IN_LINE = 4;
     private IOnClickListener onClickListener;
@@ -60,11 +61,12 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
     TextInputEditText unitDescriptionEdit;
 
 
-    public EditCategoryDialog(ProductModel product, List<Category>categories,  IOnClickListener iOnClickListener)
+    public EditProductDialog(ProductModel productModel, EditProductData editProductData, IOnClickListener iOnClickListener)
     {
-        this.product = product;
+        this.product = productModel;
         onClickListener = iOnClickListener;
-        categoryList = categories;
+        categoryList = editProductData.getCategoryList();
+        allUnits = editProductData.getUnitList();
     }
 
 

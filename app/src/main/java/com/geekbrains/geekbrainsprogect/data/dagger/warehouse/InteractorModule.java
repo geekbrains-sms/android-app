@@ -32,9 +32,11 @@ public class InteractorModule {
     @Provides
     DetailProductInteractor provideProductDetailInteractor(ProductRepository productRepository,
                                                            ProductTransactionRepository productTransactionRepository,
-                                                           ProductMapper productMapper, ProductTransactionMapper productTransactionMapper)
+                                                           ProductMapper productMapper, ProductTransactionMapper productTransactionMapper,
+                                                           CategoryRepository categoryRepository, UnitRepository unitRepository, ContractorRepository contractorRepository)
     {
-        return new DetailProductInteractorImpl(productRepository, productTransactionRepository,productMapper, productTransactionMapper);
+        return new DetailProductInteractorImpl(productRepository, productTransactionRepository, productMapper,
+                productTransactionMapper, categoryRepository,unitRepository,contractorRepository);
     }
 
     @ProductScope

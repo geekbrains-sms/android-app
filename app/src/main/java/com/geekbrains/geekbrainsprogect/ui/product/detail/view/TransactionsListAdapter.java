@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -22,12 +23,12 @@ import butterknife.ButterKnife;
 
 public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsListAdapter.ViewHolder> {
     private Context context;
-    private List<ProductTransaction>allTransactions;
-    private List<ProductTransaction>filteredTransactions = new ArrayList<>();
-    private List<ProductTransaction>supplyTransactions = new ArrayList<>();
-    private List<ProductTransaction>shipmentTransactions = new ArrayList<>();
+    private List<ProductTransactionModel>allTransactions;
+    private List<ProductTransactionModel>filteredTransactions = new ArrayList<>();
+    private List<ProductTransactionModel>supplyTransactions = new ArrayList<>();
+    private List<ProductTransactionModel>shipmentTransactions = new ArrayList<>();
 
-    public TransactionsListAdapter(Context context, List<ProductTransaction>productTransactions)
+    public TransactionsListAdapter(Context context, List<ProductTransactionModel>productTransactions)
     {
         this.context = context;
         allTransactions = productTransactions;
@@ -44,7 +45,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
     }
 
     private void addSupplyTransactions() {
-        for(ProductTransaction transaction: allTransactions)
+        for(ProductTransactionModel transaction: allTransactions)
         {
             if(transaction.getQuantity() > 0)
             {
@@ -61,7 +62,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
     }
 
     private void addShipmentTransaction() {
-        for(ProductTransaction transaction: allTransactions)
+        for(ProductTransactionModel transaction: allTransactions)
         {
             if(transaction.getQuantity() < 0)
             {
@@ -119,7 +120,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(ProductTransaction transaction)
+        public void bind(ProductTransactionModel transaction)
         {
 //            productName.setText(context.getString(R.string.product_name_field, transaction.getProduct().getTitle()));
             if(transaction.getQuantity() > 0)
@@ -137,7 +138,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             comment.setText(context.getString(R.string.comment_trasaction_field, transaction.getComment()));
 //            userName.setText(context.getString(R.string.operator, transaction.getUser().getFullname()));
 //            date.setText(transaction.getDate().toString());
-            count.setText(transaction.getStringQuantity());
+            count.setText(transaction.getQuantity() + "");
 //            units.setText(transaction.getProduct().getUnitsTitle());
 
         }
