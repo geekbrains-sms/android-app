@@ -14,7 +14,7 @@ public interface ContractorRepository {
     Completable saveContractorFromServerToDB();
     Observable<List<Contractor>>getProvidersByProductId(long id);
     Observable<Contractor>addContractor(Contractor contractor);
-    Observable<ResponseBody>deleteContractorById(long id);
+    Completable deleteContractorById(long id);
     Observable<ResponseBody>editContractor(Contractor contractor);
     Completable addContractorsCross(long productID);
 }

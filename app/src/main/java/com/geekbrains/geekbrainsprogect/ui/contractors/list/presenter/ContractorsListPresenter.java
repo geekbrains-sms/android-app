@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -25,29 +26,27 @@ public class ContractorsListPresenter extends MvpPresenter<ContractorsListView> 
     @Inject
     public ContractorsListPresenter(ContractorInteractor contractorInteractor) {
         this.contractorInteractor = contractorInteractor;
-    }
-
-    public ContractorsListPresenter()
-    {
+        saveContractorList();
         getContractorList();
     }
 
+    private void saveContractorList() {
+        Disposable disposable = contractorInteractor.saveContractorsFromServerToDb()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{}, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    }
+
+
     public void getContractorList()
     {
-//        Single<Response<List<Contractor>>> single = AppData.getApiHelper().getAllContractors();
-//
-//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-//            if(requestMsg.isSuccessful())
-//            {
-//                AppData.setContractorList(requestMsg.body());
-//                getViewState().setDataToAdapter(AppData.getContractorList());
-//            }
-//            else
-//            {
-//                getViewState().showAlertDialog(requestMsg.errorBody().string());
-//            }
-//
-//        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+        Disposable disposable = contractorInteractor.getAllContractorList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(contractors -> {
+
+                getViewState().setDataToAdapter(contractors);
+        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
     public void addContractor(Contractor contractor) {

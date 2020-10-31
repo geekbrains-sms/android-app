@@ -14,5 +14,5 @@ public interface UserInteractor {
     Completable addUser(UserModel userModel);
     Completable editUser(UserModel userMode);
     Completable deleteUser(UserModel userModel);
-    Flowable<Role> getAllRolesList();
+    Flowable<List<Role>> getAllRolesList();
 }

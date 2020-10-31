@@ -17,4 +17,6 @@ public abstract class ContractorDao extends BaseDao<Contractor> {
     public abstract List<Contractor>getContractorById(long id);
     @Query("DELETE FROM contractor")
     public abstract Completable deleteAllContractor();
+    @Query("DELETE FROM contractor WHERE contractorId = :id")
+    public abstract Completable deleteById(long id);
 }

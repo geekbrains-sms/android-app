@@ -15,7 +15,7 @@ public class UserDTO implements IUser {
     private String email;
     private List<Role> roles;
 
-    public UserDTO(Long id, String login, String firstname, String lastname, String phone, String email, List<Role> roles) {
+    public UserDTO(Long id, String login, String firstname, String lastname, String phone, String email, String password, List<Role> roles) {
         this.id = id;
         this.login = login;
         this.firstname = firstname;
@@ -23,6 +23,7 @@ public class UserDTO implements IUser {
         this.phone = phone;
         this.email = email;
         this.roles = roles;
+        this.password = password;
     }
 
     public long getId() {

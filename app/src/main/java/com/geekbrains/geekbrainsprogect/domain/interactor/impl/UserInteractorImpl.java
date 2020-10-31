@@ -46,7 +46,7 @@ public class UserInteractorImpl implements UserInteractor {
     }
 
     @Override
-    public Flowable<Role> getAllRolesList() {
-        return null;
+    public Flowable<List<Role>> getAllRolesList() {
+        return userRepository.getRoleList();
     }
 }

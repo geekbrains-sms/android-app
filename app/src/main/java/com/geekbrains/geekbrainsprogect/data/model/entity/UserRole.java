@@ -10,11 +10,11 @@ import java.util.List;
 
 public class UserRole implements IUser {
     @Embedded
-    User user;
+    public User user;
     @Relation(parentColumn = "userId",
             entityColumn = "roleId",
             associateBy = @Junction(UserRoleCrossRef.class))
-    List<Role> roleList;
+    public List<Role> roleList;
 
     @Override
     public long getId() {
@@ -49,5 +49,10 @@ public class UserRole implements IUser {
     @Override
     public String getEmail() {
         return user.getEmail();
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return roleList;
     }
 }

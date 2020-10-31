@@ -36,7 +36,6 @@ public class ActionProductActivity extends ListActivity implements ActionProduct
     FloatingActionButton addButton;
     @BindView(R.id.data_recycler)
     RecyclerView dataList;
-    SearchView searchView;
     @Inject
     UserActionInteractor userActionInteractor;
     @ProvidePresenter
@@ -85,14 +84,6 @@ public class ActionProductActivity extends ListActivity implements ActionProduct
             menu.findItem(R.id.filter).setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public void onBackPressed() {
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-            return;
-        }
-        super.onBackPressed();
     }
 
     @Override

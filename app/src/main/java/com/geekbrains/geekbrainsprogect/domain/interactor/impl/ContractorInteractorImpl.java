@@ -39,4 +39,9 @@ public class ContractorInteractorImpl implements ContractorInteractor {
         return contractorRepository.editContractor(contractor)
                 .ignoreElements();
     }
+
+    @Override
+    public Completable deleteContractor(Contractor contractor) {
+        return contractorRepository.deleteContractorById(contractor.id);
+    }
 }

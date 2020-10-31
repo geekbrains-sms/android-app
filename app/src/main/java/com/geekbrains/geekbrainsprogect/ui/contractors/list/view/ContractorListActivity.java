@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.View;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ContractorInteractor;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
 import com.geekbrains.geekbrainsprogect.ui.contractors.list.presenter.ContractorsListPresenter;
@@ -17,10 +19,13 @@ import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDivid
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class ContractorListActivity extends ListActivity implements ContractorsListView {
     @InjectPresenter
@@ -28,6 +33,14 @@ public class ContractorListActivity extends ListActivity implements ContractorsL
     @BindView(R.id.data_recycler)
     RecyclerView contractorsList;
     private ContractorsListAdapter adapter;
+    @Inject
+    ContractorInteractor contractorInteractor;
+    @ProvidePresenter
+    ContractorsListPresenter provideContractorListPresenter()
+    {
+        AppData.getComponentsManager().getWarehouseComponent().inject(this);
+        return new ContractorsListPresenter(contractorInteractor);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +73,7 @@ public class ContractorListActivity extends ListActivity implements ContractorsL
     }
 
     private void showAddContractorDialog() {
-        DialogFragment personalDialog = new ContractorDialog((old, contractor) -> {
+        DialogFragment personalDialog = new ContractorDialog(contractor -> {
             presenter.addContractor(contractor);
         });
         personalDialog.show(getSupportFragmentManager(), "contractorDialog");
@@ -85,8 +98,8 @@ public class ContractorListActivity extends ListActivity implements ContractorsL
 
 
     public void showEditContractorDialog(Contractor contractor) {
-        DialogFragment personalDialog = new ContractorDialog(contractor, (contractorOld,contractorEdit) -> {
-            presenter.editContractor(contractorEdit, contractorOld);
+        DialogFragment personalDialog = new ContractorDialog(contractor, contractorEdit -> {
+            presenter.editContractor(contractorEdit);
         });
         personalDialog.show(getSupportFragmentManager(), "contractorDialog");
     }

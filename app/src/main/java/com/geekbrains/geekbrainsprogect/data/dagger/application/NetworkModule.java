@@ -142,9 +142,4 @@ public class NetworkModule {
         return retrofit.create(UserActionService.class);
     }
 
-    @Provides
-    @Singleton
-    UserService providerUserService(Retrofit retrofit) {
-        return retrofit.create(UserService.class);
-    }
 }

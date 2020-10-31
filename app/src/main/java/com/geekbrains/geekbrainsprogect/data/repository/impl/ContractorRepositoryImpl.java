@@ -50,8 +50,10 @@ public class ContractorRepositoryImpl implements ContractorRepository {
     }
 
     @Override
-    public Observable<ResponseBody> deleteContractorById(long id) {
-        return null;
+    public Completable deleteContractorById(long id) {
+        return contractorService.deleteContractorById(id)
+                .flatMapCompletable(x -> contractorDao.deleteById(id));
+
     }
 
     @Override

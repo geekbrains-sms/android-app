@@ -78,7 +78,7 @@ public class ContractorDialog extends DialogFragment {
                             {
                                 newContractor.setId(contractor.getId());
                             }
-                            onClickListener.onClick(contractor, newContractor);
+                            onClickListener.onClick(newContractor);
                             dialog.dismiss();
                         }
                     }
@@ -89,6 +89,6 @@ public class ContractorDialog extends DialogFragment {
 
     public interface IOnClickListener
     {
-        void onClick(Contractor old, Contractor newContractor);
+        void onClick(Contractor newContractor);
     }
 }

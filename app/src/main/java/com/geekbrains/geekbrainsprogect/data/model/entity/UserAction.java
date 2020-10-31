@@ -67,4 +67,9 @@ public class UserAction implements Item {
     public String getItemName() {
         return toString();
     }
+
+    @Override
+    public String toString() {
+        return id + ". " + authorName + " " + type + " " + productName + " ." + data;
+    }
 }

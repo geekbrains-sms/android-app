@@ -10,6 +10,8 @@ import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view.PersonalL
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -83,7 +85,21 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     }
 
     public void createPersonalDialog(UserModel item) {
+        Disposable disposable = userInteractor.getAllRolesList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(roles -> {
+                    getViewState().showEditDialog(item, roles);
+                }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    }
 
-        getViewState().showEditPersonalDialog(item, roles);
+    public void createNewUserDialog() {
+        Disposable disposable = userInteractor.getAllRolesList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(roles -> {
+                    getViewState().showAddPersonalDialog(roles);
+                }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+
     }
 }

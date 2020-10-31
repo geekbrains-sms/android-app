@@ -27,15 +27,18 @@ public class UserRepositoryImpl implements UserRepository {
     RoleDao roleDao;
     RoleService roleService;
     UserRoleCrossDao userRoleCrossDao;
-
     @Inject
-    public UserRepositoryImpl(UserDao userDao, UserService userService, UserMapper userMapper, RoleDao roleDao, RoleService roleService) {
+    public UserRepositoryImpl(UserDao userDao, UserService userService, UserMapper userMapper, RoleDao roleDao, RoleService roleService, UserRoleCrossDao userRoleCrossDao) {
         this.userDao = userDao;
         this.userService = userService;
         this.userMapper = userMapper;
         this.roleDao = roleDao;
         this.roleService = roleService;
+        this.userRoleCrossDao = userRoleCrossDao;
     }
+
+
+
 
     @Override
     public Flowable<List<UserModel>> getUserList() {

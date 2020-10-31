@@ -18,6 +18,7 @@ import com.geekbrains.geekbrainsprogect.data.database.room.dao.RoleDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UnitDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserActionDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserRoleCrossDao;
 
 
 import javax.inject.Singleton;
@@ -101,5 +102,11 @@ public class RoomModule {
     UnitDao provideUnitDao(Database database)
     {
         return database.getUnitDao();
+    }
+    @Singleton
+    @Provides
+    UserRoleCrossDao provideUserRoleCrossDao(Database database)
+    {
+        return database.getUserRoleCrossDao();
     }
 }

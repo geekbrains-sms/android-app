@@ -5,8 +5,10 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.UserInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
 import com.geekbrains.geekbrainsprogect.ui.base.ListActivity;
@@ -14,9 +16,13 @@ import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.presenter.Pers
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.SimpleDividerItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class PersonalListActivity extends ListActivity implements PersonalListView{
     @InjectPresenter
@@ -26,6 +32,14 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     @BindView(R.id.add_product_float_action)
     FloatingActionButton actionButton;
     PersonalListAdapter adapter;
+    @Inject
+    UserInteractor userInteractor;
+    @ProvidePresenter
+    PersonalListPresenter providePersonalListPresenter()
+    {
+        AppData.getComponentsManager().getWarehouseComponent().inject(this);
+        return new PersonalListPresenter(userInteractor);
+    }
 
 
 
@@ -39,7 +53,7 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     }
 
     private void setListeners() {
-        actionButton.setOnClickListener(v -> showAddPersonalDialog(v));
+        actionButton.setOnClickListener(v -> presenter.createNewUserDialog());
         adapter.setOnItemClickListener(new BaseListAdapter.IOnItemClickListener<UserModel>() {
             @Override
             public void onItemClick(UserModel item) {
@@ -53,7 +67,7 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
         });
     }
 
-    private void showAddPersonalDialog(List<Role>allRoles) {
+    public void showAddPersonalDialog(List<Role>allRoles) {
         DialogFragment personalDialog = new PersonalDialog((user) -> {
             presenter.addUser(user);
         }, allRoles);
@@ -80,10 +94,7 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
 
 
     public void showEditPersonalDialog(UserModel user, List<Role>allRoles) {
-        DialogFragment personalDialog = new PersonalDialog(user, (userEdit) -> {
-            presenter.editUser(userEdit);
-        }, allRoles);
-        personalDialog.show(getSupportFragmentManager(), "personalDialog");
+
     }
 
     @Override
@@ -120,4 +131,11 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     protected void filter() {}
 
 
+    @Override
+    public void showEditDialog(UserModel item, List<Role>allRoles) {
+        DialogFragment personalDialog = new PersonalDialog(item, (userEdit) -> {
+            presenter.editUser(userEdit);
+        }, allRoles);
+        personalDialog.show(getSupportFragmentManager(), "personalDialog");
+    }
 }
