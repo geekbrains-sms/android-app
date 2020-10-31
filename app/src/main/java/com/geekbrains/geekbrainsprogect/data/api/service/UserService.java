@@ -22,7 +22,7 @@ public interface UserService {
     @PUT("/api/v1/users/{id}")
     Observable<ResponseBody>editUser(@Path("id")long id, @Body UserDTO user);
     @POST("/api/v1/users")
-    Observable<Response<User>>addUser(@Body UserDTO user);
+    Observable<UserDTO>addUser(@Body UserDTO user);
     @DELETE("/api/v1/users/{id}")
     Observable<ResponseBody>deleteUser(@Path("id")long id);
 }

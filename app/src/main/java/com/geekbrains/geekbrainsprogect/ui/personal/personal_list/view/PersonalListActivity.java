@@ -5,6 +5,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
@@ -38,24 +39,24 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     }
 
     private void setListeners() {
-//        actionButton.setOnClickListener(v -> showAddPersonalDialog());
-//        adapter.setOnItemClickListener(new BaseListAdapter.IOnItemClickListener<User>() {
-//            @Override
-//            public void onItemClick(User item) {
-//                showEditPersonalDialog(item);
-//            }
-//
-//            @Override
-//            public void onItemChangeChecked() {
-//                invalidateOptionsMenu();
-//            }
-//        });
+        actionButton.setOnClickListener(v -> showAddPersonalDialog(v));
+        adapter.setOnItemClickListener(new BaseListAdapter.IOnItemClickListener<UserModel>() {
+            @Override
+            public void onItemClick(UserModel item) {
+                presenter.createPersonalDialog(item);
+            }
+
+            @Override
+            public void onItemChangeChecked() {
+                invalidateOptionsMenu();
+            }
+        });
     }
 
-    private void showAddPersonalDialog() {
-        DialogFragment personalDialog = new PersonalDialog((user, userOld) -> {
+    private void showAddPersonalDialog(List<Role>allRoles) {
+        DialogFragment personalDialog = new PersonalDialog((user) -> {
             presenter.addUser(user);
-        }, presenter.getRolesList());
+        }, allRoles);
         personalDialog.show(getSupportFragmentManager(), "personalDialog");
     }
 
@@ -68,8 +69,8 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     }
 
     @Override
-    public void setDataToAdapter(List<User> body) {
-//        adapter.setItemList(body);
+    public void setDataToAdapter(List<UserModel> body) {
+        adapter.setItemList(body);
     }
 
     @Override
@@ -78,10 +79,10 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     }
 
 
-    public void showEditPersonalDialog(User user) {
-        DialogFragment personalDialog = new PersonalDialog(user, (userEdit, oldUser) -> {
-            presenter.editUser(userEdit, oldUser);
-        }, presenter.getRolesList());
+    public void showEditPersonalDialog(UserModel user, List<Role>allRoles) {
+        DialogFragment personalDialog = new PersonalDialog(user, (userEdit) -> {
+            presenter.editUser(userEdit);
+        }, allRoles);
         personalDialog.show(getSupportFragmentManager(), "personalDialog");
     }
 
@@ -108,8 +109,8 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     protected void delete() {
         for(UserModel user : adapter.getSelectedList())
         {
-//            if(user != null)
-//                presenter.deleteUser(user);
+            if(user != null)
+                presenter.deleteUser(user);
         }
     }
 

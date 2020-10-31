@@ -1,11 +1,12 @@
 package com.geekbrains.geekbrainsprogect.domain.model;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 import com.geekbrains.geekbrainsprogect.ui.base.Item;
 
 import java.util.List;
 
-public class UserModel implements Item {
+public class UserModel implements Item, IUser {
     private long id;
     private String login;
     private String firstname;
@@ -37,12 +38,13 @@ public class UserModel implements Item {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    @Override
+    public String getFirstName() {
+        return firstname;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public void setFirstname(String firstname) {

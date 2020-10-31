@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity(tableName = "users")
 public class User implements IUser {
     @PrimaryKey
+    @ColumnInfo(name = "userId", index = true)
     public long id;
     public String login;
     public String firstname;

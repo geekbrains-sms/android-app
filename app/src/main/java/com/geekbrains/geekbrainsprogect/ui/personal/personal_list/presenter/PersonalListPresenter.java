@@ -4,6 +4,8 @@ import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.UserInteractor;
+import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 import com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view.PersonalListView;
 
 import java.util.ArrayList;
@@ -20,115 +22,68 @@ import retrofit2.Response;
 @InjectViewState
 public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     private static String TAG = "PersonalListPresenter";
-    private List<User> userList = new ArrayList<>();
-    private List<Role> rolesList = new ArrayList<>();
+    UserInteractor userInteractor;
 
-    public PersonalListPresenter ()
+    public PersonalListPresenter (UserInteractor userInteractor)
     {
+        this.userInteractor = userInteractor;
+        loadUserFromDB();
         loadUserListFromServer();
-        loadRoles();
+
     }
 
-    public List<Role> getRolesList() {
-        return rolesList;
-    }
-
-    private void loadRoles() {
-//        Single<Response<List<Role>>> single = AppData.getApiHelper().getAllRoles();
-//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(rolesResponse -> {
-//            if(rolesResponse.isSuccessful())
-//            {
-//                this.rolesList = rolesResponse.body();
-//            }
-//            else
-//            {
-//                getViewState().showAlertDialog(rolesResponse.errorBody().string());
-//            }
-//        }, throwable -> {
-//            getViewState().showAlertDialog(throwable.getMessage());
-//        });
+    private void loadUserFromDB() {
+        Disposable disposable = userInteractor.getUserList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userList -> {
+                    getViewState().setDataToAdapter(userList);
+                }, throwable -> {
+                    getViewState().showAlertDialog(throwable.getMessage());
+                });
     }
 
     public void loadUserListFromServer() {
-//        Single<Response<List<User>>> single = AppData.getApiHelper().getActualUsers();
-//
-//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
-//            if(userResponse.isSuccessful())
-//            {
-//                this.userList = userResponse.body();
-//                getViewState().setDataToAdapter(userList);
-//            }
-//            else
-//            {
-//                getViewState().showAlertDialog(userResponse.errorBody().string());
-//            }
-//        }, throwable -> {
-//            getViewState().showAlertDialog(throwable.getMessage());
-//        });
+        Disposable disposable = userInteractor.saveUserFromServerToDB()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {}, throwable -> {
+            getViewState().showAlertDialog(throwable.getMessage());
+        });
     }
 
-    public void deleteUser(User user)
+    public void deleteUser(UserModel user)
     {
-//        Single<Response<ResponseBody>> single = AppData.getApiHelper().deleteUser(user.getId());
-//
-//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-//            if(requestMsg.isSuccessful())
-//            {
-//                userList.remove(user);
-//                getViewState().setDataToAdapter(userList);
-//                getViewState().showToast(R.string.user_deleted);
-//            }
-//            else
-//            {
-//                getViewState().showAlertDialog(requestMsg.errorBody().string());
-//            }
-//
-//        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+        Disposable disposable = userInteractor.deleteUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                getViewState().showToast(R.string.user_deleted);
+        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
-    public void editUser(User user, User oldUser)
+    public void editUser(UserModel user)
     {
-//        Single<Response<ResponseBody>> single = AppData.getApiHelper().editUser(user.getId(), user);
-//
-//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-//            if(requestMsg.isSuccessful())
-//            {
-//                updateUser(oldUser, user);
-//                getViewState().setDataToAdapter(userList);
-//                getViewState().showToast(R.string.user_edited);
-//            }
-//            else
-//            {
-//                getViewState().showAlertDialog(requestMsg.errorBody().string());
-//            }
-//
-//        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+        Disposable disposable = userInteractor.editUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                getViewState().showToast(R.string.user_edited);
+        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
-    public void addUser(User user) {
-//        Single<Response<User>> single = AppData.getApiHelper().addUser(user);
-//
-//        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-//            if(requestMsg.isSuccessful())
-//            {
-//                userList.add(requestMsg.body());
-//                getViewState().setDataToAdapter(userList);
-////                getViewState().updateRecyclerView();
-//                getViewState().showToast(R.string.user_added);
-//            }
-//            else
-//            {
-//                getViewState().showAlertDialog(requestMsg.errorBody().string());
-//            }
-//
-//        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    public void addUser(UserModel user) {
+        Disposable disposable = userInteractor.addUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                getViewState().showToast(R.string.user_added);
+
+        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
-    public void updateUser(User old, User newContractor)
-    {
-        if(userList != null)
-        {
-            userList.set(userList.indexOf(old), newContractor);
-        }
+    public void createPersonalDialog(UserModel item) {
+
+        getViewState().showEditPersonalDialog(item, roles);
     }
 }

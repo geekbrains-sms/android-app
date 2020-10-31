@@ -54,9 +54,9 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     @BindView(R.id.role_container)
     LinearLayout mainContainer;
 
-    private List<Role>roles;
+    private List<Role> allRoles;
     private List<Role>userRoles = new ArrayList<>();
-    private User user;
+    private UserModel user;
     private ArrayAdapter<Role>adapter;
     
 
@@ -64,16 +64,16 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     OnClickEditButton onClickEditButton;
 
 
-    public PersonalDialog(User user, OnClickEditButton onClickEditButton, List<Role>roles)
+    public PersonalDialog(UserModel user, OnClickEditButton onClickEditButton, List<Role> allRoles)
     {
         this.onClickEditButton = onClickEditButton;
-        this.roles = roles;
+        this.allRoles = allRoles;
         this.user = user;
     }
-    public PersonalDialog(OnClickEditButton onClickEditButton, List<Role>roles)
+    public PersonalDialog(OnClickEditButton onClickEditButton, List<Role> allRoles)
     {
         this.onClickEditButton = onClickEditButton;
-        this.roles = roles;
+        this.allRoles = allRoles;
     }
 
     @NonNull
@@ -117,13 +117,13 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
 
                 if(password.equals(confirmPassword) && textEntered(login) && textEntered(password) && textEntered(firstName) && textEntered(lastName) && !userRoles.isEmpty())
                 {
-//                    UserModel userLocal = new User(login, firstName, lastName, email, phone, password, userRoles);
-//                    if(user != null)
-//                    {
-//                        userLocal.setId(user.getId());
-//                    }
-//                    onClickEditButton.onClick(userLocal, user);
-//                    dialog1.dismiss();
+                    UserModel userLocal = new UserModel(0,login, firstName, lastName, email, phone, userRoles);
+                    if(user != null)
+                    {
+                        userLocal.setId(user.getId());
+                    }
+                    onClickEditButton.onClick(userLocal);
+                    dialog1.dismiss();
                 }
             });
         });
@@ -139,7 +139,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     private void setDataToViews()
     {
         loginEdit.setText(user.getLogin());
-        firstNameEdit.setText(user.getFirstname());
+        firstNameEdit.setText(user.getFirstName());
         lastNameEdit.setText(user.getLastname());
 
         StringBuilder builder = new StringBuilder();
@@ -239,7 +239,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     private List<Role> getActualRoles()
     {
         List<Role>actualRole = new ArrayList<>();
-        for(Role role : roles)
+        for(Role role : allRoles)
         {
             boolean empty = false;
             for(Role role2 : userRoles)
@@ -268,7 +268,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
         String text = rolesSelect.getText().toString();
         if(checkText(text))
         {
-            for(Role role : roles)
+            for(Role role : allRoles)
             {
                 if(text.trim().equals(role.getTitle().trim()))
                 {
@@ -291,6 +291,6 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
 
     public interface OnClickEditButton
     {
-        void onClick(User newUser, User oldUser);
+        void onClick(UserModel newUser);
     }
 }

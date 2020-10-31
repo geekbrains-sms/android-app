@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @Entity(tableName = "roles")
 public class Role {
     @PrimaryKey
+    @ColumnInfo(name = "roleId",index = true)
     public int id;
     public String name;
     public String title;

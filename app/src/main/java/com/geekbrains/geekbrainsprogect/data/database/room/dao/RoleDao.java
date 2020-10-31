@@ -12,11 +12,11 @@ import io.reactivex.Flowable;
 @Dao
 public abstract class RoleDao extends BaseDao<Role> {
     @Query("SELECT * FROM roles")
-    abstract Flowable<List<Role>> getAllRoles();
+    public abstract Flowable<List<Role>> getAllRoles();
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
 //    @Query("SELECT * FROM roles INNER JOIN user_role_join ON roles.id = user_role_join.roleId WHERE user_role_join.userId = :id")
 //    abstract Flowable<List<Role>> getRolesByUserId(long id);
     @Query("DELETE FROM roles")
-    abstract Completable deleteAllRoles();
+    public abstract Completable deleteAllRoles();
 
 }

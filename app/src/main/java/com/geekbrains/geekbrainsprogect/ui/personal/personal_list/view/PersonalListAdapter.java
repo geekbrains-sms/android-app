@@ -56,7 +56,7 @@ public class PersonalListAdapter extends BaseListAdapter<UserModel, PersonalList
 
         public void bind(UserModel user) {
             login.setText(user.getLogin());
-            name.setText(user.getFirstname());
+            name.setText(user.getFirstName());
             StringBuilder stringBuffer = new StringBuilder();
             for (Role role : user.getRoles()) {
                 if (stringBuffer.length() != 0) {

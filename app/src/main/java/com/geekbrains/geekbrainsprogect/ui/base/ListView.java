@@ -4,7 +4,7 @@ import com.geekbrains.geekbrainsprogect.ui.base.BaseView;
 
 import java.util.List;
 
-public interface ListView<T> extends BaseView {
+public interface ListView<T extends Item> extends BaseView {
     void setDataToAdapter(List<T> list);
     void updateRecyclerView();
 }
