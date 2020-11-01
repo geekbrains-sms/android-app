@@ -72,6 +72,7 @@ public class CategoryActivity extends ListActivity implements CategoryView {
             }
         });
         categoryList.setAdapter(adapter);
+        setAdapter(adapter);
         categoryList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         categoryList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
     }
@@ -81,19 +82,6 @@ public class CategoryActivity extends ListActivity implements CategoryView {
         adapter.setItemList(body);
     }
 
-    @Override
-    public void showAlertDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.error);
-        builder.setMessage(message);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {});
-        builder.create().show();
-    }
-
-    @Override
-    public void showToast(int text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void updateRecyclerView() {

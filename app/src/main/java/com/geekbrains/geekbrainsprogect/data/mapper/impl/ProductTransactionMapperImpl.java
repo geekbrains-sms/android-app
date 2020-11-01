@@ -31,7 +31,11 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
         long id = object.getId();
         long productId = object.getProductId();
         Contractor contractor = object.getContractor();
-        UserModel userModel = userMapper.toModel(object.getUser());
+        UserModel userModel = null;
+        if(object.getUser() != null)
+        {
+            userModel = userMapper.toModel(object.getUser());
+        }
         double quantity = object.getQuantity();
         String comment = object.getComment();
         String date = object.getDate();
@@ -45,7 +49,11 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
         Log.d(TAG, "toDto() start: " + object.toString());
         long id = object.getId();
         Contractor contractor = object.getContractor();
-        UserDTO userDTO = userMapper.toDto(object.getUser());
+        UserDTO userDTO = null;
+        if(object.getUser() != null)
+        {
+            userDTO = userMapper.toDto(object.getUser());
+        }
         double quantity = object.getQuantity();
         String comment = object.getComment();
         String date = object.getDate();

@@ -57,10 +57,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Observable<List<ProductWithCategory>> getProductFromServer() {
         Log.d(TAG, "getProductFromServer()");
         return fundService.getAllFunds()
-                    .map(x -> productMapper.toEntityListProducts(x))
                     .doOnNext(x -> {
                         deleteAllProduct();
-                        productDao.insertAll(x);
+                        productDao.insertAll(productMapper.toEntityListProducts(x));
                     })
                     .map(x -> productMapper.toEntityList(x));
                 }

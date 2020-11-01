@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements Filterable {
 
     private List<T> itemList;
-    private List<T> filteredItem;
+    private List<T> filteredItem = new ArrayList<>();
     private List<T> selectedList;
     private Context context;
     private boolean checkedMode = false;
@@ -42,18 +42,17 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
 
     @Override
     public Filter getFilter() {
-
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
+                List<T>filtered = new ArrayList<>();
                 if(charString.isEmpty())
                 {
-                    resetFilterList();
+                    filtered = itemList;
                 }
                 else
                 {
-                    List<T>filtered = new ArrayList<>();
                     for(T item: itemList)
                     {
                         if(item.getItemName().toLowerCase().contains(charString.toLowerCase()))
@@ -61,16 +60,16 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
                             filtered.add(item);
                         }
                     }
-                    filteredItem = filtered;
+//
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredItem;
+                filterResults.values = filtered;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredItem = (ArrayList<T>) results.values;
+                filteredItem = (ArrayList<T>)results.values;
                 notifyDataSetChanged();
             }
         };

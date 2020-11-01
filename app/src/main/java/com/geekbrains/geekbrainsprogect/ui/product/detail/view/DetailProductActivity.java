@@ -91,6 +91,7 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
                 break;
             case R.id.product_name:
                 presenter.createEditDialog();
+                break;
 
             case R.id.save_edit_product:
                 presenter.editProduct();
@@ -118,7 +119,6 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
         dialog.show(getSupportFragmentManager(), TAG);
     }
 
-    //
     public void showDialogSupply(ProductModel product, List<Contractor>contractors)
     {
         DialogTransaction dialogTransaction = new DialogTransaction(product, contractors, DialogTransaction.TYPE_SUPPLY, productTransaction -> presenter.transactionToServer(productTransaction));
@@ -130,11 +130,6 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
         DialogTransaction dialogTransaction = new DialogTransaction(product,contractors, DialogTransaction.TYPE_SHIPMENT, productTransaction -> presenter.transactionToServer(productTransaction));
         dialogTransaction.show(getSupportFragmentManager(), TAG);
     }
-
-//    @Override
-//    public void setDataToContractorsTextView(String contractorsString) {
-//        providerName.setText(getString(R.string.provider_field, contractorsString));
-//    }
 
     @Override
     public void showTransactionListDialog(List<ProductTransactionModel> body) {

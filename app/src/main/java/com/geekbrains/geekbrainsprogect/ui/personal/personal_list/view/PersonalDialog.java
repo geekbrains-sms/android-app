@@ -118,6 +118,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
                 if(password.equals(confirmPassword) && textEntered(login) && textEntered(password) && textEntered(firstName) && textEntered(lastName) && !userRoles.isEmpty())
                 {
                     UserModel userLocal = new UserModel(0,login, firstName, lastName, email, phone, userRoles);
+                    userLocal.setPassword(password);
                     if(user != null)
                     {
                         userLocal.setId(user.getId());

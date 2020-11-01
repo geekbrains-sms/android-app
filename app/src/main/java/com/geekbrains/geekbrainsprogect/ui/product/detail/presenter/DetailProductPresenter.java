@@ -36,9 +36,11 @@ public class DetailProductPresenter extends MvpPresenter<DetailProductView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productList -> {
                     model.setProductList(productList);
-                    getViewState().updatePage(nextProduct());
-                }, throwable -> {
+                    getViewState().updatePage(getCurrentProduct());
+                    arrowControl();
 
+                }, throwable -> {
+                    getViewState().showAlertDialog(throwable.getMessage());
                 });
     }
 
@@ -97,7 +99,6 @@ public class DetailProductPresenter extends MvpPresenter<DetailProductView> {
                 }, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
                 });
-        disposable.dispose();
     }
 
     public void transactionToServer(ProductTransactionModel productTransaction) {
@@ -108,7 +109,6 @@ public class DetailProductPresenter extends MvpPresenter<DetailProductView> {
         }, throwable -> {
             getViewState().showAlertDialog(throwable.getMessage());
         });
-        disposable.dispose();
 
     }
     public void shipment() {
@@ -157,7 +157,6 @@ public class DetailProductPresenter extends MvpPresenter<DetailProductView> {
                 }, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
                 });
-        disposable.dispose();
     }
 
     public void loadTransactions() {

@@ -10,6 +10,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -21,6 +22,7 @@ public interface UserService {
     Observable<UserDTO>getUserById(@Path("id")long id);
     @PUT("/api/v1/users/{id}")
     Observable<ResponseBody>editUser(@Path("id")long id, @Body UserDTO user);
+    @Headers("Content-Type: application/json")
     @POST("/api/v1/users")
     Observable<UserDTO>addUser(@Body UserDTO user);
     @DELETE("/api/v1/users/{id}")

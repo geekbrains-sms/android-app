@@ -23,9 +23,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     CategoryService categoryService;
     ProductCategoryCrossDao productCategoryCrossDao;
     @Inject
-    public CategoryRepositoryImpl(CategoryDao categoryDao, CategoryService categoryService) {
+    public CategoryRepositoryImpl(CategoryDao categoryDao, CategoryService categoryService, ProductCategoryCrossDao productCategoryCrossDao) {
         this.categoryDao = categoryDao;
         this.categoryService = categoryService;
+        this.productCategoryCrossDao = productCategoryCrossDao;
     }
 
     @Override
@@ -60,11 +61,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Completable addCategoryCross(ProductWithCategory productWithCategory) {
         return Completable.fromRunnable(()->{
-            productCategoryCrossDao.deleteByProduct(productWithCategory.product.id);
+            productCategoryCrossDao.deleteByProduct(productWithCategory.getId());
             for(Category category: productWithCategory.getCategoryList())
             {
                 categoryDao.insert(category);
-                productCategoryCrossDao.insert(new ProductCategoryCrossRef(productWithCategory.product.id, category.getId()));
+                productCategoryCrossDao.insert(new ProductCategoryCrossRef(productWithCategory.getId(), category.getId()));
             }
         });
     }

@@ -82,9 +82,9 @@ public class ContractorListActivity extends ListActivity implements ContractorsL
     private void recyclerSetting() {
         adapter = new ContractorsListAdapter(getApplicationContext());
         contractorsList.setAdapter(adapter);
+        setAdapter(adapter);
         contractorsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         contractorsList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
-        setAdapter(adapter);
     }
 
     public void setDataToAdapter(List<Contractor> body) {

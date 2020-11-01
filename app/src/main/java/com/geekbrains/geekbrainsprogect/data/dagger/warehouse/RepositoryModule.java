@@ -11,6 +11,7 @@ import com.geekbrains.geekbrainsprogect.data.api.service.UserActionService;
 import com.geekbrains.geekbrainsprogect.data.api.service.UserService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.CategoryDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ContractorDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductCategoryCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductContractorCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionCrossDao;
@@ -72,9 +73,9 @@ public class RepositoryModule {
 
     @ProductScope
     @Provides
-    CategoryRepository provideCategoryRepository(CategoryDao categoryDao, CategoryService categoryService)
+    CategoryRepository provideCategoryRepository(CategoryDao categoryDao, CategoryService categoryService, ProductCategoryCrossDao productCategoryCrossDao)
     {
-        return new CategoryRepositoryImpl(categoryDao, categoryService);
+        return new CategoryRepositoryImpl(categoryDao, categoryService, productCategoryCrossDao);
     }
     @ProductScope
     @Provides

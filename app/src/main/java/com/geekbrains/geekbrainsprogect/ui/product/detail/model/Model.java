@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
-    private int page = -1;
+    private int page = 0;
     private List<ProductModel>productList = new ArrayList<>();
     public int getPage() {
         return page;

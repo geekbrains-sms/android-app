@@ -59,6 +59,7 @@ public class ActionProductActivity extends ListActivity implements ActionProduct
     private void createRecycler() {
         adapter = new ActionProductAdapter(getApplicationContext());
         dataList.setAdapter(adapter);
+        setAdapter(adapter);
         dataList.setLayoutManager(new LinearLayoutManager(getApplication()));
         dataList.addItemDecoration(new SimpleDividerItemDecoration(getApplication()));
     }
