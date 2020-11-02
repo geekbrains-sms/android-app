@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;

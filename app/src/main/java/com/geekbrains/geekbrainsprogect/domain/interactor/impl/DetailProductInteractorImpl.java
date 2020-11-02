@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public class DetailProductInteractorImpl implements DetailProductInteractor {
     ProductRepository productRepository;
@@ -63,8 +64,9 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
     }
 
     @Override
-    public Flowable<EditProductData> getEditProductData() {
-        return Flowable.zip(categoryRepository.getAllCategoriesFromBD(), unitRepository.getAllUnitFromBD(), EditProductData::new);
+    public Single<EditProductData> getEditProductData() {
+        return Flowable.zip(categoryRepository.getAllCategoriesFromBD(), unitRepository.getAllUnitFromBD(), EditProductData::new)
+                .firstOrError();
     }
 
     @Override
@@ -73,14 +75,16 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
     }
 
     @Override
-    public Flowable<List<Contractor>> getContractorsFromDB() {
-        return saveContractorsFromServer().andThen(contractorRepository.getAllContractors());
+    public Single<List<Contractor>> getContractorsFromDB() {
+        return saveContractorsFromServer().andThen(contractorRepository.getAllContractors())
+                .firstOrError();
     }
 
     @Override
-    public Flowable<List<ProductTransactionModel>> getTransactionsByProduct(long id) {
-        return productRepository.getProductFromDbById(id)
-                .map(x -> productTransactionMapper.toModelList(x.getProductTransactions()));
+    public Single<List<ProductTransactionModel>> getTransactionsByProduct(long id) {
+        return productTransactionRepository.getProductTransactionByProductId(id)
+                .map(x -> productTransactionMapper.toModelList(x))
+                .firstOrError();
     }
 
     private Completable saveProductCategory(ProductWithCategory productWithCategory)

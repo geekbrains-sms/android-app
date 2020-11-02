@@ -92,7 +92,6 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
             case R.id.product_name:
                 presenter.createEditDialog();
                 break;
-
             case R.id.save_edit_product:
                 presenter.editProduct();
                 break;
@@ -102,7 +101,6 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
 
     public void updatePage(ProductModel product)
     {
-
         productName.setText(product.getTitle());
         productDescription.setText(getString(R.string.description_field, product.getDescription()));
         productCategory.setText(getString(R.string.category_field, product.getCategoriesString()));
@@ -165,5 +163,4 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
             view.setVisibility(View.INVISIBLE);
         }
     }
-
 }

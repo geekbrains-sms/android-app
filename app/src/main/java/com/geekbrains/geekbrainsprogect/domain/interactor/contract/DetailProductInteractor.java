@@ -9,14 +9,15 @@ import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
 import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 
 public interface DetailProductInteractor {
     Completable addProductTransaction(ProductTransactionModel productTransactionModel);
     Completable editProduct(ProductModel productModel);
     Flowable<List<ProductModel>> subscribeToProductChangesById(List<Long>productIndexList);
-    Flowable<EditProductData> getEditProductData();
+    Single<EditProductData> getEditProductData();
     Completable saveContractorsFromServer();
-    Flowable<List<Contractor>> getContractorsFromDB();
-    Flowable<List<ProductTransactionModel>> getTransactionsByProduct(long id);
+    Single<List<Contractor>> getContractorsFromDB();
+    Single<List<ProductTransactionModel>> getTransactionsByProduct(long id);
 }

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
@@ -21,11 +22,9 @@ public class ProductTransaction implements IProductTransactions {
     @ColumnInfo(name = "productId")
     @ForeignKey(entity = Product.class, parentColumns = "id", childColumns = "product_id", onDelete = CASCADE)
     public long productId;
-    @ColumnInfo(name = "contractorId")
-    @ForeignKey(entity = Contractor.class, parentColumns = "id", childColumns = "contractor_id")
+    @ColumnInfo(name = "contractor_id")
     public long contractorId;
-    @ColumnInfo(name = "userId")
-    @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id")
+    @ColumnInfo(name = "user_id")
     public long userId;
     String date;
     public double quantity;

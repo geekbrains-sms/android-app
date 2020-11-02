@@ -4,6 +4,7 @@ import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.api.service.ProductTransactionService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
@@ -45,7 +46,7 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
     }
 
     @Override
-    public Flowable<List<ProductTransaction>> getProductTransactionsFromDB() {
+    public Flowable<List<ProductTransactionData>> getProductTransactionsFromDB() {
         return productTransactionDao.getAllTransaction();
     }
 
@@ -80,5 +81,10 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
                 .flatMapCompletable(x -> Completable.fromRunnable(() -> {crossDao.insert(new ProductTransactionCrossRef(id, x.getId()));
                     productTransactionDao.insert(x);
                 }));
+    }
+
+    @Override
+    public Flowable<List<ProductTransactionData>> getProductTransactionByProductId(long id) {
+        return productTransactionDao.getTransactionsByProductId(id);
     }
 }
