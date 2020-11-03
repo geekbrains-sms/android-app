@@ -106,6 +106,7 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
         productCategory.setText(getString(R.string.category_field, product.getCategoriesString()));
         productCount.setText(product.getStringQuantity());
         productUnits.setText(product.getUnit().getTitle());
+        providerName.setText(product.getContractorsString());
     }
 
     @Override

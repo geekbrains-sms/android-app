@@ -21,6 +21,7 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
+import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthData;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Date;
@@ -87,7 +88,7 @@ public class DialogTransaction extends AppCompatDialogFragment {
             if(selectedContractor != null && count != 0)
             {
                 String date = new Date().toString();
-                ProductTransactionModel productTransaction = new ProductTransactionModel(0, selectedContractor, null, date, count, Objects.requireNonNull(commentTransaction.getText()).toString(), product.getId() );
+                ProductTransactionModel productTransaction = new ProductTransactionModel(0, selectedContractor, AuthData.getCurrentUser(), date, count, Objects.requireNonNull(commentTransaction.getText()).toString(), product);
                 onClickListener.onClick(productTransaction);
             }
         };

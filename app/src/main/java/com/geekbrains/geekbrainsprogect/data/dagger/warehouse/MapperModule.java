@@ -6,6 +6,7 @@ import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionM
 import com.geekbrains.geekbrainsprogect.data.mapper.impl.ProductTransactionMapperImpl;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.mapper.impl.UserMapperImpl;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,16 +14,16 @@ import dagger.Provides;
 public class MapperModule {
     @ProductScope
     @Provides
-    ProductMapper provideProductMapper(ProductTransactionMapper mapper)
+    ProductMapper provideProductMapper()
     {
-        return new ProductMapperImpl(mapper);
+        return new ProductMapperImpl();
     }
 
     @ProductScope
     @Provides
-    ProductTransactionMapper provideProductTransactionMapper(UserMapper userMapper)
+    ProductTransactionMapper provideProductTransactionMapper(UserMapper userMapper, ProductMapper productMapper)
     {
-        return new ProductTransactionMapperImpl(userMapper);
+        return new ProductTransactionMapperImpl(userMapper, productMapper);
     }
 
     @ProductScope

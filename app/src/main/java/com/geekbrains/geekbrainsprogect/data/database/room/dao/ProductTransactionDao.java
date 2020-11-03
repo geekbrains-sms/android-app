@@ -16,7 +16,7 @@ public abstract class ProductTransactionDao extends BaseDao<ProductTransaction> 
     public abstract Flowable<List<ProductTransactionData>> getAllTransaction();
     @Query("SELECT * FROM product_transaction WHERE product_transaction.transactionId = :id")
     public abstract Flowable<ProductTransactionData>getTransactionById(long id);
-    @Query("SELECT * FROM product_transaction WHERE productId = :id")
+    @Query("SELECT * FROM product_transaction WHERE product_id = :id")
     public abstract Flowable<List<ProductTransactionData>>getTransactionsByProductId(long id);
     @Query("DELETE FROM product_transaction")
     public abstract Completable deleteAllTransaction();

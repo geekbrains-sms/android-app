@@ -29,7 +29,7 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.join.UserRoleCrossRef;
 
 
 @androidx.room.Database(entities = {Product.class, ProductTransaction.class, User.class, UserAction.class, Category.class, Unit.class,
-        Contractor.class, Role.class, ProductCategoryCrossRef.class, ProductContractorCrossRef.class, ProductTransactionCrossRef.class, UserRoleCrossRef.class}, version = 6)
+        Contractor.class, Role.class, ProductCategoryCrossRef.class, ProductContractorCrossRef.class, ProductTransactionCrossRef.class, UserRoleCrossRef.class}, version = 7)
 public abstract class Database extends RoomDatabase {
 
     public abstract CategoryDao getCategoryDao();

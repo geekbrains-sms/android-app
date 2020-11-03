@@ -69,7 +69,7 @@ public class ProductMapperImpl implements ProductMapper {
         List<Category>categories = object.getCategoryList();
         Unit unit = object.getUnit();
         Product product = new Product(id,title,description,unitId,quantity, imageUrl);
-        ProductWithCategory productWithCategory = new ProductWithCategory(product,categories,contractors, null,unit);
+        ProductWithCategory productWithCategory = new ProductWithCategory(product,categories,contractors, unit);
         Log.d(TAG, "toEntity() end: " + productWithCategory.toString());
         return productWithCategory;
     }

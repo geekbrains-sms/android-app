@@ -61,10 +61,6 @@ public class FundDTO implements IProduct{
         return null;
     }
 
-    @Override
-    public List<IProductTransactions> getProductTransactions() {
-        return null;
-    }
 
     public void setId(Long id) {
         this.id = id;

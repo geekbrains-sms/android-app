@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.dagger.warehouse;
 
+import com.geekbrains.geekbrainsprogect.data.api.service.AuthService;
 import com.geekbrains.geekbrainsprogect.data.api.service.CategoryService;
 import com.geekbrains.geekbrainsprogect.data.api.service.ContractorService;
 import com.geekbrains.geekbrainsprogect.data.api.service.FundService;
@@ -26,6 +27,7 @@ import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionM
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
+import com.geekbrains.geekbrainsprogect.data.repository.contract.AuthRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ContractorRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;
@@ -33,6 +35,7 @@ import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductTransact
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UnitRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UserActionRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UserRepository;
+import com.geekbrains.geekbrainsprogect.data.repository.impl.AuthRepositoryImpl;
 import com.geekbrains.geekbrainsprogect.data.repository.impl.CategoryRepositoryImpl;
 import com.geekbrains.geekbrainsprogect.data.repository.impl.ContractorRepositoryImpl;
 import com.geekbrains.geekbrainsprogect.data.repository.impl.ProductRepositoryImpl;
@@ -94,6 +97,12 @@ public class RepositoryModule {
     UserActionRepository userActionRepository(UserActionService userActionService, UserActionDao userActionDao)
     {
         return new UserActionRepositoryImpl(userActionService,userActionDao);
+    }
+    @ProductScope
+    @Provides
+    AuthRepository authRepository(AuthService authService)
+    {
+        return new AuthRepositoryImpl(authService);
     }
 
 

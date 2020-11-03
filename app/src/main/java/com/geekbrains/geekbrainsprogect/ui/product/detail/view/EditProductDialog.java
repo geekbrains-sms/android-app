@@ -124,8 +124,7 @@ public class EditProductDialog extends DialogFragment implements View.OnClickLis
                     dialog.dismiss();
 
                     ProductModel updatedProduct = new ProductModel(0, name, descriptionProduct,unit,
-                            product.getImagePath(), newCategories, product.getContractors(), product.getTransactions(),
-                            product.getQuantity());
+                            product.getImagePath(), newCategories, product.getContractors(), product.getQuantity());
                     onClickListener.onClick(updatedProduct);
             });
         });

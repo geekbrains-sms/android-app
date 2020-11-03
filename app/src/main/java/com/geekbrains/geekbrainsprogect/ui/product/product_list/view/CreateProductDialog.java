@@ -111,7 +111,7 @@ public class CreateProductDialog extends DialogFragment implements View.OnClickL
                 if(checkText(name) && checkText(unit) && checkText(unitDescription) && selectedCategories.size() > 0) {
                     Unit newUnit = new Unit(0,unit, unitDescription);
                     String description = Objects.requireNonNull(editDescription.getText()).toString();
-                    ProductModel product = new ProductModel(0, name, description, newUnit, null, selectedCategories, null, null, 0);
+                    ProductModel product = new ProductModel(0, name, description, newUnit, null, selectedCategories, null,  0);
                     iOnClickListener.onClick(product);
                     dialog1.dismiss();
                 }

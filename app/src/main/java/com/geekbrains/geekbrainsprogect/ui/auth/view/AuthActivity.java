@@ -9,10 +9,9 @@ import com.geekbrains.geekbrainsprogect.MainNavigateActivity;
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.api.AuthenticationInterceptor;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
-import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthRepository;
+import com.geekbrains.geekbrainsprogect.data.repository.impl.AuthRepositoryImpl;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
 import com.geekbrains.geekbrainsprogect.ui.auth.presenter.AuthPresenter;
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 
 import javax.inject.Inject;
@@ -22,7 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
-import okhttp3.OkHttpClient;
 
 public class AuthActivity extends BaseActivity implements AuthView{
     private static final int MIN_TEXT_LENGTH = 4;
@@ -35,7 +33,7 @@ public class AuthActivity extends BaseActivity implements AuthView{
     @BindView(R.id.auth_progress_bar)
     ProgressBar progressBar;
     @Inject
-    AuthRepository authRepository;
+    AuthRepositoryImpl authRepositoryImpl;
     @Inject
     AuthenticationInterceptor interceptor;
 
@@ -43,7 +41,7 @@ public class AuthActivity extends BaseActivity implements AuthView{
     AuthPresenter provideAuthPresenter()
     {
         AppData.getComponentsManager().getWarehouseComponent().inject(this);
-        return new AuthPresenter(authRepository, interceptor);
+        return new AuthPresenter(authRepositoryImpl, interceptor);
     }
 
 

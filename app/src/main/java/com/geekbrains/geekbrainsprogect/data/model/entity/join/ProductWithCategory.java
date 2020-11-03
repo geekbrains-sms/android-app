@@ -36,8 +36,7 @@ public class ProductWithCategory implements IProduct {
     public Unit unit;
 
     public ProductWithCategory(Product product, List<Category> categories,
-                               List<Contractor> contractors,
-                               List<ProductTransaction> productTransactions, Unit unit) {
+                               List<Contractor> contractors, Unit unit) {
         this.product = product;
         this.categories = categories;
         this.contractors = contractors;

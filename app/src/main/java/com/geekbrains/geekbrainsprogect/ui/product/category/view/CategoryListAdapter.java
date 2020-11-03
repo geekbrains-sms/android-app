@@ -22,6 +22,7 @@ public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListA
 
     public CategoryListAdapter(Context context) {
         super(context);
+        getItemList().add(0, new Category(-1, "ВСЕ"));
     }
 
     @NonNull
@@ -55,11 +56,17 @@ public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListA
 
         public void bind(Category category) {
             categoryName.setText(category.getTitle());
+
+            if(category.id < 0)
+            {
+                cardView.setCheckable(false);
+            }
         }
 
 
         @Override
         public void onClick(View v) {
+
 
             if (!isCheckedMode()) {
                 if (getOnItemClickListener() != null) {

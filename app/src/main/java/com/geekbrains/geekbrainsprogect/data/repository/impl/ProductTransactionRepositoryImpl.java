@@ -51,7 +51,7 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
 
     @Override
     public Completable addProductTransactions(ProductTransactionModel productTransaction) {
-        Observable<List<ProductTransactionDTO>>productTransactions;
+        Observable<ProductTransactionDTO>productTransactions;
         if(productTransaction.getQuantity() > 0)
         {
             productTransactions = productTransactionService.addSupplyTransactions(productTransactionMapper.toDto(productTransaction));
@@ -61,12 +61,10 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
             productTransactions = productTransactionService.addShipmentTransactions(productTransactionMapper.toDto(productTransaction));
         }
         return productTransactions
-                .map(x -> productTransactionMapper.toEntityList(x))
+                .map(x -> productTransactionMapper.toEntity(x))
                 .doOnNext(x -> {
-                    productTransactionDao.deleteAll(x);
-                    productTransactionDao.insertAll(x);
+                    productTransactionDao.insert(x);
                 })
-                .flatMapIterable(x -> x)
                 .flatMapCompletable(x -> Completable.fromRunnable(() -> crossDao.insert(new ProductTransactionCrossRef(x.productId, x.id))));
 
     }

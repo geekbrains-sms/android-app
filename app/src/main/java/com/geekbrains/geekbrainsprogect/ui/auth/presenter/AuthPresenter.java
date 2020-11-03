@@ -3,7 +3,8 @@ package com.geekbrains.geekbrainsprogect.ui.auth.presenter;
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.data.api.AuthenticationInterceptor;
-import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthRepository;
+import com.geekbrains.geekbrainsprogect.data.repository.impl.AuthRepositoryImpl;
+import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthData;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
 import com.geekbrains.geekbrainsprogect.ui.auth.view.AuthView;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
@@ -15,18 +16,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
 
 @InjectViewState
 public class AuthPresenter extends MvpPresenter<AuthView> {
     public static String TAG = "AuthPresenter";
-    private AuthRepository repository;
+    private AuthRepositoryImpl repository;
     private AuthenticationInterceptor interceptor;
     @Inject
-    public AuthPresenter(AuthRepository authRepository, AuthenticationInterceptor authenticationInterceptor)
+    public AuthPresenter(AuthRepositoryImpl authRepositoryImpl, AuthenticationInterceptor authenticationInterceptor)
     {
-        this.repository = authRepository;
+        this.repository = authRepositoryImpl;
         this.interceptor = authenticationInterceptor;
     }
     public void signIn(String login, String password)
@@ -44,6 +44,7 @@ public class AuthPresenter extends MvpPresenter<AuthView> {
                    Log.d(TAG, "Auth successes: token: " + authToken.getToken());
                    AppData.token = authToken.getToken();
                    interceptor.setAuthToken(authToken.getToken());
+                   AuthData.createUser(login);
                    getViewState().startMainActivity();
                }
                else

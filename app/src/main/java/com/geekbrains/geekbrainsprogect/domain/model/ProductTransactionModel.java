@@ -45,7 +45,7 @@ public class ProductTransactionModel implements IProductTransactions {
     }
 
     public IUser getUser() {
-        return (IUser) user;
+        return user;
     }
 
     public void setUser(UserModel user) {
@@ -74,7 +74,7 @@ public class ProductTransactionModel implements IProductTransactions {
 
     @Override
     public IProduct getProduct() {
-        return null;
+        return productModel;
     }
 
     public void setComment(String comment) {
