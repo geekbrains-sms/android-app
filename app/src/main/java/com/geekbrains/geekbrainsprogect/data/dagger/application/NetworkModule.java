@@ -30,7 +30,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
-    private String BASE_URL = "http://192.168.1.126:8189";
+    private String BASE_URL = "http://192.168.1.235:8189";
     public static final int TIMEOUT = 20;
 
     @Provides
@@ -77,6 +77,7 @@ public class NetworkModule {
         return new GsonBuilder()
                 .registerTypeAdapter(Date.class,
                         (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
+                .excludeFieldsWithoutExposeAnnotation()
                 .create();
     }
 

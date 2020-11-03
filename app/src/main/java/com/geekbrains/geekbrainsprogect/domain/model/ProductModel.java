@@ -21,6 +21,7 @@ public class ProductModel implements Item, IProduct {
     List<Category> categories;
     double quantity;
     private List<Contractor> contractors;
+    public long productId;
     private boolean changed = false;
 
     public ProductModel(long id, String title, String description, Unit unit, String imagePath,

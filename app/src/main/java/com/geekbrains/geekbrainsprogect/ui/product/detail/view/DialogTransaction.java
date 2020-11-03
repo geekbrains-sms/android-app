@@ -88,7 +88,7 @@ public class DialogTransaction extends AppCompatDialogFragment {
             if(selectedContractor != null && count != 0)
             {
                 String date = new Date().toString();
-                ProductTransactionModel productTransaction = new ProductTransactionModel(0, selectedContractor, AuthData.getCurrentUser(), date, count, Objects.requireNonNull(commentTransaction.getText()).toString(), product);
+                ProductTransactionModel productTransaction = new ProductTransactionModel(0, selectedContractor, AuthData.getCurrentUser(), date, count, Objects.requireNonNull(commentTransaction.getText()).toString(), product.getId());
                 onClickListener.onClick(productTransaction);
             }
         };

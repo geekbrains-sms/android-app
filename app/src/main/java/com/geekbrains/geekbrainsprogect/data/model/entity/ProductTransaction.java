@@ -19,8 +19,6 @@ public class ProductTransaction {
     @PrimaryKey
     @ColumnInfo(name = "transactionId", index = true)
     public long id;
-    @ColumnInfo(name = "product_id")
-    public long productId;
     @ColumnInfo(name = "contractor_id")
     public long contractorId;
     @ColumnInfo(name = "user_id")
@@ -28,16 +26,17 @@ public class ProductTransaction {
     String date;
     public double quantity;
     public String comment;
+    public long productId;
 
 
-    public ProductTransaction(long id,long productId, long contractorId,long userId, String date, double quantity, String comment) {
+    public ProductTransaction(long id, long contractorId,long userId, String date, double quantity, String comment, long productId) {
         this.id = id;
-        this.productId = productId;
         this.contractorId = contractorId;
         this.userId = userId;
         this.quantity = quantity;
         this.comment = comment;
         this.date = date;
+        this.productId = productId;
     }
 
     public long getId() {

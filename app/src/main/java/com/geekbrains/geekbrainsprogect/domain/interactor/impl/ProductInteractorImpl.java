@@ -86,14 +86,10 @@ public class ProductInteractorImpl implements ProductInteractor {
     {
         Log.d(TAG, "startProductSaved(): product id - " + productWithCategory.product.getId());
         return Completable.mergeArray(
-                loadProductTransactions(productWithCategory),
                 saveProductCategory(productWithCategory),
                 loadContractors(productWithCategory));
     }
 
-    private Completable loadProductTransactions(ProductWithCategory productWithCategory) {
-        return productTransactionRepository.saveProductTransactionsByProductIdToDB(productWithCategory.getId());
-    }
 
     private Completable saveProductCategory(ProductWithCategory productWithCategory)
     {

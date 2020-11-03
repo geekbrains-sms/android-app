@@ -24,15 +24,12 @@ public class ProductTransactionData implements IProductTransactions {
             entityColumn = "userId"
     )
     public User user;
-    @Relation(
-            parentColumn = "product_id",
-            entityColumn = "productId"
-    )
-    public  Product product;
 
-    public ProductTransactionData(ProductTransaction productTransaction, Contractor contractor) {
+
+    public ProductTransactionData(ProductTransaction productTransaction, Contractor contractor, User user) {
         this.productTransaction = productTransaction;
         this.contractor = contractor;
+        this.user = user;
     }
 
     public ProductTransaction getProductTransaction() {
@@ -73,9 +70,10 @@ public class ProductTransactionData implements IProductTransactions {
     }
 
     @Override
-    public IProduct getProduct() {
-        return product;
+    public long getProductId() {
+        return productTransaction.getProductId();
     }
+
 
     public void setContractor(Contractor contractor) {
         this.contractor = contractor;

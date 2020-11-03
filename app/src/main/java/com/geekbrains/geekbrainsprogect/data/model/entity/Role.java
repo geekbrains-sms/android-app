@@ -11,8 +11,11 @@ import java.io.Serializable;
 public class Role {
     @PrimaryKey
     @ColumnInfo(name = "roleId",index = true)
+    @Expose
     public int id;
+    @Expose
     public String name;
+    @Expose
     public String title;
 
     public int getId() {

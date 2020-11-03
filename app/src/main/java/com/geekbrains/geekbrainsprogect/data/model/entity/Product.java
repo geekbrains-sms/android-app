@@ -71,6 +71,7 @@ public class Product implements IProduct {
         return quantity;
     }
 
+
     @Override
     public List<Category> getCategoryList() {
         return null;

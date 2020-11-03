@@ -15,7 +15,7 @@ public interface DetailProductView extends BaseView {
     void rightArrowVisibility(boolean visibility);
     void showDialogSupply(ProductModel product, List<Contractor>contractors);
     void showDialogShipment(ProductModel product, List<Contractor>contractors);
-    void showTransactionListDialog(List<ProductTransactionModel> body);
+    void showTransactionListDialog(List<ProductTransactionModel> body, ProductModel productModel);
     void setVisibilityChangedButton(boolean flag);
     void updatePage(ProductModel fund);
     void showEditDialog(ProductModel currentProduct, EditProductData editProductData);

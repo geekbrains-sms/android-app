@@ -5,13 +5,17 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+import com.google.gson.annotations.Expose;
 
 
 import java.util.List;
 
 public class FundDTO implements IProduct{
+    @Expose
     private Long id;
+    @Expose
     private ProductDTO product;
+    @Expose
     private Double balance;
 
     public FundDTO(Long id, ProductDTO product, Double balance) {

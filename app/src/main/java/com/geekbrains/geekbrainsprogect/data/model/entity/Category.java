@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.geekbrains.geekbrainsprogect.ui.base.Item;
+import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 
@@ -12,7 +13,9 @@ import java.io.Serializable;
 public class Category implements Item, Serializable {
     @PrimaryKey
     @ColumnInfo(name = "categoryId")
+    @Expose
     public long id;
+    @Expose
     public String title;
 
 

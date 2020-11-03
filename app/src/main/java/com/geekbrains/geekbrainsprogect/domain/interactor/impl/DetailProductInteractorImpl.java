@@ -3,12 +3,15 @@ package com.geekbrains.geekbrainsprogect.domain.interactor.impl;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ContractorRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductTransactionRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UnitRepository;
+import com.geekbrains.geekbrainsprogect.data.repository.contract.UserRepository;
 import com.geekbrains.geekbrainsprogect.domain.interactor.contract.DetailProductInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
@@ -30,12 +33,13 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
     CategoryRepository categoryRepository;
     UnitRepository unitRepository;
     ContractorRepository contractorRepository;
+    UserRepository userRepository;
     @Inject
     public DetailProductInteractorImpl(ProductRepository productRepository,
                                        ProductTransactionRepository productTransactionRepository,
                                        ProductMapper productMapper, ProductTransactionMapper productTransactionMapper,
                                        CategoryRepository categoryRepository, UnitRepository unitRepository,
-                                       ContractorRepository contractorRepository) {
+                                       ContractorRepository contractorRepository, UserRepository userRepository) {
 
         this.productRepository = productRepository;
         this.productTransactionRepository = productTransactionRepository;
@@ -44,11 +48,14 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
         this.categoryRepository = categoryRepository;
         this.unitRepository = unitRepository;
         this.contractorRepository = contractorRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Completable addProductTransaction(ProductTransactionModel productTransactionModel) {
-        return productTransactionRepository.addProductTransactions(productTransactionModel);
+    public Completable addProductTransaction(ProductTransactionModel productTransactionModel, long productId) {
+        return productTransactionRepository.addProductTransactions(productTransactionModel)
+                .flatMapCompletable(x -> productRepository.updateProductFromServerById(x.getId())
+                        .andThen(contractorRepository.addContractorsCross(productId)));
     }
 
     @Override
@@ -82,9 +89,8 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
 
     @Override
     public Single<List<ProductTransactionModel>> getTransactionsByProduct(long id) {
-        return productTransactionRepository.getProductTransactionByProductId(id)
-                .map(x -> productTransactionMapper.toModelList(x))
-                .firstOrError();
+        return userRepository.saveUsersFromServerToDB().andThen(productTransactionRepository.getProductTransactionByProductId(id))
+                .map(x -> productTransactionMapper.toModelList(x));
     }
 
     private Completable saveProductCategory(ProductWithCategory productWithCategory)
@@ -95,4 +101,6 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
     {
         return unitRepository.addUnitToDB(productWithCategory);
     }
+
+
 }

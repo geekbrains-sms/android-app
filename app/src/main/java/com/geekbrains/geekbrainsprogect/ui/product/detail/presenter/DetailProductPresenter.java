@@ -102,7 +102,7 @@ public class DetailProductPresenter extends MvpPresenter<DetailProductView> {
     }
 
     public void transactionToServer(ProductTransactionModel productTransaction) {
-        Disposable disposable = detailProductInteractor.addProductTransaction(productTransaction)
+        Disposable disposable = detailProductInteractor.addProductTransaction(productTransaction, getCurrentProduct().getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(() ->{
                 getViewState().showToast(R.string.transaction_sucesses);
@@ -164,7 +164,7 @@ public class DetailProductPresenter extends MvpPresenter<DetailProductView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productTransactionModels -> {
-                    getViewState().showTransactionListDialog(productTransactionModels);
+                    getViewState().showTransactionListDialog(productTransactionModels, getCurrentProduct());
                 }, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
                 });

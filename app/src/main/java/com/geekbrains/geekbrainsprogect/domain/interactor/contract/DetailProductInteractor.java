@@ -13,7 +13,7 @@ import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 
 public interface DetailProductInteractor {
-    Completable addProductTransaction(ProductTransactionModel productTransactionModel);
+    Completable addProductTransaction(ProductTransactionModel productTransactionModel, long productId);
     Completable editProduct(ProductModel productModel);
     Flowable<List<ProductModel>> subscribeToProductChangesById(List<Long>productIndexList);
     Single<EditProductData> getEditProductData();

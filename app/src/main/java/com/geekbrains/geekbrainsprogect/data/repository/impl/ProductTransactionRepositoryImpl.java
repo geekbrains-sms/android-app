@@ -4,6 +4,8 @@ import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.api.service.ProductTransactionService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionDao;
+import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserDao;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
@@ -17,12 +19,15 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class ProductTransactionRepositoryImpl implements ProductTransactionRepository {
     ProductTransactionDao productTransactionDao;
     ProductTransactionCrossDao crossDao;
     ProductTransactionService productTransactionService;
     ProductTransactionMapper productTransactionMapper;
+
+
     @Inject
     public ProductTransactionRepositoryImpl(ProductTransactionDao productTransactionDao,
                                             ProductTransactionCrossDao crossDao, ProductTransactionService productTransactionService,
@@ -36,12 +41,12 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
     @Override
     public Completable getProductTransactionsFromServer() {
         return productTransactionService.getAllShipmentProductTransactions().mergeWith(productTransactionService.getAllSupplyProductTransactions())
-                .map(x -> productTransactionMapper.toEntityList(x))
+                .map(x -> productTransactionMapper.toEntityListProductTransaction(x))
                 .doOnNext(x -> {
                     productTransactionDao.deleteAll(x);
                     productTransactionDao.insertAll(x);})
                 .flatMapIterable(x -> x)
-                .flatMapCompletable(x -> Completable.fromRunnable(() -> crossDao.insert(new ProductTransactionCrossRef(x.productId, x.id))));
+                .flatMapCompletable(x -> Completable.fromRunnable(() -> crossDao.insert(new ProductTransactionCrossRef(x.getId(), x.id))));
     }
 
     @Override
@@ -50,7 +55,7 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
     }
 
     @Override
-    public Completable addProductTransactions(ProductTransactionModel productTransaction) {
+    public Observable<ProductTransactionData> addProductTransactions(ProductTransactionModel productTransaction) {
         Observable<ProductTransactionDTO>productTransactions;
         if(productTransaction.getQuantity() > 0)
         {
@@ -63,9 +68,9 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
         return productTransactions
                 .map(x -> productTransactionMapper.toEntity(x))
                 .doOnNext(x -> {
-                    productTransactionDao.insert(x);
-                })
-                .flatMapCompletable(x -> Completable.fromRunnable(() -> crossDao.insert(new ProductTransactionCrossRef(x.productId, x.id))));
+                    productTransactionDao.insert(x.productTransaction);
+                    crossDao.insert(new ProductTransactionCrossRef(x.getProductId(), x.productTransaction.id));
+                });
 
     }
 
@@ -76,12 +81,12 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
                 .doOnNext(x -> crossDao.deleteByProduct(id))
                 .flatMap(Observable::fromIterable)
                 .flatMapCompletable(x -> Completable.fromRunnable(() -> {crossDao.insert(new ProductTransactionCrossRef(id, x.getId()));
-                    productTransactionDao.insert(x);
+                    productTransactionDao.insert(x.productTransaction);
                 }));
     }
 
     @Override
-    public Flowable<List<ProductTransactionData>> getProductTransactionByProductId(long id) {
-        return productTransactionDao.getTransactionsByProductId(id);
+    public Single<List<ProductTransactionData>> getProductTransactionByProductId(long id) {
+        return saveProductTransactionsByProductIdToDB(id).andThen(productTransactionDao.getTransactionsByProductId(id));
     }
 }

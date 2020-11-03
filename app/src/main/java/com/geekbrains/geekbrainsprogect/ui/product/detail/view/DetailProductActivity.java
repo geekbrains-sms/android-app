@@ -131,8 +131,8 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
     }
 
     @Override
-    public void showTransactionListDialog(List<ProductTransactionModel> body) {
-        TransactionsListDialog dialog = new TransactionsListDialog(body);
+    public void showTransactionListDialog(List<ProductTransactionModel> body, ProductModel productModel) {
+        TransactionsListDialog dialog = new TransactionsListDialog(body, productModel);
         dialog.show(getSupportFragmentManager(), TAG);
     }
 

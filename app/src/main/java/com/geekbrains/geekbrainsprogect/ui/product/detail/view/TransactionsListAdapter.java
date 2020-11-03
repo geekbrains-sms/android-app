@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.google.android.material.card.MaterialCardView;
 
@@ -23,14 +24,16 @@ import butterknife.ButterKnife;
 
 public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsListAdapter.ViewHolder> {
     private Context context;
+    private ProductModel productModel;
     private List<ProductTransactionModel>allTransactions;
     private List<ProductTransactionModel>filteredTransactions = new ArrayList<>();
     private List<ProductTransactionModel>supplyTransactions = new ArrayList<>();
     private List<ProductTransactionModel>shipmentTransactions = new ArrayList<>();
 
-    public TransactionsListAdapter(Context context, List<ProductTransactionModel>productTransactions)
+    public TransactionsListAdapter(Context context, List<ProductTransactionModel>productTransactions, ProductModel productModel)
     {
         this.context = context;
+        this.productModel = productModel;
         allTransactions = productTransactions;
         filteredTransactions.addAll(allTransactions);
         addSupplyTransactions();
@@ -122,7 +125,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
         public void bind(ProductTransactionModel transaction)
         {
-            productName.setText(context.getString(R.string.product_name_field, transaction.getProduct().getTitle()));
+            productName.setText(context.getString(R.string.product_name_field, productModel.getItemName()));
             if(transaction.getQuantity() > 0)
             {
                 type.setText(context.getString(R.string.type_transaction_field, context.getString(R.string.supply)));
@@ -138,7 +141,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             comment.setText(context.getString(R.string.comment_trasaction_field, transaction.getComment()));
             userName.setText(context.getString(R.string.operator, transaction.getUser().getLogin()));
             date.setText(transaction.getDate().toString());
-            units.setText(transaction.getProduct().getUnit().getTitle());
+            units.setText(productModel.getUnit().getTitle());
             count.setText(transaction.getQuantity() + "");
         }
     }

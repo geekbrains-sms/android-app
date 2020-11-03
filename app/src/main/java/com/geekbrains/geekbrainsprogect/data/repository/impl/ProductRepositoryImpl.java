@@ -43,7 +43,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Flowable<ProductWithCategory> getProductFromDbById(long id) {
+    public Observable<ProductWithCategory> getProductFromDbById(long id) {
         return productDao.getProductById(id);
     }
 
@@ -91,5 +91,12 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .flatMap(x -> fundService.getFundsByProductId(productModel.getId()))
                 .map(x -> productMapper.toEntity(x))
                 .doOnNext(x -> productDao.update(x.product));
+    }
+
+    @Override
+    public Completable updateProductFromServerById(long id) {
+        return fundService.getFundsByProductId(id)
+                .map(x -> productMapper.toEntity(x))
+                .flatMapCompletable(x -> Completable.fromRunnable(() -> productDao.insert(x.product)));
     }
 }

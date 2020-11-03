@@ -10,8 +10,12 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCatego
 
 import java.util.List;
 
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+
 @Dao
 public abstract class ProductDao extends BaseDao<Product> {
     @Transaction
@@ -19,7 +23,7 @@ public abstract class ProductDao extends BaseDao<Product> {
     public abstract Flowable<List<ProductWithCategory>> getAllProduct();
     @Transaction
     @Query("SELECT * FROM product WHERE product.productId = :id")
-    public abstract Flowable<ProductWithCategory>getProductById(long id);
+    public abstract Observable<ProductWithCategory> getProductById(long id);
     @Transaction
     @Query("SELECT * FROM product WHERE productId IN (:ids)")
     public abstract Flowable<List<ProductWithCategory>>getProductsByIds(List<Long>ids);

@@ -5,15 +5,22 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
 public class ProductDTO implements IProduct {
+    @Expose
     private Long id;
+    @Expose
     private String title;
+    @Expose
     private List<Category> categories;
+    @Expose
     private Unit unit;
+    @Expose
     private Image image;
+    @Expose
     String description;
 
     public ProductDTO(Long id, String title, List<Category> categories, Unit unit, Image image, String description) {

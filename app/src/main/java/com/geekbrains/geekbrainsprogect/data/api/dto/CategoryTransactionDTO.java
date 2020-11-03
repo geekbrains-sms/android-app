@@ -1,11 +1,18 @@
 package com.geekbrains.geekbrainsprogect.data.api.dto;
 
 
+import com.google.gson.annotations.Expose;
+
 public class CategoryTransactionDTO {
+    @Expose
     private Long id;
+    @Expose
     private String type;
+    @Expose
     private Long categoryId;
+    @Expose
     private String data;
+    @Expose
     private String authorName;
 
     public CategoryTransactionDTO(Long id, String type, Long categoryId, String data, String authorName) {

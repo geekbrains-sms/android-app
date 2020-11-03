@@ -3,22 +3,30 @@ package com.geekbrains.geekbrainsprogect.data.api.dto;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
+import com.google.gson.annotations.Expose;
 
 import java.util.Date;
 
 public class ProductTransactionDTO implements IProductTransactions {
+
+    @Expose
     private Long id;
+    @Expose(serialize = false)
     private String transactionDate;
-    private ProductDTO product;
+    @Expose
     private Contractor contractor;
+    @Expose
     private double quantity;
+    @Expose
+    private ProductDTO product;
+    @Expose
     private String comment;
+    @Expose
     private UserDTO user;
 
-    public ProductTransactionDTO(Long id, String transactionDate, ProductDTO product, Contractor contractor, double quantity, String comment, UserDTO user) {
+    public ProductTransactionDTO(Long id, String transactionDate, Contractor contractor, double quantity, String comment, UserDTO user) {
         this.id = id;
         this.transactionDate = transactionDate;
-        this.product = product;
         this.contractor = contractor;
         this.quantity = quantity;
         this.comment = comment;
@@ -42,10 +50,6 @@ public class ProductTransactionDTO implements IProductTransactions {
     }
 
 
-    public void setProduct(ProductDTO product) {
-        this.product = product;
-    }
-
     public Contractor getContractor() {
         return contractor;
     }
@@ -67,8 +71,8 @@ public class ProductTransactionDTO implements IProductTransactions {
     }
 
     @Override
-    public IProduct getProduct() {
-        return product;
+    public long getProductId() {
+        return product.getId();
     }
 
     public void setComment(String comment) {
@@ -87,4 +91,5 @@ public class ProductTransactionDTO implements IProductTransactions {
     public void setUser(UserDTO user) {
         this.user = user;
     }
+
 }

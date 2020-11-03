@@ -4,12 +4,17 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+
 @Entity(tableName = "unit")
 public class Unit {
     @PrimaryKey
     @ColumnInfo(name = "unitId", index = true)
+    @Expose
     public long id;
+    @Expose
     public String title;
+    @Expose
     public String description;
 
     public Unit(long id,String title, String description) {

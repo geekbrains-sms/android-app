@@ -4,15 +4,22 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.geekbrains.geekbrainsprogect.ui.base.Item;
+import com.google.gson.annotations.Expose;
 
 @Entity(tableName = "user_action")
 public class UserAction implements Item {
     @PrimaryKey
+    @Expose
     public Long id;
+    @Expose
     public String type;
+    @Expose
     public Long productId;
+    @Expose
     public String productName;
+    @Expose
     public String data;
+    @Expose
     public String authorName;
 
     public Long getId() {
