@@ -15,12 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
+import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthData;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -34,15 +39,21 @@ public class DialogTransaction extends AppCompatDialogFragment {
     TextInputEditText editCountProduct;
     @BindView(R.id.comment_edit_text_transaction)
     TextInputEditText commentTransaction;
+    public static final int TYPE_SHIPMENT = 0;
+    public static final int TYPE_SUPPLY = 1;
+    private int type;
+    private List<Contractor> contractorList;
     private DialogInterface.OnClickListener positiveButtonListener;
     private IOnClickListener onClickListener;
     private Contractor selectedContractor;
-    private Product product;
+    private ProductModel product;
 
-    public DialogTransaction(Product product, IOnClickListener iOnClickListener)
+    public DialogTransaction(ProductModel product, List<Contractor>contractors, int type, IOnClickListener iOnClickListener)
     {
         this.onClickListener = iOnClickListener;
         this.product = product;
+        this.type = type;
+        contractorList = contractors;
     }
 
     @NonNull
@@ -68,10 +79,16 @@ public class DialogTransaction extends AppCompatDialogFragment {
     private void createListeners() {
         positiveButtonListener = (dialog, which) -> {
             long count = Integer.parseInt(Objects.requireNonNull(editCountProduct.getText()).toString());
+            if(type == TYPE_SHIPMENT)
+            {
+                count *= -1;
+            }
+
 
             if(selectedContractor != null && count != 0)
             {
-                ProductTransaction productTransaction = new ProductTransaction(product, selectedContractor,  count, Objects.requireNonNull(commentTransaction.getText()).toString());
+                String date = new Date().toString();
+                ProductTransactionModel productTransaction = new ProductTransactionModel(0, selectedContractor, AuthData.getCurrentUser(), date, count, Objects.requireNonNull(commentTransaction.getText()).toString(), product.getId());
                 onClickListener.onClick(productTransaction);
             }
         };
@@ -79,7 +96,7 @@ public class DialogTransaction extends AppCompatDialogFragment {
 
     private void createAdapter()
     {
-        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, AppData.getContractorList());
+        ArrayAdapter<Contractor>contractorArrayAdapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1, contractorList);
         providersAutoComplete.setAdapter(contractorArrayAdapter);
 
         providersAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -96,18 +113,15 @@ public class DialogTransaction extends AppCompatDialogFragment {
             }
         });
 
-        providersAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedContractor = contractorArrayAdapter.getItem(position);
-                Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
-            }
+        providersAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
+            selectedContractor = contractorArrayAdapter.getItem(position);
+            Log.d(TAG, "selectedContractor = " + Objects.requireNonNull(selectedContractor).toString());
         });
     }
 
     interface IOnClickListener
     {
-        void onClick(ProductTransaction productTransaction);
+        void onClick(ProductTransactionModel productTransaction);
     }
 
 }

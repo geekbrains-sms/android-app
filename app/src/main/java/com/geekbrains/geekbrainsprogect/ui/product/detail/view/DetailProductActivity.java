@@ -1,29 +1,37 @@
 package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.DetailProductInteractor;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
+import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 
-public class DetailProductActivity extends MvpAppCompatActivity implements DetailProductView {
+public class DetailProductActivity extends BaseActivity implements DetailProductView {
     private static final String TAG = "DetailProductActivity";
     @InjectPresenter
     DetailProductPresenter presenter;
@@ -45,19 +53,23 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
     ImageView rightArrow;
     @BindView(R.id.save_edit_product)
     Button saveProduct;
-
-
-    
+    @Inject
+    DetailProductInteractor detailProductInteractor;
+    @ProvidePresenter
+    DetailProductPresenter providePresenter()
+    {
+        AppData.getComponentsManager().getWarehouseComponent().inject(this);
+        return new DetailProductPresenter(detailProductInteractor);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_product);
         ButterKnife.bind(this);
-        updatePage(presenter.nextProduct());
     }
 
-    @OnClick({R.id.new_shipment_button, R.id.new_supply_button, R.id.next_product_button, R.id.prew_product_button, R.id.product_category, R.id.product_description, R.id.provider_name, R.id.transactions_dialog_button, R.id.product_name, R.id.save_edit_product, R.id.product_units})
+    @OnClick({R.id.new_shipment_button, R.id.new_supply_button, R.id.next_product_button, R.id.prew_product_button, R.id.transactions_dialog_button, R.id.product_name, R.id.save_edit_product})
     void onClick(View view)
     {
         switch (view.getId())
@@ -78,53 +90,49 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
                 presenter.loadTransactions();
                 break;
             case R.id.product_name:
-                productNameEdit(presenter.getProduct());
-            case R.id.product_category:
-//               editCategoty(presenter.getProduct());
-                break;
-            case R.id.product_description:
-                editDescription(presenter.getProduct());
-                break;
-            case R.id.product_units:
-                presenter.editUnits();
+                presenter.createEditDialog();
                 break;
             case R.id.save_edit_product:
-                presenter.saveChangesProduct();
+                presenter.editProduct();
                 break;
         }
     }
 
 
-    public void updatePage(Fund fund)
+    public void updatePage(ProductModel product)
     {
-        Product product = fund.getProduct();
-        productName.setText(fund.getProduct().getTitle());
+        productName.setText(product.getTitle());
         productDescription.setText(getString(R.string.description_field, product.getDescription()));
         productCategory.setText(getString(R.string.category_field, product.getCategoriesString()));
-        productCount.setText(fund.getStringBalance());
-        productUnits.setText(product.getUnitsTitle());
+        productCount.setText(product.getStringQuantity());
+        productUnits.setText(product.getUnit().getTitle());
+        providerName.setText(product.getContractorsString());
     }
 
-    public void createDialogSupply(Product product)
+    @Override
+    public void showEditDialog(ProductModel currentProduct, EditProductData editProductData) {
+        DialogFragment dialog = new EditProductDialog(currentProduct, editProductData, product -> {
+            presenter.setEditFlag(true);
+            updatePage(product);
+        });
+        dialog.show(getSupportFragmentManager(), TAG);
+    }
+
+    public void showDialogSupply(ProductModel product, List<Contractor>contractors)
     {
-        DialogTransaction dialogTransaction = new DialogTransaction(product, productTransaction -> presenter.supplyToServer(productTransaction));
+        DialogTransaction dialogTransaction = new DialogTransaction(product, contractors, DialogTransaction.TYPE_SUPPLY, productTransaction -> presenter.transactionToServer(productTransaction));
         dialogTransaction.show(getSupportFragmentManager(), TAG);
     }
 
-    public void createDialogShipment(Product product)
+    public void showDialogShipment(ProductModel product, List<Contractor>contractors)
     {
-        DialogTransaction dialogTransaction = new DialogTransaction(product, productTransaction -> presenter.shipmentToServer(productTransaction));
+        DialogTransaction dialogTransaction = new DialogTransaction(product,contractors, DialogTransaction.TYPE_SHIPMENT, productTransaction -> presenter.transactionToServer(productTransaction));
         dialogTransaction.show(getSupportFragmentManager(), TAG);
     }
 
     @Override
-    public void setDataToContractorsTextView(String contractorsString) {
-        providerName.setText(getString(R.string.provider_field, contractorsString));
-    }
-
-    @Override
-    public void showTransactionListDialog(List<ProductTransaction> body) {
-        TransactionsListDialog dialog = new TransactionsListDialog(body);
+    public void showTransactionListDialog(List<ProductTransactionModel> body, ProductModel productModel) {
+        TransactionsListDialog dialog = new TransactionsListDialog(body, productModel);
         dialog.show(getSupportFragmentManager(), TAG);
     }
 
@@ -156,44 +164,4 @@ public class DetailProductActivity extends MvpAppCompatActivity implements Detai
             view.setVisibility(View.INVISIBLE);
         }
     }
-
-    private void productNameEdit(Product product)
-    {
-        EditDialog editDialog = new EditDialog(product, EditDialog.PRODUCT_NAME, product1 -> {
-            presenter.setEditFlag(true);
-            updatePage(presenter.getFund());
-        });
-        editDialog.show(getSupportFragmentManager(), TAG);
-    }
-    private void editDescription(Product product) {
-        EditDialog editDialog = new EditDialog(product, EditDialog.PRODUCT_DESCRIPTION, product1 -> {
-            presenter.setEditFlag(true);
-            updatePage(presenter.getFund());
-        });
-        editDialog.show(getSupportFragmentManager(), TAG);
-    }
-    @Override
-    public void showEditUnitsDialog(Product product) {
-        EditDialog editDialog = new EditDialog(product, EditDialog.PRODUCT_UNITS, product1 -> {
-            presenter.setEditFlag(true);
-            updatePage(presenter.getFund());
-        });
-        editDialog.show(getSupportFragmentManager(), TAG);
-
-    }
-
-    @Override
-    public void showToast(int stringResource) {
-        Toast.makeText(getApplicationContext(), stringResource,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showErrorDialog(String error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setTitle(R.string.error);
-        builder.setMessage(error);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {});
-        builder.create().show();
-    }
-
 }

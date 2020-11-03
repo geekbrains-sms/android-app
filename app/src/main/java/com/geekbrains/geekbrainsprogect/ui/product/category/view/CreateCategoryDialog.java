@@ -2,21 +2,18 @@ package com.geekbrains.geekbrainsprogect.ui.product.category.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -32,9 +29,6 @@ public class CreateCategoryDialog extends DialogFragment {
         this.iOnClickListener = iOnClickListener;
     }
 
-
-
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -47,7 +41,7 @@ public class CreateCategoryDialog extends DialogFragment {
                     String text = Objects.requireNonNull(editText.getText()).toString();
                     if(text != null && !text.trim().equals(""))
                     {
-                        Category category = new Category(Objects.requireNonNull(editText.getText()).toString());
+                        Category category = new Category(0,Objects.requireNonNull(editText.getText()).toString());
                         iOnClickListener.onClick(category);
                     }
                 })

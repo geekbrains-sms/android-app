@@ -1,24 +1,22 @@
 package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseView;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
 
 import java.util.List;
 
-import moxy.MvpView;
-import okhttp3.ResponseBody;
-
-public interface DetailProductView extends MvpView {
+public interface DetailProductView extends BaseView {
     void leftArrowVisibility(boolean visibility);
     void rightArrowVisibility(boolean visibility);
-    void createDialogSupply(Product product);
-    void createDialogShipment(Product product);
-    void setDataToContractorsTextView(String contractorsString);
-    void showTransactionListDialog(List<ProductTransaction> body);
+    void showDialogSupply(ProductModel product, List<Contractor>contractors);
+    void showDialogShipment(ProductModel product, List<Contractor>contractors);
+    void showTransactionListDialog(List<ProductTransactionModel> body, ProductModel productModel);
     void setVisibilityChangedButton(boolean flag);
-    void showEditUnitsDialog(Product product);
-    void showToast(int stringResource);
-    void showErrorDialog(String error);
-    void updatePage(Fund fund);
+    void updatePage(ProductModel fund);
+    void showEditDialog(ProductModel currentProduct, EditProductData editProductData);
 }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,19 +17,26 @@ import android.widget.Toast;
 
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ProductInteractor;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryActivity;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.view.DetailProductActivity;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.ProductListModel;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter.ProductListPresenter;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class ProductListActivity extends MvpAppCompatActivity implements ProductListView {
     private static final String TAG = "ProductListActivity";
@@ -40,6 +46,15 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     RecyclerView productList;
     ProductListAdapter adapter;
     private SearchView searchView;
+    @Inject
+    ProductInteractor productInteractor;
+
+    @ProvidePresenter
+    ProductListPresenter provideProductListPresenter()
+    {
+        AppData.getComponentsManager().getWarehouseComponent().inject(this);
+        return new ProductListPresenter(productInteractor);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +87,11 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @OnClick({R.id.add_product_float_action})
     public void onClick(View view)
     {
-        showAddProductDialog();
+        presenter.loadAddProductDialog();
     }
 
-    private void showAddProductDialog() {
-        CreateProductDialog createProductDialog = new CreateProductDialog(product -> presenter.addProductToServer(product));
+    public void showAddProductDialog(UnitsWithCategories unitsWithCategories) {
+        CreateProductDialog createProductDialog = new CreateProductDialog(product -> presenter.addProduct(product), unitsWithCategories);
         createProductDialog.show(getSupportFragmentManager(), TAG);
     }
 
@@ -96,9 +111,9 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     }
 
     @Override
-    public void setDataToAdapter(List<Fund> products) {
+    public void setDataToAdapter(List<ProductModel>productModels) {
         Category category =  (Category) getIntent().getSerializableExtra(CategoryActivity.CATEGORY);
-        adapter.setProductList(getApplicationContext(), new ProductListFilter(category));
+        adapter.setProductList(getApplicationContext(), new ProductListFilter(category, productModels));
     }
 
     @Override
@@ -120,7 +135,7 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_list_menu, menu);
-        if (adapter.getSelectedProduct() != null && adapter.getSelectedProduct().size() > 0) {
+        if (adapter.getSelectedProductId() != null && adapter.getSelectedProductId().size() > 0) {
             menu.findItem(R.id.bar_search).setVisible(false);
             menu.findItem(R.id.open).setVisible(true);
             menu.findItem(R.id.delete).setVisible(true);
@@ -168,6 +183,11 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
                 break;
             case R.id.filter:
                 break;
+            case android.R.id.home:
+            {
+                onBackPressed();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -178,13 +198,13 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
         builder.setTitle(R.string.alert)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(R.string.alert_delete_message)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProduct()))
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> presenter.deleteProduct(adapter.getSelectedProductId()))
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
         builder.create().show();
     }
 
     private void starDetailActivity() {
-        AppData.setSelectedProducts(adapter.getSelectedProduct());
+        ProductListModel.setSelectedProductList(adapter.getSelectedProductId());
         Intent intent = new Intent(this, DetailProductActivity.class);
         startActivity(intent);
     }
@@ -201,9 +221,5 @@ public class ProductListActivity extends MvpAppCompatActivity implements Product
     @Override
     protected void onResume() {
         super.onResume();
-        if(adapter != null)
-        {
-            adapter.notifyDataSetChanged();
-        }
     }
 }

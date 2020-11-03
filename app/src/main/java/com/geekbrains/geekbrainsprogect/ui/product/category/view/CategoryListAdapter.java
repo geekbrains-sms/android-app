@@ -1,46 +1,28 @@
 package com.geekbrains.geekbrainsprogect.ui.product.category.view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
+import com.geekbrains.geekbrainsprogect.ui.base.CardViewHolder;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.google.android.material.card.MaterialCardView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> implements Filterable {
-    List<Category>allCategory = new ArrayList<>();
-    List<Category>filterCategory = new ArrayList<>();
-    Context context;
-    ISelectItemListener selectItemListener;
+public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListAdapter.ViewHolder> {
 
-    public void setAllCategory(Context context, List<Category> allCategory) {
-        this.allCategory = allCategory;
-        filterCategory.clear();
-        filterCategory.addAll(allCategory);
-        filterCategory.add(0, new Category("ВСЕ"));
-        this.context = context;
-        notifyDataSetChanged();
-    }
 
-    public void setSelectItemListener(ISelectItemListener selectItemListener) {
-        this.selectItemListener = selectItemListener;
+    public CategoryListAdapter(Context context) {
+        super(context);
+        getItemList().add(0, new Category(-1, "ВСЕ"));
     }
 
     @NonNull
@@ -52,81 +34,80 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.bind(filterCategory.get(position));
+        holder.bind(getFilteredItem().get(position));
     }
 
-    @Override
-    public int getItemCount() {
-        return filterCategory.size();
-    }
 
-    @Override
-    public Filter getFilter() {
-
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String charString = constraint.toString();
-                if(charString.isEmpty())
-                {
-                    filterCategory = allCategory;
-                }
-                else
-                {
-                    List<Category>filtered = new ArrayList<>();
-                    for(Category category: allCategory)
-                    {
-                        if(category.getTitle().contains(charString.toLowerCase()))
-                        {
-                            filtered.add(category);
-                        }
-                    }
-                    filterCategory = filtered;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filterCategory;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                filterCategory = (ArrayList<Category>) results.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    class ViewHolder extends CardViewHolder<Category> implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
         @BindView(R.id.category_name)
         TextView categoryName;
+        @BindView(R.id.category_card)
+        MaterialCardView cardView;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            categoryName.setOnClickListener(this);
+            cardView.setOnClickListener(this);
+            cardView.setOnLongClickListener(this);
+            cardView.setOnCheckedChangeListener(this);
         }
 
-        public void bind(Category category)
-        {
+        public void bind(Category category) {
             categoryName.setText(category.getTitle());
+
+            if(category.id < 0)
+            {
+                cardView.setCheckable(false);
+            }
         }
+
 
         @Override
         public void onClick(View v) {
-            Category category = null;
-            if(!filterCategory.get(getAdapterPosition()).getTitle().equals("ВСЕ"))
-            {
-                category = filterCategory.get(getAdapterPosition());
+
+
+            if (!isCheckedMode()) {
+                if (getOnItemClickListener() != null) {
+                    getOnItemClickListener().onItemClick(getFilteredItem().get(getAdapterPosition()));
+                }
+            } else {
+                checkedControl((MaterialCardView) v);
             }
-            selectItemListener.onItemClick(category);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (!isCheckedMode()) {
+                setCheckedMode(true);
+                getSelectedList().clear();
+                getOnItemClickListener().onItemChangeChecked();
+            }
+            checkedControl((MaterialCardView) v);
+            return true;
+        }
+
+        @Override
+        public void onCheckedChanged(MaterialCardView card, boolean isChecked) {
+            Category category = getFilteredItem().get(getAdapterPosition());
+            if (isChecked) {
+
+                addCheckedItemCount();
+
+                if (!getSelectedList().contains(category)) {
+                    getSelectedList().add(category);
+                }
+            } else {
+                removeCheckedItemCount();
+                getSelectedList().remove(category);
+            }
+            if (getCheckedCount() == 0) {
+                getOnItemClickListener().onItemChangeChecked();
+                setCheckedMode(false);
+            }
         }
     }
-
-    public interface ISelectItemListener
-    {
-        void onItemClick(Category category);
-    }
 }
+
+

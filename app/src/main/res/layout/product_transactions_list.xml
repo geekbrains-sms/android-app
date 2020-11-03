@@ -14,9 +14,11 @@
             android:id="@+id/toggle_supply_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
             android:checked="true"
             android:text="ToggleButton"
+            android:textColor="@color/cardview_light_background"
             android:textOff="@string/supply"
             android:textOn="@string/supply" />
 
@@ -24,9 +26,11 @@
             android:id="@+id/toggle_shipment_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
             android:checked="true"
             android:text="ToggleButton"
+            android:textColor="@color/cardview_light_background"
             android:textOff="@string/shipment"
             android:textOn="@string/shipment" />
     </LinearLayout>

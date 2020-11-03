@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -78,7 +78,7 @@ public class ContractorDialog extends DialogFragment {
                             {
                                 newContractor.setId(contractor.getId());
                             }
-                            onClickListener.onClick(contractor, newContractor);
+                            onClickListener.onClick(newContractor);
                             dialog.dismiss();
                         }
                     }
@@ -89,6 +89,6 @@ public class ContractorDialog extends DialogFragment {
 
     public interface IOnClickListener
     {
-        void onClick(Contractor old, Contractor newContractor);
+        void onClick(Contractor newContractor);
     }
 }

@@ -2,7 +2,6 @@ package com.geekbrains.geekbrainsprogect.ui.product.detail.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.ui.product.model.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 
 import java.util.List;
 
@@ -31,11 +32,13 @@ public class TransactionsListDialog extends DialogFragment implements View.OnCli
     RecyclerView transactionsList;
 
     TransactionsListAdapter adapter;
-    List<ProductTransaction>transactions;
+    ProductModel productModel;
+    List<ProductTransactionModel>transactions;
 
-    TransactionsListDialog(List<ProductTransaction>transactions)
+    TransactionsListDialog(List<ProductTransactionModel>transactions, ProductModel productModel)
     {
         this.transactions = transactions;
+        this.productModel = productModel;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class TransactionsListDialog extends DialogFragment implements View.OnCli
 
     private void createRecycler() {
         transactionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new TransactionsListAdapter(getContext(), transactions);
+        adapter = new TransactionsListAdapter(getContext(), transactions, productModel);
         transactionsList.setAdapter(adapter);
     }
 

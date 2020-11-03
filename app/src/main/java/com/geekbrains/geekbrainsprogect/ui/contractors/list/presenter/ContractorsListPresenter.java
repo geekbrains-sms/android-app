@@ -1,12 +1,16 @@
 package com.geekbrains.geekbrainsprogect.ui.contractors.list.presenter;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ContractorInteractor;
 import com.geekbrains.geekbrainsprogect.ui.contractors.list.view.ContractorsListView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -18,81 +22,57 @@ import retrofit2.Response;
 
 @InjectViewState
 public class ContractorsListPresenter extends MvpPresenter<ContractorsListView> {
-
-    public ContractorsListPresenter()
-    {
+    ContractorInteractor contractorInteractor;
+    @Inject
+    public ContractorsListPresenter(ContractorInteractor contractorInteractor) {
+        this.contractorInteractor = contractorInteractor;
+        saveContractorList();
         getContractorList();
     }
 
+    private void saveContractorList() {
+        Disposable disposable = contractorInteractor.saveContractorsFromServerToDb()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{}, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    }
+
+
     public void getContractorList()
     {
-        Single<Response<List<Contractor>>> single = AppData.getApiHelper().getAllContractors();
+        Disposable disposable = contractorInteractor.getAllContractorList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(contractors -> {
 
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-            if(requestMsg.isSuccessful())
-            {
-                AppData.setContractorList(requestMsg.body());
-                getViewState().setDataToAdapter(AppData.getContractorList());
-            }
-            else
-            {
-                getViewState().showAlertDialog(requestMsg.errorBody().string());
-            }
-
+                getViewState().setDataToAdapter(contractors);
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
     public void addContractor(Contractor contractor) {
-        Single<Response<Contractor>> single = AppData.getApiHelper().addContractor(contractor);
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-            if(requestMsg.isSuccessful())
-            {
-                AppData.getContractorList().add(requestMsg.body());
-                getViewState().setDataToAdapter(AppData.getContractorList());
+        Disposable disposable = contractorInteractor.addContractor(contractor)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
                 getViewState().showToast(R.string.contractors_added);
-            }
-            else
-            {
-                getViewState().showAlertDialog(requestMsg.errorBody().string());
-            }
-
-        }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+                }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
-    public void editContractor(Contractor contractorEdit, Contractor old) {
-        Single<Response<ResponseBody>> single = AppData.getApiHelper().editContractor(contractorEdit);
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-            if(requestMsg.isSuccessful())
-            {
-                AppData.updateContractors(old, contractorEdit);
-                getViewState().setDataToAdapter(AppData.getContractorList());
+    public void editContractor(Contractor contractorEdit) {
+        Disposable disposable = contractorInteractor.editContractor(contractorEdit)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
                 getViewState().showToast(R.string.contractors_edit);
-            }
-            else
-            {
-                getViewState().showAlertDialog(requestMsg.errorBody().string());
-            }
-
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 
     public void deleteContractor(Contractor contractor) {
-        Single<Response<ResponseBody>> single = AppData.getApiHelper().deleteContractorById(contractor.getId());
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(requestMsg -> {
-            if(requestMsg.isSuccessful())
-            {
-                AppData.getContractorList().remove(contractor);
-                getViewState().setDataToAdapter(AppData.getContractorList());
+        Disposable disposable = contractorInteractor.deleteContractor(contractor)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
                 getViewState().showToast(R.string.contractors_delete);
-            }
-            else
-            {
-                getViewState().showAlertDialog(requestMsg.errorBody().string());
-            }
-
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
 }

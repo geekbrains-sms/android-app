@@ -3,90 +3,85 @@ package com.geekbrains.geekbrainsprogect.ui.product.product_list.presenter;
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.dagger.AppData;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Category;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Fund;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
-import com.geekbrains.geekbrainsprogect.ui.product.model.Unit;
+import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ProductInteractor;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.ProductListView;
 import java.util.List;
-import java.util.Objects;
-import io.reactivex.Single;
+
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import retrofit2.Response;
 
 @InjectViewState
 public class ProductListPresenter extends MvpPresenter<ProductListView> {
     public static final String TAG = "ProductListPresenter";
+    ProductInteractor productInteractor;
 
-    public ProductListPresenter()
+    public ProductListPresenter(ProductInteractor productInteractor)
     {
-        getProductList();
-        loadUnitsFromServer();
+        this.productInteractor = productInteractor;
+        subscribeToDB();
+
     }
 
-    private void loadUnitsFromServer() {
-        Single<Response<List<Unit>>> single = AppData.getApiHelper().getAllUnits();
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(unitsResponse ->{
-            if(unitsResponse.isSuccessful())
-            {
-                AppData.setUnitList(unitsResponse.body());
-            }
-        }, throwable -> {
-
-        });
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        loadFromServer();
     }
 
-    private void getProductList()
-    {
-        Single<Response<List<Fund>>> single = AppData.getApiHelper().getAllFunds();
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(fundsResponse ->
-        {
-            if(fundsResponse.isSuccessful())
-            {
-                AppData.setProductList(fundsResponse.body());
-                Log.e(TAG, "loadFromServer: " + fundsResponse.toString());
-                getViewState().setDataToAdapter(AppData.getProductList());
-            }
-            else
-            {
-                getViewState().showAlertDialog(Objects.requireNonNull(fundsResponse.errorBody()).string());
-            }
+    public void loadFromServer() {
+        Disposable disposable = productInteractor.saveProductFromServerToDB().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{
+                    Log.d(TAG, "Load Complete");
+                    }, throwable -> {
+                    getViewState().showAlertDialog(throwable.getMessage());
+                });
+    }
 
+    public void subscribeToDB()
+    {
+        Flowable<List<ProductModel>> list = productInteractor.getProductListFromDB();
+        Disposable disposable = list.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(productList -> {
+                getViewState().setDataToAdapter(productList);
+                Log.d(TAG, "Product load from DB complete");
         }, throwable -> {
             getViewState().showAlertDialog(throwable.getMessage());
-            Log.e(TAG, "loadFromServerError: " + throwable.getMessage());
+            Log.e(TAG, "Product load from DB: " + throwable.getMessage());
         });
     }
 
-    public void deleteProduct(List<Fund> selectedProduct) {
-
+    public void deleteProduct(List<Long> selectedProduct) {
+        productInteractor.deleteProducts(selectedProduct);
     }
 
-    public void addProductToServer(Product product) {
-        Single<Response<Product>> single = AppData.getApiHelper().addProduct(product);
-
-        Disposable disposable = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(productResponse -> {
-            if(productResponse.isSuccessful())
-            {
-                Fund fund = new Fund(productResponse.body());
-                AppData.getProductList().add(fund);
-                getViewState().updateDisplay();
+    public void addProduct(ProductModel product) {
+        Disposable disposable = productInteractor.addProduct(product)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
                 getViewState().showToast(R.string.product_create_sucesses);
-            }
-            else
-            {
-                getViewState().showAlertDialog(productResponse.errorBody().string());
-            }
         }, throwable -> {
             getViewState().showAlertDialog(throwable.getMessage());
         });
 
+    }
 
+    public void loadAddProductDialog() {
+        Disposable disposable = productInteractor.loadUnitsWithCategories()
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(usersWithCategory-> {
+                    getViewState().showAddProductDialog(usersWithCategory);
+                }, throwable -> {
+                    getViewState().showAlertDialog(throwable.getMessage());
+                });
     }
 }

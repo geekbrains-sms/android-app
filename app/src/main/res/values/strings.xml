@@ -83,4 +83,7 @@
     <string name="contractors_edit">Контрагент успешно изменен!</string>
     <string name="create_edit_contractor">Создание/редактирование контрагента</string>
     <string name="contractors_delete">Контрагент успешно удален!</string>
+    <string name="add">Добавить</string>
+    <string name="edit_category_product">Редактирвоание категорий продукта</string>
+    <string name="category_delete_sucesses">Категория успешно удалена!</string>
 </resources>

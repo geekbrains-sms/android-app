@@ -1,51 +1,24 @@
 package com.geekbrains.geekbrainsprogect.ui.contractors.list.view;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.geekbrains.geekbrainsprogect.R;
-import com.geekbrains.geekbrainsprogect.data.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseListAdapter;
+import com.geekbrains.geekbrainsprogect.ui.base.CardViewHolder;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContractorsListAdapter extends RecyclerView.Adapter<ContractorsListAdapter.ViewHolder> implements Filterable {
-    private List<Contractor> allContractors = new ArrayList<>();
-    private List<Contractor> filteredContractors = new ArrayList<>();
-    private List<Contractor> selectedContractors = new ArrayList<>();
-    private IOnItemClickListener onItemClickListener;
-    private IOnCheckedClickListener onCheckedClickListener;
-    private boolean checkedMode = false;
-    private long checkedItem = 0;
+public class ContractorsListAdapter extends BaseListAdapter<Contractor, ContractorsListAdapter.ViewHolder> {
 
-    public void setOnItemClickListener(IOnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
 
-    public void setOnCheckedClickListener(IOnCheckedClickListener onCheckedClickListener) {
-        this.onCheckedClickListener = onCheckedClickListener;
-    }
-
-    public void setAllContractor(List<Contractor> allUsers) {
-        this.allContractors = allUsers;
-        filteredContractors.clear();
-        filteredContractors.addAll(allUsers);
-        notifyDataSetChanged();
-    }
-
-    public List<Contractor> getSelectedContractors() {
-        return selectedContractors;
+    public ContractorsListAdapter(Context context) {
+        super(context);
     }
 
     @NonNull
@@ -57,52 +30,10 @@ public class ContractorsListAdapter extends RecyclerView.Adapter<ContractorsList
 
     @Override
     public void onBindViewHolder(@NonNull ContractorsListAdapter.ViewHolder holder, int position) {
-        holder.bind(filteredContractors.get(position));
+        holder.bind(getFilteredItem().get(position));
     }
 
-    @Override
-    public int getItemCount() {
-        return filteredContractors.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String charString = constraint.toString();
-                List<Contractor>allFunds = allContractors;
-                if(charString.isEmpty())
-                {
-                    filteredContractors = allFunds;
-                }
-                else
-                {
-                    List<Contractor>filtered = new ArrayList<>();
-                    for(Contractor contractor: allFunds)
-                    {
-                        if(contractor.getTitle().toLowerCase().contains(charString.toLowerCase()))
-                        {
-                            filtered.add(contractor);
-                        }
-                    }
-                    filteredContractors = filtered;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredContractors;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredContractors = (ArrayList<Contractor>) results.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
+    public class ViewHolder extends CardViewHolder<Contractor> implements View.OnClickListener, View.OnLongClickListener, MaterialCardView.OnCheckedChangeListener {
         @BindView(R.id.contractor_title)
         TextView title;
         @BindView(R.id.contractor_card)
@@ -123,71 +54,54 @@ public class ContractorsListAdapter extends RecyclerView.Adapter<ContractorsList
         @Override
         public void onClick(View v) {
 
-            if(!checkedMode)
+            if(!isCheckedMode())
             {
-                if(onItemClickListener != null)
+                if(getOnItemClickListener() != null)
                 {
-                    onItemClickListener.onItemClick(filteredContractors.get(getAdapterPosition()));
+                    getOnItemClickListener().onItemClick(getFilteredItem().get(getAdapterPosition()));
                 }
             }
             else
             {
-                checkedControl();
+                checkedControl((MaterialCardView) v);
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if(!checkedMode)
+            if(!isCheckedMode())
             {
-                checkedMode = true;
-                selectedContractors.clear();
-                onCheckedClickListener.onCheckedClick();
+                setCheckedMode(true);
+                getSelectedList().clear();
+                getOnItemClickListener().onItemChangeChecked();
             }
-            checkedControl();
+            checkedControl((MaterialCardView) v);
             return true;
-        }
-        private void checkedControl() {
-            if(cardView.isChecked())
-            {
-                cardView.setChecked(false);
-            }
-            else
-            {
-                cardView.setChecked(true);
-            }
         }
 
         @Override
         public void onCheckedChanged(MaterialCardView card, boolean isChecked) {
+            Contractor contractor = getFilteredItem().get(getAdapterPosition());
             if(isChecked)
             {
-                checkedItem++;
-                Contractor contractor = filteredContractors.get(getAdapterPosition());
-                if(!selectedContractors.contains(contractor))
+                addCheckedItemCount();
+
+                if(!getSelectedList().contains(contractor))
                 {
-                    selectedContractors.add(contractor);
+                    getSelectedList().add(contractor);
                 }
             }
             else
             {
-                checkedItem--;
-                Contractor contractor = filteredContractors.get(getAdapterPosition());
-                selectedContractors.remove(contractor);
+                removeCheckedItemCount();
+                getSelectedList().remove(contractor);
             }
-            if(checkedItem == 0)
+            if(getCheckedCount() == 0)
             {
-                onCheckedClickListener.onCheckedClick();
-                checkedMode = false;
+                getOnItemClickListener().onItemChangeChecked();
+                setCheckedMode(false);
             }
         }
     }
-    public interface IOnItemClickListener
-    {
-        void onItemClick(Contractor contractor);
-    }
-    public interface IOnCheckedClickListener
-    {
-        void onCheckedClick();
-    }
+
 }

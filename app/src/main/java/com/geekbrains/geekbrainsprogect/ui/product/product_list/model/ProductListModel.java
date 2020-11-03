@@ -1,18 +1,24 @@
 package com.geekbrains.geekbrainsprogect.ui.product.product_list.model;
 
-import com.geekbrains.geekbrainsprogect.ui.product.model.Product;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListModel {
-    private List<Product> productList = new ArrayList<>();
+    private static List<Long> selectedProductList;
 
-    public List<Product> getProductList() {
-        return productList;
+    public static List<Long> getSelectedProductList()
+    {
+        if(selectedProductList == null)
+        {
+            selectedProductList = new ArrayList<>();
+        }
+        return selectedProductList;
     }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public static void setSelectedProductList(List<Long>list)
+    {
+        selectedProductList = list;
     }
 }
