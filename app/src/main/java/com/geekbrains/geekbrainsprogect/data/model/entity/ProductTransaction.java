@@ -15,12 +15,11 @@ import java.util.Date;
 
 import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "product_transaction")
-public class ProductTransaction implements IProductTransactions {
+public class ProductTransaction {
     @PrimaryKey
     @ColumnInfo(name = "transactionId", index = true)
     public long id;
-    @ColumnInfo(name = "productId")
-    @ForeignKey(entity = Product.class, parentColumns = "id", childColumns = "product_id", onDelete = CASCADE)
+    @ColumnInfo(name = "product_id")
     public long productId;
     @ColumnInfo(name = "contractor_id")
     public long contractorId;
@@ -43,16 +42,6 @@ public class ProductTransaction implements IProductTransactions {
 
     public long getId() {
         return id;
-    }
-
-    @Override
-    public Contractor getContractor() {
-        return null;
-    }
-
-    @Override
-    public IUser getUser() {
-        return null;
     }
 
     public void setId(Long id) {

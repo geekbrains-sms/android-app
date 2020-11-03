@@ -1,12 +1,9 @@
 package com.geekbrains.geekbrainsprogect.data.model.entity.join;
 
 import androidx.room.Embedded;
-import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
-import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
@@ -30,10 +27,7 @@ public class ProductWithCategory implements IProduct {
             entityColumn = "contractorId",
             associateBy = @Junction(ProductContractorCrossRef.class))
     public List<Contractor>contractors;
-    @Relation(parentColumn = "productId",
-            entityColumn = "transactionId",
-            associateBy = @Junction(ProductTransactionCrossRef.class))
-    public List<ProductTransaction>productTransactions;
+
 
     @Relation(
             parentColumn = "unit_id",
@@ -47,7 +41,6 @@ public class ProductWithCategory implements IProduct {
         this.product = product;
         this.categories = categories;
         this.contractors = contractors;
-        this.productTransactions = productTransactions;
         this.unit = unit;
     }
 
@@ -89,11 +82,6 @@ public class ProductWithCategory implements IProduct {
     @Override
     public List<Contractor> getContractors() {
         return contractors;
-    }
-
-    @Override
-    public List<? extends IProductTransactions> getProductTransactions() {
-        return productTransactions;
     }
 
     public void setUnit(Unit unit) {

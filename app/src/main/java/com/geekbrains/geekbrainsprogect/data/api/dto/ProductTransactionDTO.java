@@ -67,8 +67,8 @@ public class ProductTransactionDTO implements IProductTransactions {
     }
 
     @Override
-    public long getProductId() {
-        return product.getId();
+    public IProduct getProduct() {
+        return product;
     }
 
     public void setComment(String comment) {

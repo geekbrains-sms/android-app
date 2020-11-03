@@ -15,17 +15,17 @@ public class ProductTransactionModel implements IProductTransactions {
     private String date;
     private double quantity;
     private String comment;
-    private long productId;
+    private ProductModel productModel;
 
 
-    public ProductTransactionModel(long id, Contractor contractor, UserModel user, String date, double quantity, String comment, long productId) {
+    public ProductTransactionModel(long id, Contractor contractor, UserModel user, String date, double quantity, String comment, ProductModel productModel) {
         this.id = id;
         this.contractor = contractor;
         this.user = user;
         this.date = date;
         this.quantity = quantity;
         this.comment = comment;
-        this.productId = productId;
+        this.productModel = productModel;
     }
 
     public long getId() {
@@ -73,8 +73,8 @@ public class ProductTransactionModel implements IProductTransactions {
     }
 
     @Override
-    public long getProductId() {
-        return productId;
+    public IProduct getProduct() {
+        return null;
     }
 
     public void setComment(String comment) {

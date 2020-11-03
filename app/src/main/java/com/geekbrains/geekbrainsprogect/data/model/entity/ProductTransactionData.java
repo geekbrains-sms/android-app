@@ -1,11 +1,13 @@
-package com.geekbrains.geekbrainsprogect.data.database.room.dao;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
+import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
+import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 
@@ -22,6 +24,11 @@ public class ProductTransactionData implements IProductTransactions {
             entityColumn = "userId"
     )
     User user;
+    @Relation(
+            parentColumn = "product_id",
+            entityColumn = "productId"
+    )
+    Product product;
 
     public ProductTransactionData(ProductTransaction productTransaction, Contractor contractor) {
         this.productTransaction = productTransaction;
@@ -66,8 +73,8 @@ public class ProductTransactionData implements IProductTransactions {
     }
 
     @Override
-    public long getProductId() {
-        return productTransaction.getProductId();
+    public IProduct getProduct() {
+        return product;
     }
 
     public void setContractor(Contractor contractor) {

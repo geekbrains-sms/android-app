@@ -55,11 +55,6 @@ public class ProductDTO implements IProduct {
         return null;
     }
 
-    @Override
-    public List<IProductTransactions> getProductTransactions() {
-        return null;
-    }
-
     public void setUnit(Unit unit) {
         this.unit = unit;
     }

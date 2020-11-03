@@ -21,13 +21,8 @@ import javax.inject.Inject;
 
 public class ProductMapperImpl implements ProductMapper {
     private static final String TAG = "ProductMapper";
-    private ProductTransactionMapper productTransactionMapper;
 
-    @Inject
-    public ProductMapperImpl(ProductTransactionMapper productTransactionMapper)
-    {
-        this.productTransactionMapper = productTransactionMapper;
-    }
+
     @Override
     public ProductModel toModel(IProduct object) {
         Log.d(TAG, "toModel() start: " + object.toString());
@@ -37,11 +32,10 @@ public class ProductMapperImpl implements ProductMapper {
         String imageUrl = object.getImagePath();
         Unit unit = object.getUnit();
         double quantity = object.getQuantity();
-//        List<ProductTransactionModel> transactions = productTransactionMapper.toModelList(object.getProductTransactions());
         List<Contractor>contractors = object.getContractors();
         List<Category>categories = object.getCategoryList();
 
-        ProductModel productModel = new ProductModel(id,title,description,unit,imageUrl,categories,contractors,null, quantity);
+        ProductModel productModel = new ProductModel(id,title,description,unit,imageUrl,categories,contractors,quantity);
         Log.d(TAG, "toModel() end: " + productModel.toString());
         return productModel;
     }

@@ -12,5 +12,5 @@ public interface IProductTransactions {
     String getDate();
     double getQuantity();
     String getComment();
-    long getProductId();
+    IProduct getProduct();
 }

@@ -122,7 +122,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
         public void bind(ProductTransactionModel transaction)
         {
-//            productName.setText(context.getString(R.string.product_name_field, transaction.getProduct().getTitle()));
+            productName.setText(context.getString(R.string.product_name_field, transaction.getProduct().getTitle()));
             if(transaction.getQuantity() > 0)
             {
                 type.setText(context.getString(R.string.type_transaction_field, context.getString(R.string.supply)));
@@ -136,11 +136,9 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
                 contractor.setText(context.getString(R.string.contractor_field_transaction, transaction.getContractor().getTitle()));
             }
             comment.setText(context.getString(R.string.comment_trasaction_field, transaction.getComment()));
-//            userName.setText(context.getString(R.string.operator, transaction.getUser().getFullname()));
-//            date.setText(transaction.getDate().toString());
+            userName.setText(context.getString(R.string.operator, transaction.getUser().getLogin()));
+            date.setText(transaction.getDate().toString());
             count.setText(transaction.getQuantity() + "");
-//            units.setText(transaction.getProduct().getUnitsTitle());
-
         }
     }
 }

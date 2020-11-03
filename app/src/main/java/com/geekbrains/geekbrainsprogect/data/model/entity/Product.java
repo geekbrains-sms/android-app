@@ -86,11 +86,6 @@ public class Product implements IProduct {
         return null;
     }
 
-    @Override
-    public List<IProductTransactions> getProductTransactions() {
-        return null;
-    }
-
     public long getIdUnit() {
         return idUnit;
     }

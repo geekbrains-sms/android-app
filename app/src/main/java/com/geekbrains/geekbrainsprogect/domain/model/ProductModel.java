@@ -21,12 +21,10 @@ public class ProductModel implements Item, IProduct {
     List<Category> categories;
     double quantity;
     private List<Contractor> contractors;
-    private List<ProductTransactionModel>transactions;
     private boolean changed = false;
 
     public ProductModel(long id, String title, String description, Unit unit, String imagePath,
-                        List<Category> categories, List<Contractor> contractors,
-                        List<ProductTransactionModel> transactions, double quantity) {
+                        List<Category> categories, List<Contractor> contractors, double quantity) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -34,7 +32,6 @@ public class ProductModel implements Item, IProduct {
         this.imagePath = imagePath;
         this.categories = categories;
         this.contractors = contractors;
-        this.transactions = transactions;
         this.quantity = quantity;
     }
 
@@ -97,22 +94,13 @@ public class ProductModel implements Item, IProduct {
         return contractors;
     }
 
-    @Override
-    public List<IProductTransactions> getProductTransactions() {
-        return new ArrayList<>(transactions);
-    }
+
 
     public void setContractors(List<Contractor> contractors) {
         this.contractors = contractors;
     }
 
-    public List<ProductTransactionModel> getTransactions() {
-        return transactions;
-    }
 
-    public void setTransactions(List<ProductTransactionModel> transactions) {
-        this.transactions = transactions;
-    }
 
     public boolean isChanged() {
         return changed;

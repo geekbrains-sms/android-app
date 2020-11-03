@@ -15,6 +15,6 @@ public interface IProduct {
     List<Category>getCategoryList();
     Unit getUnit();
     List<Contractor>getContractors();
-    List<? extends IProductTransactions>getProductTransactions();
+
 
 }
