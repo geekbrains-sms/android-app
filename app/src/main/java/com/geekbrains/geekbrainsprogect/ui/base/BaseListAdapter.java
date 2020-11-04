@@ -12,9 +12,9 @@ import java.util.List;
 public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements Filterable {
 
     private List<T> itemList;
-    private List<T> filteredItem = new ArrayList<>();
-    private List<T> selectedList;
-    private Context context;
+    private List<T> filteredItem;
+    private final List<T> selectedList;
+    private final Context context;
     private boolean checkedMode = false;
     private long checkedItemCount = 0;
     private IOnItemClickListener<T> onItemClickListener;

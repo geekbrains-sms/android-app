@@ -5,7 +5,7 @@ import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionM
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ContractorRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;

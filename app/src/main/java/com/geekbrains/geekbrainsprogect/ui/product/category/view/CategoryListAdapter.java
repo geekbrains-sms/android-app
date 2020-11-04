@@ -57,7 +57,7 @@ public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListA
         public void bind(Category category) {
             categoryName.setText(category.getTitle());
 
-            if(category.id < 0)
+            if(category.getId() < 0)
             {
                 cardView.setCheckable(false);
             }

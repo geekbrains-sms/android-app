@@ -12,9 +12,9 @@ public class Contractor implements Item {
     @PrimaryKey
     @ColumnInfo(name = "contractorId", index = true)
     @Expose
-    public long id;
+    private long id;
     @Expose
-    public String title;
+    private String title;
 
     public String getTitle() {
         return title;

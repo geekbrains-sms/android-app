@@ -2,20 +2,16 @@ package com.geekbrains.geekbrainsprogect.data.mapper.impl;
 
 import android.util.Log;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
-import com.geekbrains.geekbrainsprogect.data.api.dto.UserDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.ProductTransactionDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.UserDTO;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
-import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
 
@@ -75,7 +71,7 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
     public ProductTransactionData toEntity(IProductTransactions object) {
         Log.d(TAG, "toEntity() start: " + object.toString());
         long id = object.getId();
-        long contractorId = object.getContractor().id;
+        long contractorId = object.getContractor().getId();
         long productID = object.getProductId();
         Contractor contractor = object.getContractor();
         User user = userMapper.toEntity(object.getUser());
@@ -130,7 +126,7 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
         List<ProductTransaction>entityList = new ArrayList<>();
         for(IProductTransactions transactions: list)
         {
-            entityList.add(toEntity(transactions).productTransaction);
+            entityList.add(toEntity(transactions).getProductTransaction());
         }
         return entityList;
     }

@@ -7,18 +7,13 @@ import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserRoleCrossDao;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
-import com.geekbrains.geekbrainsprogect.data.model.entity.User;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.UserRoleCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.UserRoleCrossRef;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UserRepository;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
-
 import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 public class UserRepositoryImpl implements UserRepository {
     UserDao userDao;
@@ -61,11 +56,6 @@ public class UserRepositoryImpl implements UserRepository {
                         userRoleCrossDao.insert(new UserRoleCrossRef(x.getId(), role.getId()));
                     }
                 }));
-    }
-
-    @Override
-    public Single<List<User>> getUserById(long id) {
-        return null;
     }
 
     @Override

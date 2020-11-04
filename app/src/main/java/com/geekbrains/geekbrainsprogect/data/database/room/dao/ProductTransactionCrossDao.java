@@ -3,7 +3,7 @@ package com.geekbrains.geekbrainsprogect.data.database.room.dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductTransactionCrossRef;
 
 import io.reactivex.Completable;
 

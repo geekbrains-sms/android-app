@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.data.api.dto;
+package com.geekbrains.geekbrainsprogect.data.api.model;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;

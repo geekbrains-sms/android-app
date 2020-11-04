@@ -1,6 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.repository.impl;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.api.service.ProductTransactionService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionCrossDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductTransactionDao;
@@ -8,7 +8,7 @@ import com.geekbrains.geekbrainsprogect.data.database.room.dao.UserDao;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductTransactionCrossRef;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductTransactionRepository;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 
@@ -46,7 +46,7 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
                     productTransactionDao.deleteAll(x);
                     productTransactionDao.insertAll(x);})
                 .flatMapIterable(x -> x)
-                .flatMapCompletable(x -> Completable.fromRunnable(() -> crossDao.insert(new ProductTransactionCrossRef(x.getId(), x.id))));
+                .flatMapCompletable(x -> Completable.fromRunnable(() -> crossDao.insert(new ProductTransactionCrossRef(x.getId(), x.getId()))));
     }
 
     @Override
@@ -68,8 +68,8 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
         return productTransactions
                 .map(x -> productTransactionMapper.toEntity(x))
                 .doOnNext(x -> {
-                    productTransactionDao.insert(x.productTransaction);
-                    crossDao.insert(new ProductTransactionCrossRef(x.getProductId(), x.productTransaction.id));
+                    productTransactionDao.insert(x.getProductTransaction());
+                    crossDao.insert(new ProductTransactionCrossRef(x.getProductId(), x.getProductTransaction().getId()));
                 });
 
     }
@@ -81,7 +81,7 @@ public class ProductTransactionRepositoryImpl implements ProductTransactionRepos
                 .doOnNext(x -> crossDao.deleteByProduct(id))
                 .flatMap(Observable::fromIterable)
                 .flatMapCompletable(x -> Completable.fromRunnable(() -> {crossDao.insert(new ProductTransactionCrossRef(id, x.getId()));
-                    productTransactionDao.insert(x.productTransaction);
+                    productTransactionDao.insert(x.getProductTransaction());
                 }));
     }
 

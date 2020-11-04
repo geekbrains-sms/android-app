@@ -27,7 +27,7 @@ import butterknife.OnClick;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
 
-public class ContractorListActivity extends ListActivity implements ContractorsListView {
+public abstract class ContractorListActivity extends ListActivity implements ContractorsListView {
     @InjectPresenter
     ContractorsListPresenter presenter;
     @BindView(R.id.data_recycler)
@@ -131,9 +131,4 @@ public class ContractorListActivity extends ListActivity implements ContractorsL
                 presenter.deleteContractor(contractor);
         }
     }
-    @Override
-    protected void open() {}
-
-    @Override
-    protected void filter() {}
 }

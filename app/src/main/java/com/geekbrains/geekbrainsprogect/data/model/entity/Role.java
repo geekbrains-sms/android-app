@@ -12,11 +12,11 @@ public class Role {
     @PrimaryKey
     @ColumnInfo(name = "roleId",index = true)
     @Expose
-    public int id;
+    private int id;
     @Expose
-    public String name;
+    private String name;
     @Expose
-    public String title;
+    private String title;
 
     public int getId() {
         return id;

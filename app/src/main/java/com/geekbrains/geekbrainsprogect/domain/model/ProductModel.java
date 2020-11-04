@@ -82,10 +82,6 @@ public class ProductModel implements Item, IProduct {
         return categories;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;

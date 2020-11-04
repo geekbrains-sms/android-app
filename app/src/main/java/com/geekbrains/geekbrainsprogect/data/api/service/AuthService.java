@@ -1,8 +1,7 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.AuthDTO;
-import com.geekbrains.geekbrainsprogect.data.api.dto.UserRequest;
-import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.data.api.model.AuthDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.AuthToken;
 
 import io.reactivex.Single;
 import retrofit2.Response;

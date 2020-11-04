@@ -1,6 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.repository.contract;
 
-import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.data.api.model.AuthToken;
 
 import io.reactivex.Single;
 import retrofit2.Response;

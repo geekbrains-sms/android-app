@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class ContractorDialog extends DialogFragment {
     private Contractor contractor;
-    private IOnClickListener onClickListener;
+    private final IOnClickListener onClickListener;
     @BindView(R.id.edit_text_dialog)
     TextInputEditText nameEdit;
 
@@ -62,28 +62,22 @@ public class ContractorDialog extends DialogFragment {
 
     private void setListener() {
         AlertDialog dialog = (AlertDialog)getDialog();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogLocal) {
-                Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String text = Objects.requireNonNull(nameEdit.getText()).toString();
-                        if(text != null && !text.trim().equals(""))
-                        {
-                            Contractor newContractor = new Contractor();
-                            newContractor.setTitle(text);
-                            if(contractor != null)
-                            {
-                                newContractor.setId(contractor.getId());
-                            }
-                            onClickListener.onClick(newContractor);
-                            dialog.dismiss();
-                        }
+        dialog.setOnShowListener(dialogLocal -> {
+            Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            button.setOnClickListener(v -> {
+                String text = Objects.requireNonNull(nameEdit.getText()).toString();
+                if(text != null && !text.trim().equals(""))
+                {
+                    Contractor newContractor = new Contractor();
+                    newContractor.setTitle(text);
+                    if(contractor != null)
+                    {
+                        newContractor.setId(contractor.getId());
                     }
-                });
-            }
+                    onClickListener.onClick(newContractor);
+                    dialog.dismiss();
+                }
+            });
         });
     }
 

@@ -103,5 +103,4 @@ public class ContractorsListAdapter extends BaseListAdapter<Contractor, Contract
             }
         }
     }
-
 }

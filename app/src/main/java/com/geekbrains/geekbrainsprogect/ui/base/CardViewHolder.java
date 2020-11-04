@@ -12,14 +12,7 @@ public abstract class CardViewHolder<T extends Item> extends RecyclerView.ViewHo
     }
 
     public void checkedControl(MaterialCardView cardView) {
-        if(cardView.isChecked())
-        {
-            cardView.setChecked(false);
-        }
-        else
-        {
-            cardView.setChecked(true);
-        }
+        cardView.setChecked(!cardView.isChecked());
     }
     public abstract void bind(T item);
 }

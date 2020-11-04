@@ -16,13 +16,13 @@ import java.util.List;
 public class Product implements IProduct {
     @PrimaryKey
     @ColumnInfo(name = "productId", index = true)
-    public long id;
-    public String title;
-    public String description;
-    public String imageUrl;
-    public double quantity;
-    @ColumnInfo(name = "unit_id")
-    public long idUnit;
+   private long id;
+   private String title;
+   private String description;
+   private String imageUrl;
+   private final double quantity;
+   @ColumnInfo(name = "unit_id")
+   private final long idUnit;
 
 
 
@@ -65,6 +65,10 @@ public class Product implements IProduct {
 
     public void setImagePath(String imagePath) {
         this.imageUrl = imagePath;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public double getQuantity() {

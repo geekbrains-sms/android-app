@@ -42,6 +42,6 @@ public class ContractorInteractorImpl implements ContractorInteractor {
 
     @Override
     public Completable deleteContractor(Contractor contractor) {
-        return contractorRepository.deleteContractorById(contractor.id);
+        return contractorRepository.deleteContractorById(contractor.getId());
     }
 }

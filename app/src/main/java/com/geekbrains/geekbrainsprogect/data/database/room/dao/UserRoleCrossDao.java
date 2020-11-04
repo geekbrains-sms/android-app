@@ -3,7 +3,7 @@ package com.geekbrains.geekbrainsprogect.data.database.room.dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.UserRoleCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.UserRoleCrossRef;
 
 import io.reactivex.Completable;
 @Dao

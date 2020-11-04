@@ -22,14 +22,14 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.model.entity.UserAction;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductCategoryCrossRef;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductContractorCrossRef;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductTransactionCrossRef;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.UserRoleCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductCategoryCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductContractorCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductTransactionCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.UserRoleCrossRef;
 
 
 @androidx.room.Database(entities = {Product.class, ProductTransaction.class, User.class, UserAction.class, Category.class, Unit.class,
-        Contractor.class, Role.class, ProductCategoryCrossRef.class, ProductContractorCrossRef.class, ProductTransactionCrossRef.class, UserRoleCrossRef.class}, version = 8)
+        Contractor.class, Role.class, ProductCategoryCrossRef.class, ProductContractorCrossRef.class, ProductTransactionCrossRef.class, UserRoleCrossRef.class},exportSchema = false, version = 9)
 public abstract class Database extends RoomDatabase {
 
     public abstract CategoryDao getCategoryDao();

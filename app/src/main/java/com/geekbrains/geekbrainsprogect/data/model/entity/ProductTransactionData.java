@@ -13,17 +13,17 @@ import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 
 public class ProductTransactionData implements IProductTransactions {
     @Embedded
-    public ProductTransaction productTransaction;
+    private ProductTransaction productTransaction;
     @Relation(
             parentColumn = "contractor_id",
             entityColumn = "contractorId"
     )
-    public Contractor contractor;
+    private Contractor contractor;
     @Relation(
             parentColumn = "user_id",
             entityColumn = "userId"
     )
-    public User user;
+    private final User user;
 
 
     public ProductTransactionData(ProductTransaction productTransaction, Contractor contractor, User user) {

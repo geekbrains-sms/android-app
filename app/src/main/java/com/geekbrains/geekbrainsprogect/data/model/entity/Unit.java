@@ -11,11 +11,11 @@ public class Unit {
     @PrimaryKey
     @ColumnInfo(name = "unitId", index = true)
     @Expose
-    public long id;
+    private long id;
     @Expose
-    public String title;
+    private String title;
     @Expose
-    public String description;
+    private String description;
 
     public Unit(long id,String title, String description) {
         this.id = id;

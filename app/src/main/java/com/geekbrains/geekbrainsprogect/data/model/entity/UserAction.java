@@ -10,17 +10,17 @@ import com.google.gson.annotations.Expose;
 public class UserAction implements Item {
     @PrimaryKey
     @Expose
-    public Long id;
+    private Long id;
     @Expose
-    public String type;
+    private String type;
     @Expose
-    public Long productId;
+    private Long productId;
     @Expose
-    public String productName;
+    private String productName;
     @Expose
-    public String data;
+    private String data;
     @Expose
-    public String authorName;
+    private String authorName;
 
     public Long getId() {
         return id;

@@ -14,9 +14,9 @@ public class Category implements Item, Serializable {
     @PrimaryKey
     @ColumnInfo(name = "categoryId")
     @Expose
-    public long id;
+    private long id;
     @Expose
-    public String title;
+    private String title;
 
 
     public Category(long id, String title) {

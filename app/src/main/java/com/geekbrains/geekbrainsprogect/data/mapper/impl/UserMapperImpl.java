@@ -1,6 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.mapper.impl;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.UserDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.UserDTO;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.UserMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;

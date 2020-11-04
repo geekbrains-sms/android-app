@@ -1,16 +1,12 @@
-package com.geekbrains.geekbrainsprogect.data.model.entity.join;
+package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
-import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductCategoryCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductContractorCrossRef;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
-import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +14,15 @@ import java.util.List;
 
 public class ProductWithCategory implements IProduct {
     @Embedded
-    public Product product;
+    private final Product product;
     @Relation(parentColumn = "productId",
     entityColumn = "categoryId",
     associateBy = @Junction(ProductCategoryCrossRef.class))
-    public List<Category>categories;
+    private final List<Category>categories;
     @Relation(parentColumn = "productId",
             entityColumn = "contractorId",
             associateBy = @Junction(ProductContractorCrossRef.class))
-    public List<Contractor>contractors;
+    private final List<Contractor>contractors;
 
 
     @Relation(
@@ -41,6 +37,10 @@ public class ProductWithCategory implements IProduct {
         this.categories = categories;
         this.contractors = contractors;
         this.unit = unit;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.geekbrains.geekbrainsprogect.domain.interactor.impl;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
-import com.geekbrains.geekbrainsprogect.data.repository.contract.RoleRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UserRepository;
 import com.geekbrains.geekbrainsprogect.domain.interactor.contract.UserInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
