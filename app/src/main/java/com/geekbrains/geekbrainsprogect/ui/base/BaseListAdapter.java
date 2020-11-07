@@ -1,10 +1,17 @@
 package com.geekbrains.geekbrainsprogect.ui.base;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
+import com.geekbrains.geekbrainsprogect.ui.product.category.view.CategoryListAdapter;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +25,16 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
     private boolean checkedMode = false;
     private long checkedItemCount = 0;
     private IOnItemClickListener<T> onItemClickListener;
+    private int itemResource;
 
 
-    public BaseListAdapter(Context context)
+    public BaseListAdapter(Context context, int itemResource)
     {
         this.itemList = new ArrayList<>();
         this.context = context;
         filteredItem = new ArrayList<>();
         selectedList = new ArrayList<>();
+        this.itemResource = itemResource;
         resetFilterList();
     }
 
@@ -39,6 +48,7 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
         selectedList.clear();
         notifyDataSetChanged();
     }
+
 
     @Override
     public Filter getFilter() {
@@ -60,7 +70,6 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
                             filtered.add(item);
                         }
                     }
-//
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filtered;
@@ -87,6 +96,10 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
     {
         this.itemList = itemList;
         resetFilterList();
+    }
+
+    public int getItemResource() {
+        return itemResource;
     }
 
     public List<T> getFilteredItem() {
@@ -140,4 +153,7 @@ public abstract class BaseListAdapter<T extends Item, VH extends RecyclerView.Vi
         void onItemClick(T item);
         void onItemChangeChecked();
     }
+
+
 }
+

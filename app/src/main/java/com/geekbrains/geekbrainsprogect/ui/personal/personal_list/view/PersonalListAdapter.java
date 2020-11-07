@@ -22,13 +22,13 @@ import butterknife.ButterKnife;
 
 public class PersonalListAdapter extends BaseListAdapter<UserModel, PersonalListAdapter.ViewHolder> {
     public PersonalListAdapter(Context context) {
-        super(context);
+        super(context, R.layout.user_item);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getItemResource(), parent, false);
         return new ViewHolder(view);
     }
 

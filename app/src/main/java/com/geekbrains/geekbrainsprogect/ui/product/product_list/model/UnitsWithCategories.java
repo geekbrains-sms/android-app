@@ -13,7 +13,7 @@ public class UnitsWithCategories {
         return unitList;
     }
 
-    public UnitsWithCategories(List<Unit> unitList, List<Category> categoryList) {
+    public UnitsWithCategories(List<Category> categoryList, List<Unit> unitList) {
         this.unitList = unitList;
         this.categoryList = categoryList;
     }

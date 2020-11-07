@@ -4,9 +4,7 @@ import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseView;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
 
 import java.util.List;
 
@@ -18,5 +16,5 @@ public interface DetailProductView extends BaseView {
     void showTransactionListDialog(List<ProductTransactionModel> body, ProductModel productModel);
     void setVisibilityChangedButton(boolean flag);
     void updatePage(ProductModel fund);
-    void showEditDialog(ProductModel currentProduct, EditProductData editProductData);
+    void showEditDialog(ProductModel currentProduct, UnitsWithCategories editProductData);
 }

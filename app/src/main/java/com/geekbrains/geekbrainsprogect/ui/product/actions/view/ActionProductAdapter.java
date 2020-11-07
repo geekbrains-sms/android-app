@@ -19,13 +19,13 @@ public class ActionProductAdapter extends BaseListAdapter<UserAction, ActionProd
 
 
     public ActionProductAdapter(Context context) {
-        super(context);
+        super(context, R.layout.action_item);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.action_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getItemResource(), parent, false);
         return new ViewHolder(view);
     }
 

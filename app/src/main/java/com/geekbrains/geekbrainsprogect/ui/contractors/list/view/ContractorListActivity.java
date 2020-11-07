@@ -27,7 +27,7 @@ import butterknife.OnClick;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
 
-public abstract class ContractorListActivity extends ListActivity implements ContractorsListView {
+public class ContractorListActivity extends ListActivity implements ContractorsListView {
     @InjectPresenter
     ContractorsListPresenter presenter;
     @BindView(R.id.data_recycler)
@@ -123,12 +123,27 @@ public abstract class ContractorListActivity extends ListActivity implements Con
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
-    protected void delete() {
+    protected void deleteElement() {
         for (Contractor contractor : adapter.getSelectedList()) {
             if (contractor != null)
                 presenter.deleteContractor(contractor);
         }
+    }
+
+
+    @Override
+    protected void delete() {
+        showAlertDeleteDialog();
+    }
+
+    @Override
+    protected void open() {
+
+    }
+
+    @Override
+    protected void filter() {
+
     }
 }

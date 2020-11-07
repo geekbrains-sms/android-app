@@ -16,9 +16,10 @@ public class ProductTransactionModel implements IProductTransactions {
     private double quantity;
     private String comment;
     private long productId;
+    private ProductModel productModel;
 
 
-    public ProductTransactionModel(long id, Contractor contractor, UserModel user, String date, double quantity, String comment, long productId) {
+    public ProductTransactionModel(long id, Contractor contractor, UserModel user, String date, double quantity, String comment, long productId, ProductModel productModel) {
         this.id = id;
         this.contractor = contractor;
         this.user = user;
@@ -26,6 +27,7 @@ public class ProductTransactionModel implements IProductTransactions {
         this.quantity = quantity;
         this.comment = comment;
         this.productId = productId;
+        this.productModel = productModel;
     }
 
     public long getId() {
@@ -70,6 +72,11 @@ public class ProductTransactionModel implements IProductTransactions {
 
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public IProduct getProduct() {
+        return productModel;
     }
 
     @Override

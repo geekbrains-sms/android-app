@@ -53,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Observable<List<ProductWithCategory>> getProductFromServer() {
         Log.d(TAG, "getProductFromServer()");
         return fundService.getAllFunds()
-                    .doOnNext(x -> {
+                .doOnNext(x -> {
                         deleteAllProduct();
                         productDao.insertAll(productMapper.toEntityListProducts(x));
                     })

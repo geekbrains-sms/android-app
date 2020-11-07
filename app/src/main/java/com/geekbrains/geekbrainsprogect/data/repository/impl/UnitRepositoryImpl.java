@@ -23,11 +23,11 @@ public class UnitRepositoryImpl implements UnitRepository {
     @Override
     public Completable getAllUnitsFromServer() {
         return unitService.getAllUnits()
-                .doOnNext(x -> {
+                .flatMapCompletable(x -> Completable.fromRunnable(() ->
+                {
                     unitDao.deleteAllUnits();
                     unitDao.insertAll(x);
-                })
-                .ignoreElements();
+                }));
     }
 
     @Override

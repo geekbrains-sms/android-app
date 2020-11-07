@@ -2,37 +2,31 @@ package com.geekbrains.geekbrainsprogect.ui.contractors.list.presenter;
 
 import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 import com.geekbrains.geekbrainsprogect.domain.interactor.contract.ContractorInteractor;
 import com.geekbrains.geekbrainsprogect.ui.contractors.list.view.ContractorsListView;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 @InjectViewState
 public class ContractorsListPresenter extends MvpPresenter<ContractorsListView> {
     ContractorInteractor contractorInteractor;
+    Disposable disposable;
     @Inject
     public ContractorsListPresenter(ContractorInteractor contractorInteractor) {
         this.contractorInteractor = contractorInteractor;
-        saveContractorList();
-        getContractorList();
+        getContractorListFromServer();
     }
 
-    private void saveContractorList() {
+    private void getContractorListFromServer() {
         Disposable disposable = contractorInteractor.saveContractorsFromServerToDb()
                 .subscribeOn(Schedulers.io())
+                .doFinally(this::getContractorList)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(()->{}, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
     }
@@ -40,7 +34,7 @@ public class ContractorsListPresenter extends MvpPresenter<ContractorsListView> 
 
     public void getContractorList()
     {
-        Disposable disposable = contractorInteractor.getAllContractorList()
+       disposable = contractorInteractor.getAllContractorList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(contractors -> {
@@ -74,5 +68,11 @@ public class ContractorsListPresenter extends MvpPresenter<ContractorsListView> 
                 .subscribe(() -> {
                 getViewState().showToast(R.string.contractors_delete);
         }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }

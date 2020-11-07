@@ -25,6 +25,7 @@ import retrofit2.Response;
 public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     private static String TAG = "PersonalListPresenter";
     UserInteractor userInteractor;
+    Disposable disposable;
 
     public PersonalListPresenter (UserInteractor userInteractor)
     {
@@ -35,7 +36,7 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     }
 
     private void loadUserFromDB() {
-        Disposable disposable = userInteractor.getUserList()
+        disposable = userInteractor.getUserList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userList -> {
@@ -48,6 +49,7 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
     public void loadUserListFromServer() {
         Disposable disposable = userInteractor.saveUserFromServerToDB()
                 .subscribeOn(Schedulers.io())
+                .doFinally(this::loadUserFromDB)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {}, throwable -> {
             getViewState().showAlertDialog(throwable.getMessage());
@@ -101,5 +103,11 @@ public class PersonalListPresenter extends MvpPresenter<PersonalListView> {
                     getViewState().showAddPersonalDialog(roles);
                 }, throwable -> getViewState().showAlertDialog(throwable.getMessage()));
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }

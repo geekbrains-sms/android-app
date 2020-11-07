@@ -2,11 +2,6 @@ package com.geekbrains.geekbrainsprogect.data.model.entity;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
-
-import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
@@ -67,6 +62,11 @@ public class ProductTransactionData implements IProductTransactions {
     @Override
     public String getComment() {
         return productTransaction.getComment();
+    }
+
+    @Override
+    public IProduct getProduct() {
+        return null;
     }
 
     @Override

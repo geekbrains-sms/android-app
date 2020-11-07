@@ -22,13 +22,14 @@ public class ProductTransactionDTO implements IProductTransactions {
     @Expose
     private UserDTO user;
 
-    public ProductTransactionDTO(Long id, String transactionDate, Contractor contractor, double quantity, String comment, UserDTO user) {
+    public ProductTransactionDTO(Long id, String transactionDate, Contractor contractor, double quantity, String comment, UserDTO user, ProductDTO product) {
         this.id = id;
         this.transactionDate = transactionDate;
         this.contractor = contractor;
         this.quantity = quantity;
         this.comment = comment;
         this.user = user;
+        this.product = product;
     }
 
     public long getId() {
@@ -57,6 +58,11 @@ public class ProductTransactionDTO implements IProductTransactions {
 
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public IProduct getProduct() {
+        return product;
     }
 
     @Override

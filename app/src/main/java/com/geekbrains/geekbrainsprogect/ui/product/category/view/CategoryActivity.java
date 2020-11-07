@@ -120,19 +120,12 @@ public class CategoryActivity extends ListActivity implements CategoryView {
         dialog.show(getSupportFragmentManager(),  TAG);
     }
 
-    private void showAlertDeleteDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.alert)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setMessage(R.string.alert_delete_message)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    for(Category category : adapter.getSelectedList())
-                    {
-                        presenter.deleteCategory(category);
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
-        builder.create().show();
+    @Override
+    protected void deleteElement() {
+        for(Category category : adapter.getSelectedList())
+        {
+            presenter.deleteCategory(category);
+        }
     }
 
     @Override

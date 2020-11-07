@@ -2,6 +2,7 @@ package com.geekbrains.geekbrainsprogect.data.mapper.impl;
 
 import android.util.Log;
 
+import com.geekbrains.geekbrainsprogect.data.api.model.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.api.model.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.api.model.UserDTO;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
@@ -44,7 +45,7 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
         double quantity = object.getQuantity();
         String comment = object.getComment();
         String date = object.getDate();
-        ProductTransactionModel productTransactionModel = new ProductTransactionModel(id,contractor,userModel,date,quantity,comment, productID);
+        ProductTransactionModel productTransactionModel = new ProductTransactionModel(id,contractor,userModel,date,quantity,comment, productID, null);
         Log.d(TAG, "toModel() end: " + productTransactionModel.toString());
         return productTransactionModel;
     }
@@ -60,9 +61,10 @@ public class ProductTransactionMapperImpl implements ProductTransactionMapper {
             userDTO = userMapper.toDto(object.getUser());
         }
         double quantity = object.getQuantity();
+        ProductDTO productDTO = productMapper.toDto(object.getProduct());
         String comment = object.getComment();
         String date = object.getDate();
-        ProductTransactionDTO productTransactionDTO = new ProductTransactionDTO(id,date,contractor,quantity,comment,userDTO);
+        ProductTransactionDTO productTransactionDTO = new ProductTransactionDTO(id,date,contractor,quantity,comment,userDTO, productDTO);
         Log.d(TAG, "toDto() end: " + productTransactionDTO.toString());
         return productTransactionDTO;
     }

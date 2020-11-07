@@ -78,7 +78,7 @@ public class ProductInteractorImpl implements ProductInteractor {
 
     @Override
     public Single<UnitsWithCategories> loadUnitsWithCategories() {
-        return Flowable.zip(unitRepository.getAllUnitFromBD(), categoryRepository.getAllCategoriesFromBD(), UnitsWithCategories::new)
+        return Flowable.zip(categoryRepository.getAllCategoriesFromBD(), unitRepository.getAllUnitFromBD(), UnitsWithCategories::new)
                 .firstOrError();
     }
 

@@ -21,7 +21,6 @@ public class ProductModel implements Item, IProduct {
     List<Category> categories;
     double quantity;
     private List<Contractor> contractors;
-    public long productId;
     private boolean changed = false;
 
     public ProductModel(long id, String title, String description, Unit unit, String imagePath,
@@ -40,7 +39,7 @@ public class ProductModel implements Item, IProduct {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -75,6 +74,10 @@ public class ProductModel implements Item, IProduct {
     @Override
     public double getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
     @Override
