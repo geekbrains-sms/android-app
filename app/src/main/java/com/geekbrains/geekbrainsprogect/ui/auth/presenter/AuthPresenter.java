@@ -5,7 +5,7 @@ import android.util.Log;
 import com.geekbrains.geekbrainsprogect.data.api.AuthenticationInterceptor;
 import com.geekbrains.geekbrainsprogect.data.repository.impl.AuthRepositoryImpl;
 import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthData;
-import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.data.api.model.AuthToken;
 import com.geekbrains.geekbrainsprogect.ui.auth.view.AuthView;
 import com.geekbrains.geekbrainsprogect.data.dagger.application.AppData;
 

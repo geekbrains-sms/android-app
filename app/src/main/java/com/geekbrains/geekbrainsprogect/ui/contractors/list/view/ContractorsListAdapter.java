@@ -18,13 +18,13 @@ public class ContractorsListAdapter extends BaseListAdapter<Contractor, Contract
 
 
     public ContractorsListAdapter(Context context) {
-        super(context);
+        super(context, R.layout.contractor_item);
     }
 
     @NonNull
     @Override
     public ContractorsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contractor_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getItemResource(), parent, false);
         return new ViewHolder(view);
     }
 
@@ -103,5 +103,4 @@ public class ContractorsListAdapter extends BaseListAdapter<Contractor, Contract
             }
         }
     }
-
 }

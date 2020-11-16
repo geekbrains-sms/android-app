@@ -2,9 +2,11 @@ package com.geekbrains.geekbrainsprogect.ui.personal.personal_list.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,8 @@ import com.geekbrains.geekbrainsprogect.R;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Role;
 import com.geekbrains.geekbrainsprogect.data.model.entity.User;
 import com.geekbrains.geekbrainsprogect.domain.model.UserModel;
+import com.geekbrains.geekbrainsprogect.ui.base.BaseDialog;
+import com.geekbrains.geekbrainsprogect.ui.base.Item;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -32,9 +36,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PersonalDialog extends DialogFragment implements View.OnClickListener {
+public class PersonalDialog extends BaseDialog implements View.OnClickListener {
 
-    private static final int CATEGORIES_COUNT_IN_LINE = 3;
     @BindView(R.id.login_edit_text)
     TextInputEditText loginEdit;
     @BindView(R.id.firstname_edit_text)
@@ -54,10 +57,12 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     @BindView(R.id.role_container)
     LinearLayout mainContainer;
 
-    private List<Role> allRoles;
-    private List<Role>userRoles = new ArrayList<>();
+
     private UserModel user;
     private ArrayAdapter<Role>adapter;
+
+    private List<Role>allRoles;
+    private List<Role>selectedRoles;
     
 
 
@@ -66,14 +71,16 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
 
     public PersonalDialog(UserModel user, OnClickEditButton onClickEditButton, List<Role> allRoles)
     {
-        this.onClickEditButton = onClickEditButton;
         this.allRoles = allRoles;
+        this.onClickEditButton = onClickEditButton;
         this.user = user;
+        selectedRoles = new ArrayList<>();
     }
     public PersonalDialog(OnClickEditButton onClickEditButton, List<Role> allRoles)
     {
         this.onClickEditButton = onClickEditButton;
         this.allRoles = allRoles;
+        selectedRoles = new ArrayList<>();
     }
 
     @NonNull
@@ -92,7 +99,7 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setClickListener();
+        addPositiveButtonListener();
         setAdapter();
         if(user != null)
         {
@@ -100,42 +107,16 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
         }
     }
 
-    private void setClickListener() {
-        AlertDialog dialog = (AlertDialog) getDialog();
-        assert dialog != null;
-        dialog.setOnShowListener(dialog1 -> {
-            Button button = ((AlertDialog) dialog1).getButton(AlertDialog.BUTTON_POSITIVE);
-
-            button.setOnClickListener(v -> {
-                String login = loginEdit.getText().toString().trim();
-                String password = passwordEdit.getText().toString().trim();
-                String confirmPassword = passwordConfirmEdit.getText().toString();
-                String email = emailEdit.getText().toString();
-                String phone = phoneEdit.getText().toString();
-                String firstName = firstNameEdit.getText().toString();
-                String lastName = lastNameEdit.getText().toString();
-
-                if(password.equals(confirmPassword) && textEntered(login) && textEntered(password) && textEntered(firstName) && textEntered(lastName) && !userRoles.isEmpty())
-                {
-                    UserModel userLocal = new UserModel(0,login, firstName, lastName, email, phone, userRoles);
-                    userLocal.setPassword(password);
-                    if(user != null)
-                    {
-                        userLocal.setId(user.getId());
-                    }
-                    onClickEditButton.onClick(userLocal);
-                    dialog1.dismiss();
-                }
-            });
-        });
-    }
-    private boolean textEntered(String text) {
-        if(text != null && !text.trim().equals(""))
+    @Override
+    protected <T extends Item> void addItemToSelectedList(Class<T> type, TextView textView, T item) {
+        if(type == Role.class && item != null)
         {
-            return true;
+            Role role =  (Role)item;
+            selectedRoles.add(role);
+            textView.setText(role.getTitle());
         }
-        return false;
     }
+
 
     private void setDataToViews()
     {
@@ -143,151 +124,55 @@ public class PersonalDialog extends DialogFragment implements View.OnClickListen
         firstNameEdit.setText(user.getFirstName());
         lastNameEdit.setText(user.getLastname());
 
-        StringBuilder builder = new StringBuilder();
         for(Role role : user.getRoles())
         {
-            addDataCategory(role);
+            addDataItem(Role.class, role, mainContainer);
+            selectedRoles.add(role);
         }
-        rolesSelect.setText(builder.toString());
+        updateAdapter(adapter, allRoles, selectedRoles);
+
     }
 
 
     private void setAdapter() {
-        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, getActualRoles());
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, getActualItemList(allRoles,selectedRoles));
         rolesSelect.setAdapter(adapter);
     }
 
-    private void containerCountControl() {
-        if(mainContainer.getChildCount() == 0)
+
+    @Override
+    protected void mappedItem(DialogInterface dialogInterface) {
+        String login = loginEdit.getText().toString().trim();
+        String password = passwordEdit.getText().toString().trim();
+        String confirmPassword = passwordConfirmEdit.getText().toString();
+        String email = emailEdit.getText().toString();
+        String phone = phoneEdit.getText().toString();
+        String firstName = firstNameEdit.getText().toString();
+        String lastName = lastNameEdit.getText().toString();
+
+        if(password.equals(confirmPassword) && !TextUtils.isEmpty(login) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(firstName) && !TextUtils.isEmpty(lastName) && !selectedRoles.isEmpty())
         {
-            createContainer();
+            UserModel userLocal = new UserModel(0,login, firstName, lastName, email, phone, selectedRoles);
+            userLocal.setPassword(password);
+            if(user != null)
+            {
+                userLocal.setId(user.getId());
+            }
+            onClickEditButton.onClick(userLocal);
+            dialogInterface.dismiss();
         }
-        LinearLayout container = mainContainer.findViewById(10 + mainContainer.getChildCount() - 1);
-        if(container.getChildCount() == CATEGORIES_COUNT_IN_LINE)
-        {
-            createContainer();
-        }
     }
 
-    private void createContainer() {
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        linearLayout.setId(10 + mainContainer.getChildCount());
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setWeightSum(CATEGORIES_COUNT_IN_LINE);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(8,8,8,8);
-        linearLayout.setLayoutParams(params);
-        mainContainer.addView(linearLayout);
-    }
 
-    private TextView createTextViewCategory() {
-        TextView textView = new TextView(getContext());
-        textView.setTextColor(Color.WHITE);
-        textView.setTextSize(14);
-        textView.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.weight = 1;
-        params.setMarginStart(8);
-        params.setMarginEnd(8);
-        textView.setLayoutParams(params);
-        textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        textView.setOnClickListener(this);
-        Drawable closeIcon = ContextCompat.getDrawable(requireContext(), R.drawable.close_icon);
-        int h = closeIcon.getIntrinsicHeight();
-        int w = closeIcon.getIntrinsicWidth();
-        closeIcon.setBounds(0,0,w,h);
-        textView.setCompoundDrawables(null, null, closeIcon, null);
-        return textView;
-    }
-
-    private void addRole(TextView textView, Role role) {
-
-        userRoles.add(role);
-        textView.setText(role.getTitle());
-        updateAdapter();
-        rolesSelect.setText(null);
-    }
-
-    private boolean checkText(String string)
+    @OnClick(R.id.add_role_button)
+    void onClickAddButton()
     {
-        return string != null && !string.trim().equals("");
+        addItemToContainer(Role.class, rolesSelect, selectedRoles, allRoles, mainContainer, adapter);
     }
 
     @Override
     public void onClick(View v) {
-        TextView view = (TextView) v;
-        LinearLayout parent = (LinearLayout) v.getParent();
-        removeCategory(view.getText().toString());
-        parent.removeView(v);
-        if(parent.getChildCount() == 0)
-        {
-            mainContainer.removeView(parent);
-        }
-    }
-
-    private void removeCategory(String text) {
-        for(Iterator<Role> iterator = userRoles.iterator(); iterator.hasNext();)
-        {
-            if(text.trim().equals(iterator.next().getTitle().trim()))
-            {
-                iterator.remove();
-            }
-        }
-        updateAdapter();
-        rolesSelect.setText(null);
-    }
-
-    private List<Role> getActualRoles()
-    {
-        List<Role>actualRole = new ArrayList<>();
-        for(Role role : allRoles)
-        {
-            boolean empty = false;
-            for(Role role2 : userRoles)
-            {
-                if (role.getTitle().trim().equals(role2.getTitle().trim())) {
-                    empty = true;
-                    break;
-                }
-            }
-            if(!empty)
-            {
-                actualRole.add(role);
-            }
-        }
-        return actualRole;
-    }
-    private void updateAdapter() {
-        adapter.clear();
-        adapter.addAll(getActualRoles());
-        adapter.notifyDataSetChanged();
-    }
-
-    @OnClick(R.id.add_role_button)
-    void onClick()
-    {
-        String text = rolesSelect.getText().toString();
-        if(checkText(text))
-        {
-            for(Role role : allRoles)
-            {
-                if(text.trim().equals(role.getTitle().trim()))
-                {
-                    addDataCategory(role);
-                    break;
-                }
-            }
-        }
-        updateAdapter();
-        rolesSelect.setText(null);
-    }
-
-    private void addDataCategory(Role role) {
-        containerCountControl();
-        LinearLayout linearLayout = mainContainer.findViewById(10 + mainContainer.getChildCount() - 1);
-        TextView textView = createTextViewCategory();
-        linearLayout.addView(textView);
-        addRole(textView, role);
+        removeItem(v, mainContainer, selectedRoles, allRoles, rolesSelect, adapter);
     }
 
     public interface OnClickEditButton

@@ -6,7 +6,7 @@ import com.geekbrains.geekbrainsprogect.data.api.service.FundService;
 import com.geekbrains.geekbrainsprogect.data.api.service.ProductService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductDao;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import java.util.List;
@@ -42,10 +42,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productDao.getProductsByIds(idList);
     }
 
-    @Override
-    public Observable<ProductWithCategory> getProductFromDbById(long id) {
-        return productDao.getProductById(id);
-    }
 
     @Override
     public void deleteAllProduct() {
@@ -57,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Observable<List<ProductWithCategory>> getProductFromServer() {
         Log.d(TAG, "getProductFromServer()");
         return fundService.getAllFunds()
-                    .doOnNext(x -> {
+                .doOnNext(x -> {
                         deleteAllProduct();
                         productDao.insertAll(productMapper.toEntityListProducts(x));
                     })
@@ -81,7 +77,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productService.addProduct(productMapper.toDto(productModel))
                 .map(x -> productMapper.toEntity(x))
                 .doOnNext(x -> {
-                    productDao.insert(x.product);
+                    productDao.insert(x.getProduct());
                 });
     }
 
@@ -90,13 +86,13 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productService.editProduct(productMapper.toDto(productModel))
                 .flatMap(x -> fundService.getFundsByProductId(productModel.getId()))
                 .map(x -> productMapper.toEntity(x))
-                .doOnNext(x -> productDao.update(x.product));
+                .doOnNext(x -> productDao.update(x.getProduct()));
     }
 
     @Override
     public Completable updateProductFromServerById(long id) {
         return fundService.getFundsByProductId(id)
                 .map(x -> productMapper.toEntity(x))
-                .flatMapCompletable(x -> Completable.fromRunnable(() -> productDao.insert(x.product)));
+                .flatMapCompletable(x -> Completable.fromRunnable(() -> productDao.insert(x.getProduct())));
     }
 }

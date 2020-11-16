@@ -2,7 +2,7 @@ package com.geekbrains.geekbrainsprogect.data.mapper.contract;
 
 
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductTransactionDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.ProductTransactionDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
 import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;

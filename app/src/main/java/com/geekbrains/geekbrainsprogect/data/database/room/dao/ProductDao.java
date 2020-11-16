@@ -4,9 +4,8 @@ import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductWithCategory;
 
 import java.util.List;
 

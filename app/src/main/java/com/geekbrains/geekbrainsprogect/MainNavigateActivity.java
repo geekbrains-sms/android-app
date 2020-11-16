@@ -35,24 +35,4 @@ public class MainNavigateActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
-//        Fragment selectedFragment = null;
-//        Log.d(TAG, "item: " + item.getItemId());
-//        switch (item.getItemId())
-//        {
-//            case R.id.navigation_goods:
-//                selectedFragment = new ProductFragment();
-//                break;
-//            case R.id.navigation_warehouse:
-//                selectedFragment = new WarehouseFragment();
-//                break;
-//            case R.id.navigation_personal:
-//                selectedFragment = new PersonalFragment();
-//                break;
-//        }
-//        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, selectedFragment).commit();
-//        return true;
-//    };
-
 }

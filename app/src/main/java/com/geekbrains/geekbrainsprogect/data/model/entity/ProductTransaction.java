@@ -18,15 +18,15 @@ import static androidx.room.ForeignKey.CASCADE;
 public class ProductTransaction {
     @PrimaryKey
     @ColumnInfo(name = "transactionId", index = true)
-    public long id;
+    private long id;
     @ColumnInfo(name = "contractor_id")
-    public long contractorId;
+    private long contractorId;
     @ColumnInfo(name = "user_id")
-    public long userId;
+    private long userId;
     String date;
-    public double quantity;
-    public String comment;
-    public long productId;
+    private double quantity;
+    private String comment;
+    private long productId;
 
 
     public ProductTransaction(long id, long contractorId,long userId, String date, double quantity, String comment, long productId) {
@@ -58,6 +58,10 @@ public class ProductTransaction {
     }
     public String getComment() {
         return comment;
+    }
+
+    public long getUserId() {
+        return userId;
     }
 
     public void setComment(String comment) {

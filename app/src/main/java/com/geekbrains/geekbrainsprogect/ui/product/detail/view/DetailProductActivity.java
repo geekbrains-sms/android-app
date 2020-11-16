@@ -15,10 +15,9 @@ import com.geekbrains.geekbrainsprogect.domain.interactor.contract.DetailProduct
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
 import com.geekbrains.geekbrainsprogect.ui.base.BaseActivity;
-import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
 import com.geekbrains.geekbrainsprogect.ui.product.detail.presenter.DetailProductPresenter;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.view.CreateEditProductDialog;
 
 import java.util.List;
 
@@ -110,8 +109,8 @@ public class DetailProductActivity extends BaseActivity implements DetailProduct
     }
 
     @Override
-    public void showEditDialog(ProductModel currentProduct, EditProductData editProductData) {
-        DialogFragment dialog = new EditProductDialog(currentProduct, editProductData, product -> {
+    public void showEditDialog(ProductModel currentProduct, UnitsWithCategories editProductData) {
+        DialogFragment dialog = new CreateEditProductDialog(currentProduct, editProductData, product -> {
             presenter.setEditFlag(true);
             updatePage(product);
         });

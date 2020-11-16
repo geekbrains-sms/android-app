@@ -42,10 +42,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.iOnClickListener = iOnClickListener;
     }
 
-    public boolean isCheckedMode() {
-        return checkedMode;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

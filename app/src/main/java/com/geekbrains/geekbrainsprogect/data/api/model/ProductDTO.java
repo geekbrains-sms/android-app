@@ -1,10 +1,10 @@
-package com.geekbrains.geekbrainsprogect.data.api.dto;
+package com.geekbrains.geekbrainsprogect.data.api.model;
+
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
-import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;

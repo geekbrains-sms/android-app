@@ -1,5 +1,6 @@
 package com.geekbrains.geekbrainsprogect.ui.base;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -84,6 +85,17 @@ public abstract class ListActivity extends BaseActivity {
         getSupportActionBar().setTitle(null);
     }
 
+    public void showAlertDeleteDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.alert)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(R.string.alert_delete_message)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteElement())
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {});
+        builder.create().show();
+    }
+    protected abstract void deleteElement();
     protected abstract void delete();
     protected abstract void open();
     protected abstract void filter();

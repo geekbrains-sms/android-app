@@ -19,35 +19,37 @@ import moxy.MvpPresenter;
 public class ProductListPresenter extends MvpPresenter<ProductListView> {
     public static final String TAG = "ProductListPresenter";
     ProductInteractor productInteractor;
+    Disposable disposable;
 
     public ProductListPresenter(ProductInteractor productInteractor)
     {
         this.productInteractor = productInteractor;
-        subscribeToDB();
-
+        loadFromServer();
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        loadFromServer();
+
     }
 
     public void loadFromServer() {
-        Disposable disposable = productInteractor.saveProductFromServerToDB().
-                subscribeOn(Schedulers.io())
+        Disposable disposable = productInteractor.saveProductFromServerToDB()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(this::subscribeToDB)
                 .subscribe(()->{
                     Log.d(TAG, "Load Complete");
                     }, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
                 });
+
     }
 
     public void subscribeToDB()
     {
         Flowable<List<ProductModel>> list = productInteractor.getProductListFromDB();
-        Disposable disposable = list.subscribeOn(Schedulers.io())
+        disposable = list.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productList -> {
                 getViewState().setDataToAdapter(productList);
@@ -83,5 +85,11 @@ public class ProductListPresenter extends MvpPresenter<ProductListView> {
                 }, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }

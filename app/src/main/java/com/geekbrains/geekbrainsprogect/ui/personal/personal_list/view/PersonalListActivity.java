@@ -117,12 +117,17 @@ public class PersonalListActivity extends ListActivity implements PersonalListVi
     }
 
     @Override
-    protected void delete() {
+    protected void deleteElement() {
         for(UserModel user : adapter.getSelectedList())
         {
             if(user != null)
                 presenter.deleteUser(user);
         }
+    }
+
+    @Override
+    protected void delete() {
+        showAlertDeleteDialog();
     }
 
     @Override

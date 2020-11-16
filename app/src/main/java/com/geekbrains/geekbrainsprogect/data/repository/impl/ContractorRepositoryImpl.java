@@ -4,7 +4,7 @@ import com.geekbrains.geekbrainsprogect.data.api.service.ContractorService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ContractorDao;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.ProductContractorCrossDao;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductContractorCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.ProductContractorCrossRef;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ContractorRepository;
 import java.util.List;
 
@@ -37,11 +37,6 @@ public class ContractorRepositoryImpl implements ContractorRepository {
     public Completable saveContractorFromServerToDB() {
         return contractorService.getAllContractors()
                 .flatMapCompletable(x -> Completable.fromRunnable(() -> contractorDao.insertAll(x)));
-    }
-
-    @Override
-    public Observable<List<Contractor>> getProvidersByProductId(long id) {
-        return null;
     }
 
     @Override

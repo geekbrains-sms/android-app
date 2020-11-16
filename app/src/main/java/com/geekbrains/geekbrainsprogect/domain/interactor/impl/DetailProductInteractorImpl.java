@@ -3,9 +3,7 @@ package com.geekbrains.geekbrainsprogect.domain.interactor.impl;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductTransactionMapper;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransaction;
-import com.geekbrains.geekbrainsprogect.data.model.entity.ProductTransactionData;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ContractorRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;
@@ -15,7 +13,7 @@ import com.geekbrains.geekbrainsprogect.data.repository.contract.UserRepository;
 import com.geekbrains.geekbrainsprogect.domain.interactor.contract.DetailProductInteractor;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductModel;
 import com.geekbrains.geekbrainsprogect.domain.model.ProductTransactionModel;
-import com.geekbrains.geekbrainsprogect.ui.product.detail.model.EditProductData;
+import com.geekbrains.geekbrainsprogect.ui.product.product_list.model.UnitsWithCategories;
 
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
     @Override
     public Completable addProductTransaction(ProductTransactionModel productTransactionModel, long productId) {
         return productTransactionRepository.addProductTransactions(productTransactionModel)
-                .flatMapCompletable(x -> productRepository.updateProductFromServerById(x.getId())
+                .flatMapCompletable(x -> productRepository.updateProductFromServerById(productId)
                         .andThen(contractorRepository.addContractorsCross(productId)));
     }
 
@@ -71,8 +69,8 @@ public class DetailProductInteractorImpl implements DetailProductInteractor {
     }
 
     @Override
-    public Single<EditProductData> getEditProductData() {
-        return Flowable.zip(categoryRepository.getAllCategoriesFromBD(), unitRepository.getAllUnitFromBD(), EditProductData::new)
+    public Single<UnitsWithCategories> getEditProductData() {
+        return Flowable.zip(categoryRepository.getAllCategoriesFromBD(), unitRepository.getAllUnitFromBD(), UnitsWithCategories::new)
                 .firstOrError();
     }
 

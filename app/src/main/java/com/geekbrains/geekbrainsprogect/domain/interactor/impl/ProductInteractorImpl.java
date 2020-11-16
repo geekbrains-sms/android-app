@@ -3,7 +3,7 @@ package com.geekbrains.geekbrainsprogect.domain.interactor.impl;
 import android.util.Log;
 
 import com.geekbrains.geekbrainsprogect.data.mapper.contract.ProductMapper;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.CategoryRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ContractorRepository;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.ProductRepository;
@@ -78,13 +78,13 @@ public class ProductInteractorImpl implements ProductInteractor {
 
     @Override
     public Single<UnitsWithCategories> loadUnitsWithCategories() {
-        return Flowable.zip(unitRepository.getAllUnitFromBD(), categoryRepository.getAllCategoriesFromBD(), UnitsWithCategories::new)
+        return Flowable.zip(categoryRepository.getAllCategoriesFromBD(), unitRepository.getAllUnitFromBD(), UnitsWithCategories::new)
                 .firstOrError();
     }
 
     private Completable dataSaved(ProductWithCategory productWithCategory)
     {
-        Log.d(TAG, "startProductSaved(): product id - " + productWithCategory.product.getId());
+        Log.d(TAG, "startProductSaved(): product id - " + productWithCategory.getProduct().getId());
         return Completable.mergeArray(
                 saveProductCategory(productWithCategory),
                 loadContractors(productWithCategory));

@@ -1,11 +1,9 @@
-package com.geekbrains.geekbrainsprogect.data.api.dto;
+package com.geekbrains.geekbrainsprogect.data.api.model;
 
 import com.geekbrains.geekbrainsprogect.data.model.entity.Contractor;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProduct;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IProductTransactions;
 import com.google.gson.annotations.Expose;
-
-import java.util.Date;
 
 public class ProductTransactionDTO implements IProductTransactions {
 
@@ -24,13 +22,14 @@ public class ProductTransactionDTO implements IProductTransactions {
     @Expose
     private UserDTO user;
 
-    public ProductTransactionDTO(Long id, String transactionDate, Contractor contractor, double quantity, String comment, UserDTO user) {
+    public ProductTransactionDTO(Long id, String transactionDate, Contractor contractor, double quantity, String comment, UserDTO user, ProductDTO product) {
         this.id = id;
         this.transactionDate = transactionDate;
         this.contractor = contractor;
         this.quantity = quantity;
         this.comment = comment;
         this.user = user;
+        this.product = product;
     }
 
     public long getId() {
@@ -40,15 +39,6 @@ public class ProductTransactionDTO implements IProductTransactions {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(String transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
 
     public Contractor getContractor() {
         return contractor;
@@ -68,6 +58,11 @@ public class ProductTransactionDTO implements IProductTransactions {
 
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public IProduct getProduct() {
+        return product;
     }
 
     @Override

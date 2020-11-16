@@ -3,7 +3,7 @@ package com.geekbrains.geekbrainsprogect.data.repository.impl;
 import com.geekbrains.geekbrainsprogect.data.api.service.UnitService;
 import com.geekbrains.geekbrainsprogect.data.database.room.dao.UnitDao;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Unit;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.ProductWithCategory;
+import com.geekbrains.geekbrainsprogect.data.model.entity.ProductWithCategory;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.UnitRepository;
 import java.util.List;
 import javax.inject.Inject;
@@ -23,11 +23,11 @@ public class UnitRepositoryImpl implements UnitRepository {
     @Override
     public Completable getAllUnitsFromServer() {
         return unitService.getAllUnits()
-                .doOnNext(x -> {
+                .flatMapCompletable(x -> Completable.fromRunnable(() ->
+                {
                     unitDao.deleteAllUnits();
                     unitDao.insertAll(x);
-                })
-                .ignoreElements();
+                }));
     }
 
     @Override

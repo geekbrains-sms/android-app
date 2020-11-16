@@ -1,4 +1,4 @@
-package com.geekbrains.geekbrainsprogect.ui.auth.model;
+package com.geekbrains.geekbrainsprogect.data.api.model;
 
 import com.google.gson.annotations.Expose;
 

@@ -123,17 +123,27 @@ public class ContractorListActivity extends ListActivity implements ContractorsL
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
-    protected void delete() {
+    protected void deleteElement() {
         for (Contractor contractor : adapter.getSelectedList()) {
             if (contractor != null)
                 presenter.deleteContractor(contractor);
         }
     }
-    @Override
-    protected void open() {}
+
 
     @Override
-    protected void filter() {}
+    protected void delete() {
+        showAlertDeleteDialog();
+    }
+
+    @Override
+    protected void open() {
+
+    }
+
+    @Override
+    protected void filter() {
+
+    }
 }

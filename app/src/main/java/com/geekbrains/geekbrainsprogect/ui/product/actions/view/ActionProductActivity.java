@@ -88,6 +88,9 @@ public class ActionProductActivity extends ListActivity implements ActionProduct
     }
 
     @Override
+    protected void deleteElement() {}
+
+    @Override
     protected void delete() {}
 
     @Override

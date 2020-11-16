@@ -12,14 +12,14 @@ import java.util.List;
 public class User implements IUser {
     @PrimaryKey
     @ColumnInfo(name = "userId", index = true)
-    public long id;
-    public String login;
-    public String firstname;
-    public String lastname;
-    public String email;
-    public String phone;
+    private long id;
+    private String login;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String phone;
     @Ignore
-    public List<Role> roles;
+    private List<Role> roles;
 
 
     public User(long id, String login, String firstname, String lastname, String email, String phone, List<Role> roles) {

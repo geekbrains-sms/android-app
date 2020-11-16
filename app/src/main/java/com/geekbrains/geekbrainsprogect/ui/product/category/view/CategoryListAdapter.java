@@ -14,6 +14,8 @@ import com.geekbrains.geekbrainsprogect.ui.base.CardViewHolder;
 import com.geekbrains.geekbrainsprogect.data.model.entity.Category;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,14 +23,19 @@ public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListA
 
 
     public CategoryListAdapter(Context context) {
-        super(context);
-        getItemList().add(0, new Category(-1, "ВСЕ"));
+        super(context, R.layout.category_item);
+    }
+
+    @Override
+    public void setItemList(List<Category> itemList) {
+        itemList.add(0, new Category(-1, "ВСЕ"));
+        super.setItemList(itemList);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getItemResource(), parent, false);
         return new ViewHolder(view);
     }
 
@@ -57,7 +64,7 @@ public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListA
         public void bind(Category category) {
             categoryName.setText(category.getTitle());
 
-            if(category.id < 0)
+            if(category.getId() < 0)
             {
                 cardView.setCheckable(false);
             }
@@ -66,8 +73,6 @@ public class CategoryListAdapter extends BaseListAdapter<Category, CategoryListA
 
         @Override
         public void onClick(View v) {
-
-
             if (!isCheckedMode()) {
                 if (getOnItemClickListener() != null) {
                     getOnItemClickListener().onItemClick(getFilteredItem().get(getAdapterPosition()));

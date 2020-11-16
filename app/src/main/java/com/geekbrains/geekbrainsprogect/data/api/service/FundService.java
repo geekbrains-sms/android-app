@@ -1,6 +1,6 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
-import com.geekbrains.geekbrainsprogect.data.api.dto.FundDTO;
 
+import com.geekbrains.geekbrainsprogect.data.api.model.FundDTO;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface FundService {
     @GET("/api/v1/funds")
     Observable<List<FundDTO>> getAllFunds();
     @GET("/api/v1/funds/product/{var}")
-    Observable<FundDTO>getFundsByProductId(@Path("var")long id);
+    Observable<FundDTO> getFundsByProductId(@Path("var")long id);
 }

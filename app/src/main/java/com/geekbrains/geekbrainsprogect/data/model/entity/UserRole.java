@@ -3,18 +3,23 @@ package com.geekbrains.geekbrainsprogect.data.model.entity;
 import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
-import com.geekbrains.geekbrainsprogect.data.model.entity.join.UserRoleCrossRef;
+import com.geekbrains.geekbrainsprogect.data.model.entity.cross.UserRoleCrossRef;
 import com.geekbrains.geekbrainsprogect.data.model.interf.IUser;
 
 import java.util.List;
 
 public class UserRole implements IUser {
     @Embedded
-    public User user;
+    private final User user;
     @Relation(parentColumn = "userId",
             entityColumn = "roleId",
             associateBy = @Junction(UserRoleCrossRef.class))
-    public List<Role> roleList;
+    private final List<Role> roleList;
+
+    public UserRole(User user, List<Role> roleList) {
+        this.user = user;
+        this.roleList = roleList;
+    }
 
     @Override
     public long getId() {

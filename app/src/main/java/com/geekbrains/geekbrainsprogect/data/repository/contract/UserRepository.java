@@ -16,7 +16,6 @@ import retrofit2.Response;
 public interface UserRepository {
     Flowable<List<UserModel>> getUserList();
     Completable saveUsersFromServerToDB();
-    Single<List<User>>getUserById(long id);
     Completable editUser(UserModel user);
     Completable addUser(UserModel user);
     Completable deleteUser(long id);

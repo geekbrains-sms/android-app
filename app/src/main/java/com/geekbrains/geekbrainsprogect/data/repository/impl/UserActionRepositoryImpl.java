@@ -35,19 +35,4 @@ public class UserActionRepositoryImpl implements UserActionRepository {
                 .flatMapCompletable(x -> Completable.fromRunnable(()-> {
                     userActionDao.insertAll(x);}));
     }
-
-    @Override
-    public Observable<List<UserAction>> getUserActionByProductId(long id) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<UserAction>> getUserActionByAuthor(String author) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<UserAction>> getUserActionByData(String data) {
-        return null;
-    }
 }

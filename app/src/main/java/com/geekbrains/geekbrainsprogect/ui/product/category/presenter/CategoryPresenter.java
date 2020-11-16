@@ -20,17 +20,18 @@ import retrofit2.Response;
 @InjectViewState
 public class CategoryPresenter extends MvpPresenter<CategoryView> {
     CategoryInteractor categoryInteractor;
+    Disposable disposable;
 
     public CategoryPresenter(CategoryInteractor categoryInteractor) {
         this.categoryInteractor = categoryInteractor;
 
-        subscribeToCategoryChanges();
         getCategoryListFromServer();
     }
 
     private void getCategoryListFromServer() {
         Disposable disposable = categoryInteractor.saveFromServerToDb()
                 .subscribeOn(Schedulers.io())
+                .doFinally(this::subscribeToCategoryChanges)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {}, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
@@ -38,7 +39,7 @@ public class CategoryPresenter extends MvpPresenter<CategoryView> {
     }
 
     private void subscribeToCategoryChanges() {
-        Disposable disposable = categoryInteractor.getCategoryFromDb()
+        disposable = categoryInteractor.getCategoryFromDb()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(categories -> {
@@ -67,5 +68,11 @@ public class CategoryPresenter extends MvpPresenter<CategoryView> {
                 }, throwable -> {
                     getViewState().showAlertDialog(throwable.getMessage());
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }

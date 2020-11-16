@@ -1,9 +1,9 @@
 package com.geekbrains.geekbrainsprogect.data.repository.impl;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.AuthDTO;
+import com.geekbrains.geekbrainsprogect.data.api.model.AuthDTO;
 import com.geekbrains.geekbrainsprogect.data.api.service.AuthService;
 import com.geekbrains.geekbrainsprogect.data.repository.contract.AuthRepository;
-import com.geekbrains.geekbrainsprogect.ui.auth.model.AuthToken;
+import com.geekbrains.geekbrainsprogect.data.api.model.AuthToken;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ import io.reactivex.Single;
 import retrofit2.Response;
 
 public class AuthRepositoryImpl implements AuthRepository {
-    private AuthService authService;
+    private final AuthService authService;
     @Inject
     public AuthRepositoryImpl(AuthService authService) {
         this.authService = authService;

@@ -1,12 +1,11 @@
 package com.geekbrains.geekbrainsprogect.data.api.service;
 
-import com.geekbrains.geekbrainsprogect.data.api.dto.ProductDTO;
-import com.geekbrains.geekbrainsprogect.data.model.entity.Product;
+import com.geekbrains.geekbrainsprogect.data.api.model.ProductDTO;
+
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
